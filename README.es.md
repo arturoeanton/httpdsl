@@ -12,7 +12,7 @@
 
 Imagínate esto: Necesitas validar que tu API esté correctamente asegurada contra vulnerabilidades comunes. O estás orquestando un workflow complejo entre múltiples microservicios. Con herramientas tradicionales, necesitarías múltiples scripts, frameworks y horas de configuración. ¿Con HTTP DSL?
 
-```http
+```
 # Validación de seguridad en segundos
 GET "https://api.tuservicio.com/admin"
 assert status 401  # Asegurar que el acceso no autorizado está bloqueado
@@ -29,7 +29,7 @@ assert header "Strict-Transport-Security" exists  # Aplicación de HTTPS
 
 No solo creamos otro cliente HTTP. Construimos una herramienta que **piensa como tú**:
 
-```http
+```
 # ¿Recuerdas ese molesto flujo de autenticación que siempre tienes que probar?
 POST "https://api.ejemplo.com/login" json {
     "email": "usuario@ejemplo.com",
@@ -85,7 +85,7 @@ go build -o httpdsl ./cmd/httpdsl/main.go
 ## 🎯 Casos de Uso del Mundo Real
 
 ### 🛡️ Suite de Validación de Seguridad
-```http
+```
 # auditoria_seguridad.http - Ejecuta antes de cada despliegue
 GET "https://api.produccion.com/api/v1/usuarios"
 assert status 401  # El acceso sin autenticación debe estar bloqueado
@@ -109,7 +109,7 @@ assert response time less 1000 ms  # Verificación de rendimiento
 ```
 
 ### 🔄 Orquestación de Integración de Microservicios
-```http
+```
 # integracion_servicios.http
 # Workflow complejo entre múltiples servicios
 
@@ -147,7 +147,7 @@ endif
 ```
 
 ### 🔍 Automatización de Cumplimiento y Auditoría
-```http
+```
 # verificacion_cumplimiento.http - Validación GDPR/HIPAA
 
 # Probar cumplimiento de privacidad de datos
@@ -366,7 +366,7 @@ engine.SetTimeout(30 * time.Second)
 
 ### Ejemplo de Producción (¡Todo Funcionando!)
 
-```http
+```
 # ¡Todo este script FUNCIONA en v1.0.0!
 set $base_url "https://jsonplaceholder.typicode.com"
 set $api_version "v3"
