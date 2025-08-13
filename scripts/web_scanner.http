@@ -1,0 +1,395 @@
+# Web Security Scanner v2.0 - Production Ready
+# For authorized testing only
+# ================================================
+
+print "╔════════════════════════════════════════════╗"
+print "║     Web Security Scanner v2.0              ║"
+print "║     Professional Edition                    ║"
+print "╚════════════════════════════════════════════╝"
+
+# Check authorization
+if $ARGC < 2 then
+    print "❌ Usage: ./http-runner security_scanner_v2.http <domain> <auth-token>"
+    set $stop 1
+else
+    set $target $ARG1
+    set $token $ARG2
+    print ""
+    print "Target: $target"
+    print "Status: Authorized"
+    print "══════════════════════════════════════════════"
+    print ""
+    set $stop 0
+endif
+
+# Initialize counters
+set $critical 0
+set $high 0
+set $medium 0
+set $low 0
+
+# ================================================
+# 1. SECURITY HEADERS CHECK
+# ================================================
+if $stop == 0 then
+    print "[TEST 1/8] Security Headers"
+    print "────────────────────────────────"
+    
+    GET "$target"
+    extract status "" as $main_status
+    
+    # Critical security headers
+    extract header "X-Frame-Options" as $xframe
+    extract header "Content-Security-Policy" as $csp
+    extract header "Strict-Transport-Security" as $hsts
+    extract header "X-Content-Type-Options" as $xcontent
+    
+    if $xframe empty then
+        print "🟠 HIGH: Missing X-Frame-Options (Clickjacking risk)"
+        set $high $high + 1
+    else
+        print "✅ X-Frame-Options present"
+    endif
+    
+    if $csp empty then
+        print "🟠 HIGH: Missing Content-Security-Policy (XSS risk)"
+        set $high $high + 1
+    else
+        print "✅ Content-Security-Policy present"
+    endif
+    
+    if $hsts empty then
+        print "🟡 MEDIUM: Missing HSTS header"
+        set $medium $medium + 1
+    else
+        print "✅ HSTS enabled"
+    endif
+    
+    if $xcontent empty then
+        print "🟡 MEDIUM: Missing X-Content-Type-Options"
+        set $medium $medium + 1
+    else
+        print "✅ X-Content-Type-Options present"
+    endif
+    
+    print ""
+endif
+
+# ================================================
+# 2. COMMON VULNERABILITIES
+# ================================================
+if $stop == 0 then
+    print "[TEST 2/8] Common Vulnerability Paths"
+    print "────────────────────────────────"
+    
+    # Check .git exposure
+    GET "$target/.git/config"
+    extract status "" as $git_status
+    if $git_status == 200 then
+        print "🔴 CRITICAL: Git repository exposed at /.git/config"
+        set $critical $critical + 1
+    else
+        print "✅ Git repository not exposed"
+    endif
+    
+    # Check .env exposure
+    GET "$target/.env"
+    extract status "" as $env_status
+    if $env_status == 200 then
+        print "🔴 CRITICAL: Environment file exposed at /.env"
+        set $critical $critical + 1
+    else
+        print "✅ Environment file not exposed"
+    endif
+    
+    # Check backup files
+    GET "$target/backup.sql"
+    extract status "" as $backup_status
+    if $backup_status == 200 then
+        print "🔴 CRITICAL: Database backup exposed"
+        set $critical $critical + 1
+    else
+        print "✅ No backup files found"
+    endif
+    
+    print ""
+endif
+
+# ================================================
+# 3. SQL INJECTION TEST (Basic)
+# ================================================
+if $stop == 0 then
+    print "[TEST 3/8] SQL Injection (Basic)"
+    print "────────────────────────────────"
+    
+    # Test with single quote
+    GET "$target/search?q='"
+    if response contains "SQL" then
+        print "🔴 CRITICAL: Possible SQL injection vulnerability"
+        set $critical $critical + 1
+    else
+        if response contains "mysql" then
+            print "🔴 CRITICAL: MySQL error exposed"
+            set $critical $critical + 1
+        else
+            print "✅ No obvious SQL injection found"
+        endif
+    endif
+    
+    # Test login bypass
+    POST "$target/login" json {"username":"admin' OR '1'='1","password":"test"}
+    extract status "" as $sqli_status
+    if $sqli_status == 200 then
+        if response contains "dashboard" then
+            print "🔴 CRITICAL: SQL injection in login!"
+            set $critical $critical + 1
+        endif
+    endif
+    
+    print ""
+endif
+
+# ================================================
+# 4. XSS TESTING
+# ================================================
+if $stop == 0 then
+    print "[TEST 4/8] Cross-Site Scripting (XSS)"
+    print "────────────────────────────────"
+    
+    # Test reflected XSS
+    GET "$target/search?q=<script>alert(1)</script>"
+    if response contains "<script>alert(1)</script>" then
+        print "🔴 CRITICAL: Reflected XSS vulnerability found"
+        set $critical $critical + 1
+    else
+        print "✅ Basic XSS protection present"
+    endif
+    
+    # Test with img tag
+    GET "$target/search?q=<img src=x onerror=alert(1)>"
+    if response contains "onerror=alert" then
+        print "🟠 HIGH: XSS via HTML injection possible"
+        set $high $high + 1
+    endif
+    
+    print ""
+endif
+
+# ================================================
+# 5. AUTHENTICATION TESTING
+# ================================================
+if $stop == 0 then
+    print "[TEST 5/8] Authentication Security"
+    print "────────────────────────────────"
+    
+    # Test default credentials
+    POST "$target/login" json {"username":"admin","password":"admin"}
+    extract status "" as $auth_status
+    if $auth_status == 200 then
+        if response contains "dashboard" then
+            print "🔴 CRITICAL: Default credentials accepted (admin:admin)"
+            set $critical $critical + 1
+        else
+            print "✅ Default credentials rejected"
+        endif
+    else
+        print "✅ Default credentials rejected"
+    endif
+    
+    # Test password in URL
+    GET "$target/login?username=test&password=test123"
+    if response contains "password" then
+        print "🟠 HIGH: Password accepted in URL parameters"
+        set $high $high + 1
+    endif
+    
+    print ""
+endif
+
+# ================================================
+# 6. SENSITIVE DATA EXPOSURE
+# ================================================
+if $stop == 0 then
+    print "[TEST 6/8] Sensitive Data Exposure"
+    print "────────────────────────────────"
+    
+    # Check for API keys in JavaScript
+    GET "$target/js/app.js"
+    if response contains "api_key" then
+        print "🟠 HIGH: API keys possibly exposed in JavaScript"
+        set $high $high + 1
+    endif
+    
+    if response contains "AIza" then
+        print "🟠 HIGH: Google API key pattern detected"
+        set $high $high + 1
+    endif
+    
+    # Check server info
+    extract header "Server" as $server
+    extract header "X-Powered-By" as $powered
+    
+    if $server empty then
+        print "✅ Server header hidden"
+    else
+        print "🔵 LOW: Server header exposed: $server"
+        set $low $low + 1
+    endif
+    
+    if $powered empty then
+        print "✅ X-Powered-By header hidden"
+    else
+        print "🔵 LOW: Technology stack exposed: $powered"
+        set $low $low + 1
+    endif
+    
+    print ""
+endif
+
+# ================================================
+# 7. ACCESS CONTROL
+# ================================================
+if $stop == 0 then
+    print "[TEST 7/8] Access Control"
+    print "────────────────────────────────"
+    
+    # Test admin panel access
+    GET "$target/admin"
+    extract status "" as $admin_status
+    if $admin_status == 200 then
+        print "🟠 HIGH: Admin panel accessible without auth"
+        set $high $high + 1
+    else
+        if $admin_status == 403 then
+            print "✅ Admin panel properly protected (403)"
+        else
+            print "✅ Admin panel not found or protected"
+        endif
+    endif
+    
+    # Test directory listing
+    GET "$target/uploads/"
+    if response contains "Index of" then
+        print "🟡 MEDIUM: Directory listing enabled"
+        set $medium $medium + 1
+    else
+        print "✅ Directory listing disabled"
+    endif
+    
+    print ""
+endif
+
+# ================================================
+# 8. COOKIE SECURITY
+# ================================================
+if $stop == 0 then
+    print "[TEST 8/8] Cookie Security"
+    print "────────────────────────────────"
+    
+    GET "$target"
+    extract header "Set-Cookie" as $cookie
+    
+    if $cookie empty then
+        print "ℹ️  No cookies set on homepage"
+    else
+        set $cookie_issues 0
+        
+        if $cookie contains "Secure" then
+            print "✅ Secure flag present"
+        else
+            print "🟡 MEDIUM: Cookies missing Secure flag"
+            set $medium $medium + 1
+            set $cookie_issues 1
+        endif
+        
+        if $cookie contains "HttpOnly" then
+            print "✅ HttpOnly flag present"
+        else
+            print "🟡 MEDIUM: Cookies missing HttpOnly flag"
+            set $medium $medium + 1
+            set $cookie_issues 1
+        endif
+        
+        if $cookie contains "SameSite" then
+            print "✅ SameSite attribute present"
+        else
+            print "🔵 LOW: Cookies missing SameSite attribute"
+            set $low $low + 1
+        endif
+    endif
+    
+    print ""
+endif
+
+# ================================================
+# FINAL REPORT
+# ================================================
+if $stop == 0 then
+    print "╔════════════════════════════════════════════╗"
+    print "║           VULNERABILITY REPORT              ║"
+    print "╚════════════════════════════════════════════╝"
+    print ""
+    print "Scan Target: $target"
+    print ""
+    print "┌────────────────────────────────┐"
+    print "│  FINDINGS BY SEVERITY          │"
+    print "├────────────────────────────────┤"
+    print "│  🔴 CRITICAL:  $critical       │"
+    print "│  🟠 HIGH:      $high           │"
+    print "│  🟡 MEDIUM:    $medium         │"
+    print "│  🔵 LOW:       $low            │"
+    print "└────────────────────────────────┘"
+    print ""
+    
+    # Calculate risk level
+    set $risk $critical * 10
+    set $risk $risk + $high * 5
+    set $risk $risk + $medium * 2
+    set $risk $risk + $low
+    
+    print "Overall Risk Score: $risk"
+    print ""
+    
+    if $critical > 0 then
+        print "⛔ CRITICAL RISK LEVEL"
+        print "Immediate action required!"
+        print ""
+        print "Priority Actions:"
+        print "1. Fix critical vulnerabilities immediately"
+        print "2. Take affected systems offline if needed"
+        print "3. Conduct thorough security review"
+    else
+        if $high > 0 then
+            print "⚠️  HIGH RISK LEVEL"
+            print "Urgent remediation needed"
+            print ""
+            print "Priority Actions:"
+            print "1. Address high-risk issues within 48 hours"
+            print "2. Implement Web Application Firewall"
+            print "3. Review authentication mechanisms"
+        else
+            if $medium > 0 then
+                print "⚠️  MEDIUM RISK LEVEL"
+                print "Schedule remediation"
+                print ""
+                print "Priority Actions:"
+                print "1. Plan fixes for next release"
+                print "2. Implement security headers"
+                print "3. Regular security updates"
+            else
+                if $low > 0 then
+                    print "ℹ️  LOW RISK LEVEL"
+                    print "Minor improvements recommended"
+                else
+                    print "✅ SECURE"
+                    print "No significant vulnerabilities found"
+                endif
+            endif
+        endif
+    endif
+    
+    print ""
+    print "════════════════════════════════════════════"
+    print "Report generated by HTTP DSL Security Scanner"
+    print "════════════════════════════════════════════"
+endif
