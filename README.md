@@ -12,7 +12,7 @@ Ever spent hours writing scripts to validate your API security headers? Struggle
 
 Picture this: You need to validate that your API is properly secured against common vulnerabilities. Or you're orchestrating a complex workflow between multiple microservices. With traditional tools, you'd need multiple scripts, frameworks, and hours of setup. With HTTP DSL?
 
-```http
+```
 # Security validation in seconds
 GET "https://api.yourservice.com/admin"
 assert status 401  # Ensure unauthorized access is blocked
@@ -29,7 +29,7 @@ assert header "Strict-Transport-Security" exists  # HTTPS enforcement
 
 We didn't just create another HTTP client. We built a **security-first integration platform**:
 
-```http
+```
 # Orchestrate complex service integrations
 POST "https://auth.service.com/oauth/token" json {
     "client_id": "$CLIENT_ID",
@@ -95,7 +95,7 @@ That's it! No configuration files. No dependencies to install. Just works. ✨
 ## 🎯 Real-World Use Cases
 
 ### 🛡️ Security Validation Suite
-```http
+```
 # security_audit.http - Run before every deployment
 GET "https://api.production.com/api/v1/users"
 assert status 401  # Unauthenticated access must be blocked
@@ -119,7 +119,7 @@ assert response time less 1000 ms  # Performance check
 ```
 
 ### 🔄 Microservices Integration Orchestration
-```http
+```
 # service_integration.http
 # Complex workflow across multiple services
 
@@ -157,7 +157,7 @@ endif
 ```
 
 ### 🔍 Compliance & Audit Automation
-```http
+```
 # compliance_check.http - GDPR/HIPAA validation
 
 # Test data privacy compliance
@@ -426,7 +426,7 @@ engine.SetTimeout(30 * time.Second)
 
 ### Production Example (All Working!)
 
-```http
+```
 # This entire script WORKS in v3!
 set $base_url "https://jsonplaceholder.typicode.com"
 set $api_version "v3"
@@ -549,7 +549,7 @@ func main() {
 
 ### HTTP Requests
 
-```http
+```
 # Basic requests
 GET "https://api.example.com/users"
 POST "https://api.example.com/users"
@@ -583,7 +583,7 @@ GET "https://api.example.com" timeout 5000 ms retry 3 times
 
 ### Variables and Arrays
 
-```http
+```
 # Set variables
 set $base_url "https://api.example.com"
 set $token "Bearer abc123"
@@ -616,7 +616,7 @@ print "Second arg: $ARG2"
 
 ### Response Extraction
 
-```http
+```
 # Make request first
 GET "https://api.example.com/user"
 
@@ -630,7 +630,7 @@ extract time "" as $response_time
 
 #### Conditionals
 
-```http
+```
 # Simple if-then (WORKING!)
 if $status == 200 then set $result "success"
 
@@ -681,7 +681,7 @@ if $value empty then print "no value"
 
 ### Loops
 
-```http
+```
 # Repeat loop (WORKING!)
 repeat 5 times do
     GET "https://api.example.com/ping"
@@ -722,7 +722,7 @@ endloop
 
 ### Assertions
 
-```http
+```
 # After making a request
 GET "https://api.example.com/users"
 
@@ -738,7 +738,7 @@ assert response contains "success"
 
 ### Utility Commands
 
-```http
+```
 # Print with variable expansion (FIXED in v3!)
 print "User $name has ID $user_id"
 
@@ -869,7 +869,7 @@ go test ./pkg/dslbuilder -run TestImprovedParser -v
 ### New Features to Adopt
 
 1. **Array Indexing**: Replace array iteration with direct access
-   ```http
+   ```
    # Old way (still works)
    foreach $item in $array do
        # process all items
@@ -881,7 +881,7 @@ go test ./pkg/dslbuilder -run TestImprovedParser -v
    ```
 
 2. **Break/Continue**: Optimize loops with early exit
-   ```http
+   ```
    while $searching do
        if $found then
            break  # Exit immediately
