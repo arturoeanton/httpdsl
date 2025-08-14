@@ -1,0 +1,35 @@
+# LDAP Injection Check
+# Tests for LDAP injection vulnerabilities
+
+if $ARGC < 1 then
+    print "ERROR: Missing target URL"
+    set $stop 1
+else
+    set $target $ARG1
+    set $stop 0
+endif
+
+if $stop == 0 then
+    print "[SCAN] LDAP Injection Testing"
+    print "Target: $target"
+    
+    set $ldap_found 0
+    
+    # Test 1: Wildcard injection
+    GET "$target/users?search=*"
+    if response contains "admin" then
+        print "[HIGH] LDAP wildcard injection"
+        print "  URL: $target/users"
+        set $ldap_found $ldap_found + 1
+    endif
+    
+    # Test 2: Comment injection
+    GET "$target/search?user=admin)%23"
+    if response contains "admin" then
+        print "[MEDIUM] LDAP comment injection"
+        print "  URL: $target/search"
+        set $ldap_found $ldap_found + 1
+    endif
+    
+    print "[✓] Completed: 0012_ldap_injection - Found $ldap_found of 2 vulnerabilities tested"
+endif

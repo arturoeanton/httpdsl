@@ -1,0 +1,6 @@
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0045_nginx_vulnerabilities.http
+════════════════════════════════════════════════════════════
+❌ Error: execution failed: error parsing HTTP request: unexpected token: id at line 1, column 34:
+GET "$target/lua?cmd=os.execute("id")"
+                                 ^

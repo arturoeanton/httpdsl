@@ -1,0 +1,15 @@
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0020_api_security.http
+════════════════════════════════════════════════════════════
+Variable $target set to http://127.0.0.1:9999
+Variable $stop set to 0
+[SCAN] API Security Testing
+Target: http://127.0.0.1:9999
+Variable $api_issues set to 0
+Extracted status and stored in $auth_status
+Extracted status and stored in $rate_status
+Extracted Access-Control-Allow-Origin using header and stored in $cors
+Extracted status and stored in $v1_status
+[✓] Completed: 0020_api_security - Found 0 of 5 vulnerabilities tested
+
+✅ Script completed in 4.446542ms

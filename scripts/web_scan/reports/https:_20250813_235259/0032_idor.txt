@@ -1,0 +1,15 @@
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0032_idor.http
+════════════════════════════════════════════════════════════
+Variable $target set to https://siigo.com
+Variable $stop set to 0
+[SCAN] IDOR Testing
+Target: https://siigo.com
+Variable $idor_found set to 0
+Extracted status and stored in $user1_status
+Extracted status and stored in $user2_status
+Extracted status and stored in $uuid_status
+Extracted status and stored in $array_status
+[✓] Completed: 0032_idor - Found 0 of 5 vulnerabilities tested
+
+✅ Script completed in 7.390300667s

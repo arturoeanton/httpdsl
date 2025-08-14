@@ -1,0 +1,78 @@
+# API Security Check
+# Tests for API security vulnerabilities
+
+if $ARGC < 1 then
+    print "ERROR: Missing target URL"
+    set $stop 1
+else
+    set $target $ARG1
+    set $stop 0
+endif
+
+if $stop == 0 then
+    print "[SCAN] API Security Testing"
+    print "Target: $target"
+    
+    set $api_issues 0
+    
+    # Test 1: Missing authentication
+    GET "$target/api/users"
+    extract status as $auth_status
+    if $auth_status equals 200 then
+        print "[CRITICAL] API without authentication"
+        print "  URL: $target/api/users"
+        print "  Risk: Data exposure"
+        print "  Fix: Implement API authentication"
+        set $api_issues $api_issues + 1
+    endif
+    
+    # Test 2: Missing rate limiting
+    GET "$target/api/data"
+    GET "$target/api/data"
+    GET "$target/api/data"
+    GET "$target/api/data"
+    GET "$target/api/data"
+    extract status as $rate_status
+    if $rate_status equals 200 then
+        print "[MEDIUM] No rate limiting"
+        print "  URL: $target/api/data"
+        print "  Risk: DoS and brute force"
+        print "  Fix: Implement rate limiting"
+        set $api_issues $api_issues + 1
+    endif
+    
+    # Test 3: Excessive data exposure
+    GET "$target/api/user/1"
+    if response contains "password" then
+        print "[HIGH] Excessive data exposure"
+        print "  URL: $target/api/user/1"
+        print "  Risk: Sensitive data leak"
+        print "  Fix: Filter response fields"
+        set $api_issues $api_issues + 1
+    endif
+    
+    # Test 4: Missing CORS headers
+    GET "$target/api/info"
+    header "Origin" "http://evil.com"
+    extract header "Access-Control-Allow-Origin" as $cors
+    if $cors equals "*" then
+        print "[MEDIUM] Wildcard CORS policy"
+        print "  URL: $target/api/info"
+        print "  Risk: Cross-origin attacks"
+        print "  Fix: Restrict CORS origins"
+        set $api_issues $api_issues + 1
+    endif
+    
+    # Test 5: API versioning issues
+    GET "$target/api/v1/deprecated"
+    extract status as $v1_status
+    if $v1_status equals 200 then
+        print "[LOW] Deprecated API version active"
+        print "  URL: $target/api/v1/deprecated"
+        print "  Risk: Unpatched vulnerabilities"
+        print "  Fix: Disable old API versions"
+        set $api_issues $api_issues + 1
+    endif
+    
+    print "[✓] Completed: 0020_api_security - Found $api_issues of 5 vulnerabilities tested"
+endif

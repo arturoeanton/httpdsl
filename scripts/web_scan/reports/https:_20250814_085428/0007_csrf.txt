@@ -1,0 +1,7 @@
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0007_csrf.http
+════════════════════════════════════════════════════════════
+[2025-08-14 08:54:31.416] [ERROR] Request failed: Get "https://tudely/form": dial tcp: lookup tudely: no such host
+❌ Error: execution failed: error processing block: error parsing HTTP request: no alternative matched for rule program at line 1, column 1:
+GET "$target/form"
+^

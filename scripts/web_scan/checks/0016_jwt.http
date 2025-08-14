@@ -1,0 +1,68 @@
+# JWT Vulnerability Check
+# Tests for JWT security issues
+
+if $ARGC < 1 then
+    print "ERROR: Missing target URL"
+    set $stop 1
+else
+    set $target $ARG1
+    set $stop 0
+endif
+
+if $stop == 0 then
+    print "[SCAN] JWT Security Testing"
+    print "Target: $target"
+    
+    set $jwt_issues 0
+    
+    # Test 1: None algorithm
+    GET "$target/api/profile"
+    header "Authorization" "Bearer eyJhbGciOiJub25lIiwidHlwIjoiSldUIn0.eyJzdWIiOiJhZG1pbiJ9."
+    extract status as $none_status
+    if $none_status equals 200 then
+        if response contains "admin" then
+            print "[CRITICAL] JWT none algorithm accepted"
+            print "  URL: $target/api/profile"
+            print "  Risk: Authentication bypass"
+            print "  Fix: Reject none algorithm"
+            set $jwt_issues $jwt_issues + 1
+        endif
+    endif
+    
+    # Test 2: Weak secret
+    GET "$target/api/user"
+    header "Authorization" "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbiJ9.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
+    extract status as $weak_status
+    if $weak_status equals 200 then
+        print "[HIGH] JWT with weak secret accepted"
+        print "  URL: $target/api/user"
+        print "  Risk: Token forgery"
+        print "  Fix: Use strong secrets"
+        set $jwt_issues $jwt_issues + 1
+    endif
+    
+    # Test 3: Algorithm confusion
+    GET "$target/api/data"
+    header "Authorization" "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYWRtaW4ifQ.fake"
+    extract status as $alg_status
+    if $alg_status equals 200 then
+        print "[HIGH] Algorithm confusion vulnerability"
+        print "  URL: $target/api/data"
+        print "  Risk: Token manipulation"
+        print "  Fix: Validate algorithm strictly"
+        set $jwt_issues $jwt_issues + 1
+    endif
+    
+    # Test 4: Missing expiration
+    GET "$target/api/resource"
+    header "Authorization" "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoidGVzdCJ9.test"
+    if response not contains "expired" then
+        print "[MEDIUM] JWT without expiration"
+        print "  URL: $target/api/resource"
+        print "  Risk: Token replay attacks"
+        print "  Fix: Implement token expiration"
+        set $jwt_issues $jwt_issues + 1
+    endif
+    
+    print "[✓] Completed: 0016_jwt - Found $jwt_issues of 4 vulnerabilities tested"
+endif

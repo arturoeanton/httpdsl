@@ -1,0 +1,8 @@
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0027_deserialization.http
+════════════════════════════════════════════════════════════
+[2025-08-14 08:54:08.420] [ERROR] Request failed: Post "https://127.0.0.1:9090/api/data": tls: failed to verify certificate: x509: “localhost” certificate is not trusted
+[2025-08-14 08:54:08.422] [ERROR] Request failed: Post "https://127.0.0.1:9090/api/data": tls: failed to verify certificate: x509: “localhost” certificate is not trusted
+❌ Error: execution failed: error processing block: error parsing HTTP request: no alternative matched for rule program at line 1, column 1:
+POST "$target/api/data" header "Content-Type" "application/x-java-serialized-object"
+^

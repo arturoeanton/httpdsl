@@ -1,0 +1,13 @@
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0017_xml_injection.http
+════════════════════════════════════════════════════════════
+Variable $target set to https://tudely.com
+Variable $stop set to 0
+[SCAN] XML Injection Testing
+Target: https://tudely.com
+Variable $xml_issues set to 0
+Extracted status and stored in $xml_status
+Extracted status and stored in $soap_status
+[✓] Completed: 0017_xml_injection - Found 0 of 2 vulnerabilities tested
+
+✅ Script completed in 2.7750145s

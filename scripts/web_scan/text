@@ -1,0 +1,53 @@
+[✓] Completed: 0016_jwt - Found 0 of 4 vulnerabilities tested
+[>] Starting: 0017_xml_injection
+[✓] Completed: 0017_xml_injection - Found 0 of 2 vulnerabilities tested
+[>] Starting: 0018_directory_traversal
+[✓] Completed: 0018_directory_traversal - Found 0 of 5 vulnerabilities tested
+[>] Starting: 0019_session_management
+[✓] Completed: 0019_session_management - Found 0 of 4 vulnerabilities tested
+[>] Starting: 0020_api_security
+[✓] Completed: 0020_api_security - Found 0 of 5 vulnerabilities tested
+[>] Starting: 0021_cache_poisoning
+[✓] Completed: 0021_cache_poisoning - Found 0 of 5 vulnerabilities tested
+[>] Starting: 0022_http_smuggling
+[✗] Failed: 0022_http_smuggling
+  └─ ❌ Error: execution failed: error processing block: error parsing HTTP request: unexpected token: header at line 1, column 16:
+[>] Starting: 0023_websocket
+[✗] Failed: 0023_websocket
+  └─ ❌ Error: execution failed: error processing block: error parsing HTTP request: unexpected token: header at line 1, column 18:
+[>] Starting: 0024_graphql
+[✓] Completed: 0024_graphql - Found 0 of 2 vulnerabilities tested
+[>] Starting: 0025_subdomain_takeover
+[✓] Completed: 0025_subdomain_takeover - Found 0 of 6 vulnerabilities tested
+[>] Starting: 0026_clickjacking
+[✓] Completed: 0026_clickjacking - Found 0 of 5 vulnerabilities tested
+[>] Starting: 0027_deserialization
+[✓] Completed: 0027_deserialization - Found 0 of 2 vulnerabilities tested
+[>] Starting: 0028_business_logic
+[✓] Completed: 0028_business_logic - Found 0 of 2 vulnerabilities tested
+[>] Starting: 0029_race_condition
+[✓] Completed: 0029_race_condition - Found 0 of 1 vulnerabilities tested
+[>] Starting: 0030_host_header
+[✓] Completed: 0030_host_header - Found 0 of 2 vulnerabilities tested
+[>] Starting: 0031_oauth
+[✓] Completed: 0031_oauth - Found 0 of 2 vulnerabilities tested
+[>] Starting: 0032_idor
+[✓] Completed: 0032_idor - Found 0 of 5 vulnerabilities tested
+[>] Starting: 0033_log4j
+[✗] Failed: 0033_log4j
+  └─ ❌ Error: execution failed: error processing block: error at line 6: no alternative matched for rule program at line 1, column 1:
+[>] Starting: 0034_verb_tampering
+[✓] Completed: 0034_verb_tampering - Found 0 of 3 vulnerabilities tested
+[>] Starting: 0035_ssl_tls
+[✓] Completed: 0035_ssl_tls - Found 0 of 5 vulnerabilities tested
+[>] Starting: 0036_information_disclosure
+[✓] Completed: 0036_information_disclosure - Found 0 of 6 vulnerabilities tested
+[>] Starting: 0037_sql_injection_mysql
+[✗] Failed: 0037_sql_injection_mysql
+  └─ ❌ Error: execution failed: error processing block: error at line 11: no alternative matched for rule program at line 1, column 1:
+[>] Starting: 0038_sql_injection_postgres
+[✓] Completed: 0038_sql_injection_postgres - Found 0 of 2 vulnerabilities tested
+[>] Starting: 0039_sql_injection_mssql
+[✗] Failed: 0039_sql_injection_mssql
+  └─ ❌ Error: execution failed: error processing block: error at line 11: no alternative matched for rule program at line 1, column 1:
+[>] Starting: 0040_sql_injection_oracle

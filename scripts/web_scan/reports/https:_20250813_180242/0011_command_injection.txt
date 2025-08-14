@@ -1,0 +1,6 @@
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0011_command_injection.http
+════════════════════════════════════════════════════════════
+❌ Error: execution failed: error at line 25: no alternative matched for rule program at line 1, column 1:
+extract body as $whoami_body
+^

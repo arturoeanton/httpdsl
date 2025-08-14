@@ -1,0 +1,6 @@
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0070_owasp_top_01_10.http
+════════════════════════════════════════════════════════════
+❌ Error: execution failed: error parsing HTTP request: unexpected character: : at line 1, column 40:
+POST "$target/login" body "{\"username": "\" OR 1=1--", "password": "test"}"
+                                       ^

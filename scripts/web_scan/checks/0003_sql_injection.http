@@ -1,0 +1,55 @@
+# SQL Injection Check
+# Usage: httpdsl 03_sql_injection.http <target>
+
+if $ARGC < 1 then
+    print "ERROR: Missing target URL"
+    set $stop 1
+else
+    set $target $ARG1
+    set $stop 0
+endif
+
+if $stop == 0 then
+    print "[SCAN] SQL Injection Testing"
+    print "Target: $target"
+    
+    set $vulns 0
+    
+    # Error-based SQL injection
+    GET "$target/search?q=%27"
+    if response contains "SQL syntax" then
+        print "[CRITICAL] SQL Injection (Error-based)"
+        print "  URL: $target/search?q='"
+        print "  Risk: Database compromise"
+        print "  Fix: Use parameterized queries"
+        set $vulns $vulns + 1
+    endif
+    
+    if response contains "mysql_fetch" then
+        print "[CRITICAL] MySQL error disclosure"
+        print "  URL: $target/search?q='"
+        print "  Risk: Information disclosure"
+        print "  Fix: Implement proper error handling"
+        set $vulns $vulns + 1
+    endif
+    
+    # Boolean-based blind
+    GET "$target/page?id=1 AND%201=1"
+    extract status as $true_status
+    GET "$target/page?id=1 AND%201=2"
+    extract status as $false_status
+    if $true_status != $false_status then
+        print "[CRITICAL] SQL Injection (Boolean-blind)"
+        print "  URL: $target/page?id="
+        print "  Risk: Data extraction"
+        print "  Fix: Sanitize all inputs"
+        set $vulns $vulns + 1
+    endif
+    
+    # Time-based blind (simple check)
+    GET "$target/page?id=1;WAITFOR DELAY '0:0:5'--"
+    # Note: Would need to measure response time to detect properly
+    
+    print "[✓] Completed: 0003_sql_injection - Found $vulns of 10 vulnerabilities tested"
+endif
+

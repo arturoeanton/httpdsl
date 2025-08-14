@@ -1,0 +1,36 @@
+# File Upload Check
+# Tests for file upload vulnerabilities
+
+if $ARGC < 1 then
+    print "ERROR: Missing target URL"
+    set $stop 1
+else
+    set $target $ARG1
+    set $stop 0
+endif
+
+if $stop == 0 then
+    print "[SCAN] File Upload Vulnerability Testing"
+    print "Target: $target"
+    
+    set $upload_vulns 0
+    
+    # Test 1: Check upload endpoint
+    GET "$target/upload"
+    extract status as $upload_status
+    if $upload_status equals 200 then
+        print "[INFO] Upload endpoint found"
+        print "  URL: $target/upload"
+        set $upload_vulns $upload_vulns + 1
+    endif
+    
+    # Test 2: Check for file upload form
+    GET "$target/files"
+    if response contains "multipart" then
+        print "[INFO] File upload form detected"
+        print "  URL: $target/files"
+        set $upload_vulns $upload_vulns + 1
+    endif
+    
+    print "[✓] Completed: 0015_file_upload - Found $upload_vulns of 2 vulnerabilities tested"
+endif

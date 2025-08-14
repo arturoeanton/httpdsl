@@ -1,0 +1,6 @@
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0038_sql_injection_postgres.http
+════════════════════════════════════════════════════════════
+❌ Error: execution failed: error processing block: error at line 21: no alternative matched for rule program at line 1, column 1:
+extract time as $sleep_time
+^

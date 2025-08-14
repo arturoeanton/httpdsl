@@ -1,0 +1,6 @@
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0022_http_smuggling.http
+════════════════════════════════════════════════════════════
+❌ Error: execution failed: error processing block: error at line 7: no alternative matched for rule program at line 1, column 1:
+body "0\r\n\r\nGET /admin HTTP/1.1\r\nHost: localhost\r\n\r\n"
+^

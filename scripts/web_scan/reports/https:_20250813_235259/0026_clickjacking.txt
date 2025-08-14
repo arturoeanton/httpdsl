@@ -1,0 +1,16 @@
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0026_clickjacking.http
+════════════════════════════════════════════════════════════
+Variable $target set to https://siigo.com
+Variable $stop set to 0
+[SCAN] Clickjacking Testing
+Target: https://siigo.com
+Variable $clickjack_found set to 0
+Extracted X-Frame-Options using header and stored in $xframe
+Extracted Content-Security-Policy using header and stored in $csp
+Extracted X-Frame-Options using header and stored in $login_xframe
+Extracted X-Frame-Options using header and stored in $admin_xframe
+Extracted X-Frame-Options using header and stored in $payment_xframe
+[✓] Completed: 0026_clickjacking - Found 0 of 5 vulnerabilities tested
+
+✅ Script completed in 5.121584708s

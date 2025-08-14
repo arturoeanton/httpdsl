@@ -1,0 +1,7 @@
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0049_cloud_security_general.http
+════════════════════════════════════════════════════════════
+[2025-08-13 17:25:55.766] [ERROR] Request failed: Get "http://169.254.169.254/latest/meta-data/": context deadline exceeded (Client.Timeout exceeded while awaiting headers)
+❌ Error: execution failed: error parsing HTTP request: no alternative matched for rule program at line 1, column 1:
+GET "http://169.254.169.254/latest/meta-data/"
+^

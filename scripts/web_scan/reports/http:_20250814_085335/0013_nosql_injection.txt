@@ -1,0 +1,11 @@
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0013_nosql_injection.http
+════════════════════════════════════════════════════════════
+Variable $target set to http://127.0.0.1:9090
+Variable $stop set to 0
+[SCAN] NoSQL Injection Testing
+Target: http://127.0.0.1:9090
+Variable $nosql_found set to 0
+[✓] Completed: 0013_nosql_injection - Found 0 of 2 vulnerabilities tested
+
+✅ Script completed in 2.242417ms

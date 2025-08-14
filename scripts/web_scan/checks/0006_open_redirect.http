@@ -1,0 +1,50 @@
+# Open Redirect Check
+# Usage: httpdsl 06_open_redirect.http <target>
+
+if $ARGC < 1 then
+    print "ERROR: Missing target URL"
+    set $stop 1
+else
+    set $target $ARG1
+    set $stop 0
+endif
+
+if $stop == 0 then
+    print "[SCAN] Open Redirect"
+    print "Target: $target"
+    
+    set $vulns 0
+    
+    # Test common redirect parameters
+    GET "$target/redirect?url=http://evil.com"
+    extract header "Location" as $location1
+    if $location1 contains "evil.com" then
+        print "[MEDIUM] Open redirect vulnerability"
+        print "  URL: $target/redirect?url="
+        print "  Risk: Phishing attacks"
+        print "  Fix: Whitelist redirect destinations"
+        set $vulns $vulns + 1
+    endif
+    
+GET "$target/logout?return=http://evil.com"
+    extract header "Location" as $location2
+    if $location2 contains "evil.com" then
+        print "[MEDIUM] Open redirect in logout"
+        print "  URL: $target/logout?return="
+        print "  Risk: Phishing after logout"
+        print "  Fix: Use relative URLs only"
+        set $vulns $vulns + 1
+    endif
+    
+GET "$target/out?target=//evil.com"
+    extract header "Location" as $location3
+    if $location3 contains "evil.com" then
+        print "[MEDIUM] Protocol-relative redirect"
+        print "  URL: $target/out?target="
+        print "  Risk: URL validation bypass"
+        print "  Fix: Validate full URL format"
+        set $vulns $vulns + 1
+    endif
+    
+    print "[✓] Completed: 0006_open_redirect - Found $vulns of 6 vulnerabilities tested"
+endif

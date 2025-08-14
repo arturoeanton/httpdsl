@@ -1,0 +1,35 @@
+# NoSQL Injection Check
+# Tests for NoSQL injection vulnerabilities
+
+if $ARGC < 1 then
+    print "ERROR: Missing target URL"
+    set $stop 1
+else
+    set $target $ARG1
+    set $stop 0
+endif
+
+if $stop == 0 then
+    print "[SCAN] NoSQL Injection Testing"
+    print "Target: $target"
+    
+    set $nosql_found 0
+    
+    # Test 1: JavaScript injection
+    GET "$target/api/search?query[$where]=1==1"
+    if response contains "results" then
+        print "[CRITICAL] MongoDB $where injection"
+        print "  URL: $target/api/search"
+        set $nosql_found $nosql_found + 1
+    endif
+    
+    # Test 2: CouchDB injection
+    GET "$target/api/couch/_all_docs?startkey=%22%22&endkey=%22%EF%BF%B0%22"
+    if response contains "rows" then
+        print "[MEDIUM] CouchDB injection detected"
+        print "  URL: $target/api/couch"
+        set $nosql_found $nosql_found + 1
+    endif
+    
+    print "[✓] Completed: 0013_nosql_injection - Found $nosql_found of 2 vulnerabilities tested"
+endif

@@ -1,0 +1,36 @@
+# Business Logic Vulnerability Check
+# Tests for business logic flaws
+
+if $ARGC < 1 then
+    print "ERROR: Missing target URL"
+    set $stop 1
+else
+    set $target $ARG1
+    set $stop 0
+endif
+
+if $stop == 0 then
+    print "[SCAN] Business Logic Testing"
+    print "Target: $target"
+    
+    set $logic_issues 0
+    
+    # Test 1: Negative values check
+    GET "$target/cart/add?quantity=-1"
+    extract status as $neg_status
+    if $neg_status equals 200 then
+        print "[HIGH] Negative quantity accepted"
+        print "  URL: $target/cart/add"
+        set $logic_issues $logic_issues + 1
+    endif
+    
+    # Test 2: Price manipulation check
+    GET "$target/checkout?price=0.01"
+    if response contains "success" then
+        print "[CRITICAL] Price manipulation possible"
+        print "  URL: $target/checkout"
+        set $logic_issues $logic_issues + 1
+    endif
+    
+    print "[✓] Completed: 0028_business_logic - Found $logic_issues of 2 vulnerabilities tested"
+endif

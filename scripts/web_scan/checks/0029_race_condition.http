@@ -1,0 +1,36 @@
+# Race Condition Check
+# Tests for race condition vulnerabilities
+
+if $ARGC < 1 then
+    print "ERROR: Missing target URL"
+    set $stop 1
+else
+    set $target $ARG1
+    set $stop 0
+endif
+
+if $stop == 0 then
+    print "[SCAN] Race Condition Testing"
+    print "Target: $target"
+    
+    set $race_found 0
+    
+    # Test 1: Concurrent requests test
+    GET "$target/api/action"
+    extract status as $status1
+    GET "$target/api/action"
+    extract status as $status2
+    GET "$target/api/action"
+    extract status as $status3
+    
+    if $status1 equals 200 then
+        if $status2 equals 200 then
+            if $status3 equals 200 then
+                print "[INFO] Multiple concurrent requests accepted"
+                set $race_found $race_found + 1
+            endif
+        endif
+    endif
+    
+    print "[✓] Completed: 0029_race_condition - Found $race_found of 1 vulnerabilities tested"
+endif

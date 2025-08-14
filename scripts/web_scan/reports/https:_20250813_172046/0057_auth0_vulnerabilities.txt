@@ -1,0 +1,24 @@
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0057_auth0_vulnerabilities.http
+════════════════════════════════════════════════════════════
+Variable $target set to https://siigo.com
+Variable $stop set to 0
+[SCAN] Auth0 Security Testing
+Target: https://siigo.com
+Variable $auth0_vulns set to 0
+Extracted https://.*\.auth0\.com using regex and stored in $auth0_domain
+Extracted issuer.*auth0\.com using regex and stored in $tenant_info
+Extracted auth0-debug|debugger using regex and stored in $debug_mode
+Extracted debug_info|stack_trace using regex and stored in $api_debug
+Extracted status and stored in $error_handling
+Extracted Invalid authorization code using regex and stored in $code_validation
+Extracted Location using header and stored in $redirect_url
+Extracted status and stored in $none_algo
+Extracted status and stored in $mgmt_api
+Extracted users|clients|connections using regex and stored in $api_endpoints
+Extracted domain|clientId|clientSecret using regex and stored in $config_leak
+Extracted AUTH0_DOMAIN|AUTH0_CLIENT_SECRET using regex and stored in $env_leak
+Variable $i set to 0
+While loop executed 0 times
+
+✅ Script completed in 31.4660795s

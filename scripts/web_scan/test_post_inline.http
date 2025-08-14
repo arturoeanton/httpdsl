@@ -1,0 +1,5 @@
+# Simple POST test inline
+set $target $ARG1
+POST "$target/api/xml" body "<xml>test</xml>"
+extract status as $status
+print "Status: $status"

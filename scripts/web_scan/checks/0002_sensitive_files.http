@@ -1,0 +1,74 @@
+# Sensitive Files Exposure Check
+# Usage: httpdsl 02_sensitive_files.http <target>
+
+if $ARGC < 1 then
+    print "ERROR: Missing target URL"
+    set $stop 1
+else
+    set $target $ARG1
+    set $stop 0
+endif
+
+if $stop == 0 then
+    print "[SCAN] Sensitive Files Exposure"
+    print "Target: $target"
+    
+    set $exposed 0
+    
+    # Check .git directory
+    GET "$target/.git/config"
+    extract status as $git_status
+    if $git_status == 200 then
+        print "[CRITICAL] Git repository exposed"
+        print "  URL: $target/.git/config"
+        print "  Risk: Source code disclosure"
+        print "  Fix: Block .git directory in web server"
+        set $exposed $exposed + 1
+    endif
+    
+    # Check .env file
+    GET "$target/.env"
+    extract status as $env_status
+    if $env_status == 200 then
+        print "[CRITICAL] Environment file exposed"
+        print "  URL: $target/.env"
+        print "  Risk: Credentials and API keys exposed"
+        print "  Fix: Move .env outside web root"
+        set $exposed $exposed + 1
+    endif
+    
+    # Check backup files
+    GET "$target/backup.sql"
+    extract status as $backup_status
+    if $backup_status == 200 then
+        print "[CRITICAL] Database backup exposed"
+        print "  URL: $target/backup.sql"
+        print "  Risk: Complete data breach"
+        print "  Fix: Remove backup files from web root"
+        set $exposed $exposed + 1
+    endif
+    
+    # Check config files
+    GET "$target/config.php"
+    extract status as $config_status
+    if $config_status == 200 then
+        print "[CRITICAL] Configuration file exposed"
+        print "  URL: $target/config.php"
+        print "  Risk: Database credentials exposed"
+        print "  Fix: Move config outside web root"
+        set $exposed $exposed + 1
+    endif
+    
+    # Check .htaccess
+    GET "$target/.htaccess"
+    extract status as $htaccess_status
+    if $htaccess_status == 200 then
+        print "[HIGH] .htaccess file exposed"
+        print "  URL: $target/.htaccess"
+        print "  Risk: Security configuration exposed"
+        print "  Fix: Block .htaccess access"
+        set $exposed $exposed + 1
+    endif
+    
+    print "[✓] Completed: 0002_sensitive_files - Found $exposed of 15 vulnerabilities tested"
+endif

@@ -1,0 +1,6 @@
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0015_file_upload.http
+════════════════════════════════════════════════════════════
+❌ Error: execution failed: error processing block: error at line 6: no alternative matched for rule program at line 1, column 1:
+body "------WebKitFormBoundary7MA4YWxkTrZu0gW\r\nContent-Disposition: form-data; name=\"file\"; filename=\"test.php\"\r\nContent-Type: application/x-php\r\n\r\n<?php phpinfo(); ?>\r\n------WebKitFormBoundary7MA4YWxkTrZu0gW--"
+^

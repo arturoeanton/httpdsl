@@ -1,0 +1,74 @@
+# Session Management Check
+# Tests for session security issues
+
+if $ARGC < 1 then
+    print "ERROR: Missing target URL"
+    set $stop 1
+else
+    set $target $ARG1
+    set $stop 0
+endif
+
+if $stop == 0 then
+    print "[SCAN] Session Management Testing"
+    print "Target: $target"
+    
+    set $session_issues 0
+    
+    # Test 1: Session fixation
+    GET "$target/login"
+    header "Cookie" "PHPSESSID=fixedsession123"
+    extract status as $fixation_status
+    if $fixation_status equals 200 then
+        GET "$target/profile"
+        header "Cookie" "PHPSESSID=fixedsession123"
+        if response contains "profile" then
+            print "[HIGH] Session fixation vulnerability"
+            print "  URL: $target/login"
+            print "  Risk: Session hijacking"
+            print "  Fix: Regenerate session IDs"
+            set $session_issues $session_issues + 1
+        endif
+    endif
+    
+    # Test 2: Missing secure flag
+    GET "$target"
+    extract header "Set-Cookie" as $cookie
+    if $cookie not empty then
+        if $cookie not contains "Secure" then
+            print "[MEDIUM] Cookie without Secure flag"
+            print "  URL: $target"
+            print "  Risk: Session theft over HTTP"
+            print "  Fix: Add Secure flag"
+            set $session_issues $session_issues + 1
+        endif
+    endif
+    
+    # Test 3: Missing HttpOnly flag
+    GET "$target"
+    extract header "Set-Cookie" as $cookie2
+    if $cookie2 not empty then
+        if $cookie2 not contains "HttpOnly" then
+            print "[MEDIUM] Cookie without HttpOnly"
+            print "  URL: $target"
+            print "  Risk: XSS session theft"
+            print "  Fix: Add HttpOnly flag"
+            set $session_issues $session_issues + 1
+        endif
+    endif
+    
+    # Test 4: Predictable session ID
+    GET "$target/login"
+    extract header "Set-Cookie" as $session1
+    GET "$target/login"
+    extract header "Set-Cookie" as $session2
+    if $session1 equals $session2 then
+        print "[HIGH] Predictable session IDs"
+        print "  URL: $target/login"
+        print "  Risk: Session prediction"
+        print "  Fix: Use random session IDs"
+        set $session_issues $session_issues + 1
+    endif
+    
+    print "[✓] Completed: 0019_session_management - Found $session_issues of 4 vulnerabilities tested"
+endif

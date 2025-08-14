@@ -1,0 +1,36 @@
+# 56 Nodejs Vulnerabilities
+# Security testing script
+
+if $ARGC < 1 then
+    print "ERROR: Missing target URL"
+    set $stop 1
+else
+    set $target $ARG1
+    set $stop 0
+endif
+
+if $stop == 0 then
+    print "[SCAN] 56 Nodejs Vulnerabilities"
+    print "Target: $target"
+    
+    set $issues 0
+    
+    # Basic security check
+    GET "$target/"
+    extract status as $status
+    if $status equals 200 then
+        print "[INFO] Target accessible"
+    endif
+    
+    # Check for common vulnerabilities
+    GET "$target/api"
+    extract status as $api_status
+    if $api_status equals 200 then
+        if response contains "error" then
+            print "[LOW] Error information disclosed"
+            set $issues $issues + 1
+        endif
+    endif
+    
+    print "[✓] Completed: 0056_nodejs_vulnerabilities - Found $issues vulnerabilities tested"
+endif

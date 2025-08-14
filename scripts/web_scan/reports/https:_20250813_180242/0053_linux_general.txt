@@ -1,0 +1,31 @@
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0053_linux_general.http
+════════════════════════════════════════════════════════════
+Variable $target set to https://siigo.com
+Variable $stop set to 0
+[SCAN] General Linux Security Testing
+Target: https://siigo.com
+Variable $linux_vulns set to 0
+Extracted root:x:0:0: using regex and stored in $passwd_file
+Extracted root: using regex and stored in $passwd_traversal
+Extracted root:\$ using regex and stored in $shadow_file
+Extracted BEGIN RSA PRIVATE KEY|BEGIN OPENSSH PRIVATE KEY using regex and stored in $ssh_key
+Extracted ssh-rsa|ssh-ed25519 using regex and stored in $auth_keys
+Extracted sudo|passwd|mysql|ssh using regex and stored in $bash_history
+Extracted PATH=|HOME=|USER= using regex and stored in $proc_environ
+Extracted python|java|node using regex and stored in $proc_cmdline
+Extracted ExecStart=|User=|WorkingDirectory= using regex and stored in $systemd_service
+Extracted root|/usr/bin|* * * * * using regex and stored in $crontab
+Extracted * * * * * using regex and stored in $user_cron
+Extracted sshd|sudo|authentication using regex and stored in $auth_log
+Extracted PHP|error|warning using regex and stored in $error_log
+Extracted Package:|Version:|Status: using regex and stored in $dpkg_status
+Extracted status and stored in $rpm_db
+Extracted iface|address|netmask using regex and stored in $net_interfaces
+Extracted nameserver|domain|search using regex and stored in $resolv_conf
+Extracted root ALL|NOPASSWD using regex and stored in $sudoers
+Extracted export|alias|function using regex and stored in $bashrc
+Extracted PATH=|export using regex and stored in $profile
+[✓] Completed: 0053_linux_general - Found 0 of 12 vulnerabilities tested
+
+✅ Script completed in 23.72832475s

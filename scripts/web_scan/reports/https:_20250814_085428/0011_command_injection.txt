@@ -1,0 +1,7 @@
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0011_command_injection.http
+════════════════════════════════════════════════════════════
+[2025-08-14 08:54:33.524] [ERROR] Request failed: Get "https://tudely/ping?host=127.0.0.1;whoami": dial tcp: lookup tudely: no such host
+❌ Error: execution failed: error processing block: error parsing HTTP request: no alternative matched for rule program at line 1, column 1:
+GET "$target/ping?host=127.0.0.1;whoami"
+^

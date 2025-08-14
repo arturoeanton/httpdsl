@@ -1,0 +1,6 @@
+# Test extract syntax like demos
+set $target $ARG1
+GET "$target/get"
+extract jsonpath "$.url" as $response_url  
+extract status as $response_status
+print "Status: $response_status"

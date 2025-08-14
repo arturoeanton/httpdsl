@@ -1,0 +1,41 @@
+# XXE Injection Check
+# Tests for XML External Entity injection vulnerabilities
+
+if $ARGC < 1 then
+    print "ERROR: Missing target URL"
+    set $stop 1
+else
+    set $target $ARG1
+    set $stop 0
+endif
+
+if $stop == 0 then
+    print "[SCAN] XXE Injection Testing"
+    print "Target: $target"
+    
+    set $xxe_found 0
+    
+    # Test 1: Basic XXE test
+    POST "$target/api/xml"
+    header "Content-Type" "application/xml"
+    extract status as $xxe_status
+    if $xxe_status equals 200 then
+        if response contains "root:" then
+            print "[CRITICAL] XXE allows file disclosure"
+            print "  URL: $target/api/xml"
+            set $xxe_found $xxe_found + 1
+        endif
+    endif
+    
+    # Test 2: XXE in SOAP
+    POST "$target/soap"
+    header "Content-Type" "text/xml"
+    extract status as $soap_status
+    if $soap_status equals 500 then
+        print "[MEDIUM] SOAP endpoint error"
+        print "  URL: $target/soap"
+        set $xxe_found $xxe_found + 1
+    endif
+    
+    print "[✓] Completed: 0009_xxe - Found $xxe_found of 2 vulnerabilities tested"
+endif

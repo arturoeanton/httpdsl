@@ -1,0 +1,7 @@
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0022_http_smuggling.http
+════════════════════════════════════════════════════════════
+[2025-08-14 08:28:00.637] [ERROR] Request failed: Get "https://siigo.com/": http2: invalid Upgrade request header: ["h2c"]
+❌ Error: execution failed: error processing block: error parsing HTTP request: unexpected token: header at line 1, column 16:
+GET "$target/" header "Upgrade" "h2c" header "Connection" "Upgrade"
+               ^

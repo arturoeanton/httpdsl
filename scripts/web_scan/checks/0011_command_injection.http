@@ -1,0 +1,71 @@
+# Command Injection Check
+# Tests for command injection vulnerabilities
+
+if $ARGC < 1 then
+    print "ERROR: Missing target URL"
+    set $stop 1
+else
+    set $target $ARG1
+    set $stop 0
+endif
+
+if $stop == 0 then
+    print "[SCAN] Command Injection Testing"
+    print "Target: $target"
+    
+    set $cmdi_found 0
+    
+    # Test 1: Semicolon injection
+    GET "$target/ping?host=127.0.0.1;whoami"
+    if response contains "www-data" then
+        print "[CRITICAL] Command injection via semicolon"
+        print "  URL: $target/ping"
+        print "  Risk: Remote code execution"
+        print "  Fix: Sanitize input and use safe APIs"
+        set $cmdi_found $cmdi_found + 1
+    endif
+    
+    # Test 2: Pipe injection
+    GET "$target/search?q=test|id"
+    if response contains "uid=" then
+        print "[CRITICAL] Pipe injection vulnerability"
+        print "  URL: $target/search"
+        print "  Risk: Command execution"
+        print "  Fix: Escape shell metacharacters"
+        set $cmdi_found $cmdi_found + 1
+    endif
+    
+    # Test 3: Backtick injection
+    POST "$target/api/process" json {"data": "`whoami`"}
+    header "Content-Type" "application/json"
+
+    if response contains "www-data" then
+        print "[CRITICAL] Backtick injection"
+        print "  URL: $target/api/process"
+        print "  Risk: Command substitution"
+        print "  Fix: Avoid shell execution"
+        set $cmdi_found $cmdi_found + 1
+    endif
+    
+    # Test 4: AND injection
+    GET "$target/exec?cmd=echo%20test%26%26id"
+    if response contains "uid=" then
+        print "[CRITICAL] AND operator injection"
+        print "  URL: $target/exec"
+        print "  Risk: Command chaining"
+        print "  Fix: Use parameterized commands"
+        set $cmdi_found $cmdi_found + 1
+    endif
+    
+    # Test 5: Newline injection
+    GET "$target/log?file=test.log%0Aid"
+    if response contains "uid=" then
+        print "[HIGH] Newline injection"
+        print "  URL: $target/log"
+        print "  Risk: Command injection"
+        print "  Fix: Validate filenames"
+        set $cmdi_found $cmdi_found + 1
+    endif
+    
+    print "[✓] Completed: 0011_command_injection - Found $cmdi_found of 5 vulnerabilities tested"
+endif

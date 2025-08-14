@@ -1,0 +1,16 @@
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0002_sensitive_files.http
+════════════════════════════════════════════════════════════
+Variable $target set to http://127.0.0.1:9090
+Variable $stop set to 0
+[SCAN] Sensitive Files Exposure
+Target: http://127.0.0.1:9090
+Variable $exposed set to 0
+Extracted status and stored in $git_status
+Extracted status and stored in $env_status
+Extracted status and stored in $backup_status
+Extracted status and stored in $config_status
+Extracted status and stored in $htaccess_status
+[✓] Completed: 0002_sensitive_files - Found 0 of 15 vulnerabilities tested
+
+✅ Script completed in 3.925334ms

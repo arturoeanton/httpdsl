@@ -1,0 +1,16 @@
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0009_xxe.http
+════════════════════════════════════════════════════════════
+Variable $target set to https://siigo.com
+Variable $stop set to 0
+[SCAN] XXE Injection Testing
+Target: https://siigo.com
+Variable $xxe_found set to 0
+Extracted root: using regex and stored in $xxe_response
+Extracted status and stored in $xxe_status
+Extracted status and stored in $param_status
+Extracted localhost using regex and stored in $soap_response
+Extracted status and stored in $blind_status
+[✓] Completed: 0009_xxe - Found 0 of 4 vulnerabilities tested
+
+✅ Script completed in 7.33366425s

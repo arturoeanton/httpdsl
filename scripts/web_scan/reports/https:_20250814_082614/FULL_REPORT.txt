@@ -1,0 +1,1214 @@
+════════════════════════════════════════════════════════════
+WEB SECURITY SCAN REPORT - PARALLEL EXECUTION
+════════════════════════════════════════════════════════════
+Target: https://siigo.com
+Date: jueves, 14 de agosto de 2025, 08:35:40 EDT
+Checks: 71
+
+────────────────────────────────────────────────────────────
+CHECK: 0001_security_headers
+────────────────────────────────────────────────────────────
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0001_security_headers.http
+════════════════════════════════════════════════════════════
+Variable $target set to https://siigo.com
+Variable $stop set to 0
+[SCAN] Security Headers Analysis
+Target: https://siigo.com
+Extracted status and stored in $status
+Extracted X-Frame-Options using header and stored in $xframe
+Extracted Content-Security-Policy using header and stored in $csp
+Extracted Strict-Transport-Security using header and stored in $hsts
+Extracted X-Content-Type-Options using header and stored in $xcontent
+Extracted X-XSS-Protection using header and stored in $xxss
+Extracted Referrer-Policy using header and stored in $referrer
+Extracted Permissions-Policy using header and stored in $permissions
+Variable $issues set to 0
+[✓] Completed: 0001_security_headers - Found 0 of 7 vulnerabilities tested
+
+✅ Script completed in 1.781334333s
+
+────────────────────────────────────────────────────────────
+CHECK: 0002_sensitive_files
+────────────────────────────────────────────────────────────
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0002_sensitive_files.http
+════════════════════════════════════════════════════════════
+Variable $target set to https://siigo.com
+Variable $stop set to 0
+[SCAN] Sensitive Files Exposure
+Target: https://siigo.com
+Variable $exposed set to 0
+Extracted status and stored in $git_status
+Extracted status and stored in $env_status
+Extracted status and stored in $backup_status
+Extracted status and stored in $config_status
+Extracted status and stored in $htaccess_status
+[✓] Completed: 0002_sensitive_files - Found 0 of 15 vulnerabilities tested
+
+✅ Script completed in 4.485576791s
+
+────────────────────────────────────────────────────────────
+CHECK: 0003_sql_injection
+────────────────────────────────────────────────────────────
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0003_sql_injection.http
+════════════════════════════════════════════════════════════
+Variable $target set to https://siigo.com
+Variable $stop set to 0
+[SCAN] SQL Injection Testing
+Target: https://siigo.com
+Variable $vulns set to 0
+Warning: No response available for extraction. Variable $true_status set to empty.
+Warning: No response available for extraction. Variable $false_status set to empty.
+[✓] Completed: 0003_sql_injection - Found 0 of 10 vulnerabilities tested
+
+✅ Script completed in 2.953955292s
+
+────────────────────────────────────────────────────────────
+CHECK: 0004_xss
+────────────────────────────────────────────────────────────
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0004_xss.http
+════════════════════════════════════════════════════════════
+Variable $target set to https://siigo.com
+Variable $stop set to 0
+[SCAN] Cross-Site Scripting (XSS)
+Target: https://siigo.com
+Variable $xss_found set to 0
+[✓] Completed: 0004_xss - Found 0 of 8 vulnerabilities tested
+
+✅ Script completed in 5.310598333s
+
+────────────────────────────────────────────────────────────
+CHECK: 0005_cors
+────────────────────────────────────────────────────────────
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0005_cors.http
+════════════════════════════════════════════════════════════
+Variable $target set to https://siigo.com
+Variable $stop set to 0
+[SCAN] CORS Configuration
+Target: https://siigo.com
+Variable $issues set to 0
+Extracted Access-Control-Allow-Origin using header and stored in $cors
+Extracted Access-Control-Allow-Credentials using header and stored in $creds
+[✓] Completed: 0005_cors - Found 0 of 5 vulnerabilities tested
+
+✅ Script completed in 1.755039583s
+
+────────────────────────────────────────────────────────────
+CHECK: 0006_open_redirect
+────────────────────────────────────────────────────────────
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0006_open_redirect.http
+════════════════════════════════════════════════════════════
+Variable $target set to https://siigo.com
+Variable $stop set to 0
+[SCAN] Open Redirect
+Target: https://siigo.com
+Variable $vulns set to 0
+Extracted Location using header and stored in $location1
+Extracted Location using header and stored in $location2
+Extracted Location using header and stored in $location3
+[✓] Completed: 0006_open_redirect - Found 0 of 6 vulnerabilities tested
+
+✅ Script completed in 4.351949s
+
+────────────────────────────────────────────────────────────
+CHECK: 0007_csrf
+────────────────────────────────────────────────────────────
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0007_csrf.http
+════════════════════════════════════════════════════════════
+Variable $target set to https://siigo.com
+Variable $stop set to 0
+[SCAN] CSRF Testing
+Target: https://siigo.com
+Variable $csrf_issues set to 0
+Extracted Set-Cookie using header and stored in $cookie
+Extracted X-Frame-Options using header and stored in $xframe
+Extracted status and stored in $evil_referer_status
+Extracted status and stored in $origin_status
+[✓] Completed: 0007_csrf - Found 0 of 5 vulnerabilities tested
+
+✅ Script completed in 6.780370625s
+
+────────────────────────────────────────────────────────────
+CHECK: 0008_auth_bypass
+────────────────────────────────────────────────────────────
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0008_auth_bypass.http
+════════════════════════════════════════════════════════════
+Variable $target set to https://siigo.com
+Variable $stop set to 0
+[SCAN] Authentication Bypass Testing
+Target: https://siigo.com
+Variable $auth_issues set to 0
+Extracted status and stored in $admin_status
+Extracted status and stored in $dash_status
+Extracted status and stored in $api_status
+[✓] Completed: 0008_auth_bypass - Found 0 of 3 vulnerabilities tested
+
+✅ Script completed in 4.956160875s
+
+────────────────────────────────────────────────────────────
+CHECK: 0009_xxe
+────────────────────────────────────────────────────────────
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0009_xxe.http
+════════════════════════════════════════════════════════════
+Variable $target set to https://siigo.com
+Variable $stop set to 0
+[SCAN] XXE Injection Testing
+Target: https://siigo.com
+Variable $xxe_found set to 0
+Extracted status and stored in $xxe_status
+Extracted status and stored in $soap_status
+[✓] Completed: 0009_xxe - Found 0 of 2 vulnerabilities tested
+
+✅ Script completed in 3.454667667s
+
+────────────────────────────────────────────────────────────
+CHECK: 0010_ssrf
+────────────────────────────────────────────────────────────
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0010_ssrf.http
+════════════════════════════════════════════════════════════
+Variable $target set to https://siigo.com
+Variable $stop set to 0
+[SCAN] SSRF Testing
+Target: https://siigo.com
+Variable $ssrf_found set to 0
+Extracted status and stored in $img_status
+Extracted status and stored in $redirect_status
+[✓] Completed: 0010_ssrf - Found 0 of 3 vulnerabilities tested
+
+✅ Script completed in 4.120548959s
+
+────────────────────────────────────────────────────────────
+CHECK: 0011_command_injection
+────────────────────────────────────────────────────────────
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0011_command_injection.http
+════════════════════════════════════════════════════════════
+Variable $target set to https://siigo.com
+Variable $stop set to 0
+[SCAN] Command Injection Testing
+Target: https://siigo.com
+Variable $cmdi_found set to 0
+[✓] Completed: 0011_command_injection - Found 0 of 5 vulnerabilities tested
+
+✅ Script completed in 6.933407666s
+
+────────────────────────────────────────────────────────────
+CHECK: 0012_ldap_injection
+────────────────────────────────────────────────────────────
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0012_ldap_injection.http
+════════════════════════════════════════════════════════════
+Variable $target set to https://siigo.com
+Variable $stop set to 0
+[SCAN] LDAP Injection Testing
+Target: https://siigo.com
+Variable $ldap_found set to 0
+[✓] Completed: 0012_ldap_injection - Found 0 of 2 vulnerabilities tested
+
+✅ Script completed in 2.763185083s
+
+────────────────────────────────────────────────────────────
+CHECK: 0013_nosql_injection
+────────────────────────────────────────────────────────────
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0013_nosql_injection.http
+════════════════════════════════════════════════════════════
+Variable $target set to https://siigo.com
+Variable $stop set to 0
+[SCAN] NoSQL Injection Testing
+Target: https://siigo.com
+Variable $nosql_found set to 0
+[✓] Completed: 0013_nosql_injection - Found 0 of 2 vulnerabilities tested
+
+✅ Script completed in 3.3307025s
+
+────────────────────────────────────────────────────────────
+CHECK: 0014_template_injection
+────────────────────────────────────────────────────────────
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0014_template_injection.http
+════════════════════════════════════════════════════════════
+Variable $target set to https://siigo.com
+Variable $stop set to 0
+[SCAN] Template Injection Testing
+Target: https://siigo.com
+Variable $ssti_found set to 0
+[✓] Completed: 0014_template_injection - Found 0 of 3 vulnerabilities tested
+
+✅ Script completed in 4.514253875s
+
+────────────────────────────────────────────────────────────
+CHECK: 0015_file_upload
+────────────────────────────────────────────────────────────
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0015_file_upload.http
+════════════════════════════════════════════════════════════
+Variable $target set to https://siigo.com
+Variable $stop set to 0
+[SCAN] File Upload Vulnerability Testing
+Target: https://siigo.com
+Variable $upload_vulns set to 0
+Extracted status and stored in $upload_status
+[✓] Completed: 0015_file_upload - Found 0 of 2 vulnerabilities tested
+
+✅ Script completed in 3.634890791s
+
+────────────────────────────────────────────────────────────
+CHECK: 0016_jwt
+────────────────────────────────────────────────────────────
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0016_jwt.http
+════════════════════════════════════════════════════════════
+Variable $target set to https://siigo.com
+Variable $stop set to 0
+[SCAN] JWT Security Testing
+Target: https://siigo.com
+Variable $jwt_issues set to 0
+Extracted status and stored in $none_status
+Extracted status and stored in $weak_status
+Extracted status and stored in $alg_status
+[✓] Completed: 0016_jwt - Found 0 of 4 vulnerabilities tested
+
+✅ Script completed in 5.936928791s
+
+────────────────────────────────────────────────────────────
+CHECK: 0017_xml_injection
+────────────────────────────────────────────────────────────
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0017_xml_injection.http
+════════════════════════════════════════════════════════════
+Variable $target set to https://siigo.com
+Variable $stop set to 0
+[SCAN] XML Injection Testing
+Target: https://siigo.com
+Variable $xml_issues set to 0
+Extracted status and stored in $xml_status
+Extracted status and stored in $soap_status
+[✓] Completed: 0017_xml_injection - Found 0 of 2 vulnerabilities tested
+
+✅ Script completed in 3.2969855s
+
+────────────────────────────────────────────────────────────
+CHECK: 0018_directory_traversal
+────────────────────────────────────────────────────────────
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0018_directory_traversal.http
+════════════════════════════════════════════════════════════
+Variable $target set to https://siigo.com
+Variable $stop set to 0
+[SCAN] Directory Traversal Testing
+Target: https://siigo.com
+Variable $traversal_found set to 0
+[✓] Completed: 0018_directory_traversal - Found 0 of 5 vulnerabilities tested
+
+✅ Script completed in 7.5800965s
+
+────────────────────────────────────────────────────────────
+CHECK: 0019_session_management
+────────────────────────────────────────────────────────────
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0019_session_management.http
+════════════════════════════════════════════════════════════
+Variable $target set to https://siigo.com
+Variable $stop set to 0
+[SCAN] Session Management Testing
+Target: https://siigo.com
+Variable $session_issues set to 0
+Extracted status and stored in $fixation_status
+Extracted Set-Cookie using header and stored in $cookie
+Extracted Set-Cookie using header and stored in $cookie2
+Extracted Set-Cookie using header and stored in $session1
+Extracted Set-Cookie using header and stored in $session2
+[✓] Completed: 0019_session_management - Found 0 of 4 vulnerabilities tested
+
+✅ Script completed in 5.661331875s
+
+────────────────────────────────────────────────────────────
+CHECK: 0020_api_security
+────────────────────────────────────────────────────────────
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0020_api_security.http
+════════════════════════════════════════════════════════════
+Variable $target set to https://siigo.com
+Variable $stop set to 0
+[SCAN] API Security Testing
+Target: https://siigo.com
+Variable $api_issues set to 0
+Extracted status and stored in $auth_status
+Extracted status and stored in $rate_status
+Extracted Access-Control-Allow-Origin using header and stored in $cors
+Extracted status and stored in $v1_status
+[✓] Completed: 0020_api_security - Found 0 of 5 vulnerabilities tested
+
+✅ Script completed in 12.193396666s
+
+────────────────────────────────────────────────────────────
+CHECK: 0021_cache_poisoning
+────────────────────────────────────────────────────────────
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0021_cache_poisoning.http
+════════════════════════════════════════════════════════════
+Variable $target set to https://siigo.com
+Variable $stop set to 0
+[SCAN] Cache Poisoning Testing
+Target: https://siigo.com
+Variable $cache_issues set to 0
+[✓] Completed: 0021_cache_poisoning - Found 0 of 5 vulnerabilities tested
+
+✅ Script completed in 3.458363792s
+
+────────────────────────────────────────────────────────────
+CHECK: 0022_http_smuggling
+────────────────────────────────────────────────────────────
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0022_http_smuggling.http
+════════════════════════════════════════════════════════════
+[2025-08-14 08:28:00.637] [ERROR] Request failed: Get "https://siigo.com/": http2: invalid Upgrade request header: ["h2c"]
+❌ Error: execution failed: error processing block: error parsing HTTP request: unexpected token: header at line 1, column 16:
+GET "$target/" header "Upgrade" "h2c" header "Connection" "Upgrade"
+               ^
+
+────────────────────────────────────────────────────────────
+CHECK: 0023_websocket
+────────────────────────────────────────────────────────────
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0023_websocket.http
+════════════════════════════════════════════════════════════
+[2025-08-14 08:28:31.435] [ERROR] Request failed: Get "https://www.siigo.com/ws": context deadline exceeded (Client.Timeout exceeded while awaiting headers)
+❌ Error: execution failed: error processing block: error parsing HTTP request: unexpected token: header at line 1, column 18:
+GET "$target/ws" header "Upgrade" "websocket" header "Connection" "Upgrade" header "Sec-WebSocket-Key" "dGhlIHNhbXBsZSBub25jZQ==" header "Sec-WebSocket-Version" "13"
+                 ^
+
+────────────────────────────────────────────────────────────
+CHECK: 0024_graphql
+────────────────────────────────────────────────────────────
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0024_graphql.http
+════════════════════════════════════════════════════════════
+Variable $target set to https://siigo.com
+Variable $stop set to 0
+[SCAN] GraphQL Security Testing
+Target: https://siigo.com
+Variable $graphql_issues set to 0
+Extracted status and stored in $gql_status
+Extracted status and stored in $playground_status
+[✓] Completed: 0024_graphql - Found 0 of 2 vulnerabilities tested
+
+✅ Script completed in 3.502508834s
+
+────────────────────────────────────────────────────────────
+CHECK: 0025_subdomain_takeover
+────────────────────────────────────────────────────────────
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0025_subdomain_takeover.http
+════════════════════════════════════════════════════════════
+Variable $target set to https://siigo.com
+Variable $stop set to 0
+[SCAN] Subdomain Takeover Testing
+Target: https://siigo.com
+Variable $takeover_found set to 0
+Extracted status and stored in $dns_status
+[✓] Completed: 0025_subdomain_takeover - Found 0 of 6 vulnerabilities tested
+
+✅ Script completed in 2.165083459s
+
+────────────────────────────────────────────────────────────
+CHECK: 0026_clickjacking
+────────────────────────────────────────────────────────────
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0026_clickjacking.http
+════════════════════════════════════════════════════════════
+Variable $target set to https://siigo.com
+Variable $stop set to 0
+[SCAN] Clickjacking Testing
+Target: https://siigo.com
+Variable $clickjack_found set to 0
+Extracted X-Frame-Options using header and stored in $xframe
+Extracted Content-Security-Policy using header and stored in $csp
+Extracted X-Frame-Options using header and stored in $login_xframe
+Extracted X-Frame-Options using header and stored in $admin_xframe
+Extracted X-Frame-Options using header and stored in $payment_xframe
+[✓] Completed: 0026_clickjacking - Found 0 of 5 vulnerabilities tested
+
+✅ Script completed in 7.463128709s
+
+────────────────────────────────────────────────────────────
+CHECK: 0027_deserialization
+────────────────────────────────────────────────────────────
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0027_deserialization.http
+════════════════════════════════════════════════════════════
+Variable $target set to https://siigo.com
+Variable $stop set to 0
+[SCAN] Deserialization Testing
+Target: https://siigo.com
+Variable $deser_found set to 0
+Extracted status and stored in $java_status
+[✓] Completed: 0027_deserialization - Found 0 of 2 vulnerabilities tested
+
+✅ Script completed in 3.722925125s
+
+────────────────────────────────────────────────────────────
+CHECK: 0028_business_logic
+────────────────────────────────────────────────────────────
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0028_business_logic.http
+════════════════════════════════════════════════════════════
+Variable $target set to https://siigo.com
+Variable $stop set to 0
+[SCAN] Business Logic Testing
+Target: https://siigo.com
+Variable $logic_issues set to 0
+Extracted status and stored in $neg_status
+[✓] Completed: 0028_business_logic - Found 0 of 2 vulnerabilities tested
+
+✅ Script completed in 3.108940625s
+
+────────────────────────────────────────────────────────────
+CHECK: 0029_race_condition
+────────────────────────────────────────────────────────────
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0029_race_condition.http
+════════════════════════════════════════════════════════════
+Variable $target set to https://siigo.com
+Variable $stop set to 0
+[SCAN] Race Condition Testing
+Target: https://siigo.com
+Variable $race_found set to 0
+Extracted status and stored in $status1
+Extracted status and stored in $status2
+Extracted status and stored in $status3
+[✓] Completed: 0029_race_condition - Found 0 of 1 vulnerabilities tested
+
+✅ Script completed in 6.309445375s
+
+────────────────────────────────────────────────────────────
+CHECK: 0030_host_header
+────────────────────────────────────────────────────────────
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0030_host_header.http
+════════════════════════════════════════════════════════════
+Variable $target set to https://siigo.com
+Variable $stop set to 0
+[SCAN] Host Header Injection Testing
+Target: https://siigo.com
+Variable $host_issues set to 0
+[✓] Completed: 0030_host_header - Found 0 of 2 vulnerabilities tested
+
+✅ Script completed in 4.694179167s
+
+────────────────────────────────────────────────────────────
+CHECK: 0031_oauth
+────────────────────────────────────────────────────────────
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0031_oauth.http
+════════════════════════════════════════════════════════════
+Variable $target set to https://siigo.com
+Variable $stop set to 0
+[SCAN] OAuth Security Testing
+Target: https://siigo.com
+Variable $oauth_issues set to 0
+Extracted status and stored in $auth_status
+Extracted status and stored in $token_status
+[✓] Completed: 0031_oauth - Found 0 of 2 vulnerabilities tested
+
+✅ Script completed in 7.826759s
+
+────────────────────────────────────────────────────────────
+CHECK: 0032_idor
+────────────────────────────────────────────────────────────
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0032_idor.http
+════════════════════════════════════════════════════════════
+Variable $target set to https://siigo.com
+Variable $stop set to 0
+[SCAN] IDOR Testing
+Target: https://siigo.com
+Variable $idor_found set to 0
+Extracted status and stored in $user1_status
+Extracted status and stored in $user2_status
+Extracted status and stored in $uuid_status
+Extracted status and stored in $array_status
+[✓] Completed: 0032_idor - Found 0 of 5 vulnerabilities tested
+
+✅ Script completed in 20.90986775s
+
+────────────────────────────────────────────────────────────
+CHECK: 0033_log4j
+────────────────────────────────────────────────────────────
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0033_log4j.http
+════════════════════════════════════════════════════════════
+❌ Error: execution failed: error processing block: error at line 6: no alternative matched for rule program at line 1, column 1:
+extract time as $ua_time
+^
+
+────────────────────────────────────────────────────────────
+CHECK: 0034_verb_tampering
+────────────────────────────────────────────────────────────
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0034_verb_tampering.http
+════════════════════════════════════════════════════════════
+Variable $target set to https://siigo.com
+Variable $stop set to 0
+[SCAN] HTTP Verb Tampering Testing
+Target: https://siigo.com
+Variable $verb_issues set to 0
+Warning: No response available for extraction. Variable $head_status set to empty.
+Extracted Allow using header and stored in $allow_header
+Extracted status and stored in $trace_status
+[✓] Completed: 0034_verb_tampering - Found 0 of 3 vulnerabilities tested
+
+✅ Script completed in 7.743837333s
+
+────────────────────────────────────────────────────────────
+CHECK: 0035_ssl_tls
+────────────────────────────────────────────────────────────
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0035_ssl_tls.http
+════════════════════════════════════════════════════════════
+Variable $target set to https://siigo.com
+Variable $stop set to 0
+[SCAN] SSL/TLS Security Testing
+Target: https://siigo.com
+Variable $tls_issues set to 0
+Extracted Strict-Transport-Security using header and stored in $hsts
+Extracted Set-Cookie using header and stored in $cookie
+Extracted Public-Key-Pins using header and stored in $hpkp
+Extracted Expect-CT using header and stored in $expect_ct
+[✓] Completed: 0035_ssl_tls - Found 0 of 5 vulnerabilities tested
+
+✅ Script completed in 29.301711583s
+
+────────────────────────────────────────────────────────────
+CHECK: 0036_information_disclosure
+────────────────────────────────────────────────────────────
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0036_information_disclosure.http
+════════════════════════════════════════════════════════════
+Variable $target set to https://siigo.com
+Variable $stop set to 0
+[SCAN] Information Disclosure Testing
+Target: https://siigo.com
+Variable $info_leaks set to 0
+Extracted Server using header and stored in $server
+Extracted X-Powered-By using header and stored in $powered
+[✓] Completed: 0036_information_disclosure - Found 0 of 6 vulnerabilities tested
+
+✅ Script completed in 14.706225s
+
+────────────────────────────────────────────────────────────
+CHECK: 0037_sql_injection_mysql
+────────────────────────────────────────────────────────────
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0037_sql_injection_mysql.http
+════════════════════════════════════════════════════════════
+❌ Error: execution failed: error processing block: error at line 11: no alternative matched for rule program at line 1, column 1:
+extract time as $sleep_time
+^
+
+────────────────────────────────────────────────────────────
+CHECK: 0038_sql_injection_postgres
+────────────────────────────────────────────────────────────
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0038_sql_injection_postgres.http
+════════════════════════════════════════════════════════════
+Variable $target set to https://siigo.com
+Variable $stop set to 0
+[SCAN] PostgreSQL SQL Injection Testing
+Target: https://siigo.com
+Variable $pgsql_vulns set to 0
+[✓] Completed: 0038_sql_injection_postgres - Found 0 of 2 vulnerabilities tested
+
+✅ Script completed in 20.038981583s
+
+────────────────────────────────────────────────────────────
+CHECK: 0039_sql_injection_mssql
+────────────────────────────────────────────────────────────
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0039_sql_injection_mssql.http
+════════════════════════════════════════════════════════════
+❌ Error: execution failed: error processing block: error at line 11: no alternative matched for rule program at line 1, column 1:
+extract time as $delay_time
+^
+
+────────────────────────────────────────────────────────────
+CHECK: 0040_sql_injection_oracle
+────────────────────────────────────────────────────────────
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0040_sql_injection_oracle.http
+════════════════════════════════════════════════════════════
+Variable $target set to https://siigo.com
+Variable $stop set to 0
+[SCAN] Oracle SQL Injection Testing
+Target: https://siigo.com
+Variable $oracle_vulns set to 0
+[✓] Completed: 0040_sql_injection_oracle - Found 0 of 2 vulnerabilities tested
+
+✅ Script completed in 9.83174075s
+
+────────────────────────────────────────────────────────────
+CHECK: 0041_sql_injection_sqlite
+────────────────────────────────────────────────────────────
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0041_sql_injection_sqlite.http
+════════════════════════════════════════════════════════════
+Variable $target set to https://siigo.com
+Variable $stop set to 0
+[SCAN] SQLite SQL Injection Testing
+Target: https://siigo.com
+Variable $issues set to 0
+[✓] Completed: 0041_sql_injection_sqlite - Found 0 of 2 vulnerabilities tested
+
+✅ Script completed in 17.694177709s
+
+────────────────────────────────────────────────────────────
+CHECK: 0042_sql_injection_python
+────────────────────────────────────────────────────────────
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0042_sql_injection_python.http
+════════════════════════════════════════════════════════════
+Variable $target set to https://siigo.com
+Variable $stop set to 0
+[SCAN] Python SQL Injection Testing
+Target: https://siigo.com
+Variable $issues set to 0
+[✓] Completed: 0042_sql_injection_python - Found 0 of 2 vulnerabilities tested
+
+✅ Script completed in 16.395503416s
+
+────────────────────────────────────────────────────────────
+CHECK: 0043_sql_injection_dotnet
+────────────────────────────────────────────────────────────
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0043_sql_injection_dotnet.http
+════════════════════════════════════════════════════════════
+Variable $target set to https://siigo.com
+Variable $stop set to 0
+[SCAN] .NET SQL Injection Testing
+Target: https://siigo.com
+Variable $issues set to 0
+[✓] Completed: 0043_sql_injection_dotnet - Found 0 of 2 vulnerabilities tested
+
+✅ Script completed in 19.125092583s
+
+────────────────────────────────────────────────────────────
+CHECK: 0044_sql_injection_java
+────────────────────────────────────────────────────────────
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0044_sql_injection_java.http
+════════════════════════════════════════════════════════════
+Variable $target set to https://siigo.com
+Variable $stop set to 0
+[SCAN] Java SQL Injection Testing
+Target: https://siigo.com
+Variable $issues set to 0
+[✓] Completed: 0044_sql_injection_java - Found 0 of 2 vulnerabilities tested
+
+✅ Script completed in 6.99248525s
+
+────────────────────────────────────────────────────────────
+CHECK: 0045_nginx_vulnerabilities
+────────────────────────────────────────────────────────────
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0045_nginx_vulnerabilities.http
+════════════════════════════════════════════════════════════
+Variable $target set to https://siigo.com
+Variable $stop set to 0
+[SCAN] Nginx Vulnerability Testing
+Target: https://siigo.com
+Variable $issues set to 0
+Extracted Server using header and stored in $server
+[✓] Completed: 0045_nginx_vulnerabilities - Found 0 of 2 vulnerabilities tested
+
+✅ Script completed in 7.893329416s
+
+────────────────────────────────────────────────────────────
+CHECK: 0046_apache_vulnerabilities
+────────────────────────────────────────────────────────────
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0046_apache_vulnerabilities.http
+════════════════════════════════════════════════════════════
+Variable $target set to https://siigo.com
+Variable $stop set to 0
+[SCAN] Apache Vulnerability Testing
+Target: https://siigo.com
+Variable $issues set to 0
+Extracted Server using header and stored in $server
+[✓] Completed: 0046_apache_vulnerabilities - Found 0 of 2 vulnerabilities tested
+
+✅ Script completed in 24.76179025s
+
+────────────────────────────────────────────────────────────
+CHECK: 0047_tomcat_vulnerabilities
+────────────────────────────────────────────────────────────
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0047_tomcat_vulnerabilities.http
+════════════════════════════════════════════════════════════
+Variable $target set to https://siigo.com
+Variable $stop set to 0
+[SCAN] Tomcat Vulnerability Testing
+Target: https://siigo.com
+Variable $issues set to 0
+Extracted status and stored in $mgr_status
+[✓] Completed: 0047_tomcat_vulnerabilities - Found 0 of 2 vulnerabilities tested
+
+✅ Script completed in 15.729886916s
+
+────────────────────────────────────────────────────────────
+CHECK: 0048_iis_vulnerabilities
+────────────────────────────────────────────────────────────
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0048_iis_vulnerabilities.http
+════════════════════════════════════════════════════════════
+Variable $target set to https://siigo.com
+Variable $stop set to 0
+[SCAN] IIS Vulnerability Testing
+Target: https://siigo.com
+Variable $issues set to 0
+Extracted Server using header and stored in $server
+[✓] Completed: 0048_iis_vulnerabilities - Found 0 of 2 vulnerabilities tested
+
+✅ Script completed in 4.011903792s
+
+────────────────────────────────────────────────────────────
+CHECK: 0049_cloud_security_general
+────────────────────────────────────────────────────────────
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0049_cloud_security_general.http
+════════════════════════════════════════════════════════════
+Variable $target set to https://siigo.com
+Variable $stop set to 0
+[SCAN] 49 Cloud Security General
+Target: https://siigo.com
+Variable $issues set to 0
+Extracted status and stored in $status
+Extracted status and stored in $api_status
+[✓] Completed: 0049_cloud_security_general - Found 0 vulnerabilities tested
+
+✅ Script completed in 5.0568825s
+
+────────────────────────────────────────────────────────────
+CHECK: 0050_aws_security
+────────────────────────────────────────────────────────────
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0050_aws_security.http
+════════════════════════════════════════════════════════════
+Variable $target set to https://siigo.com
+Variable $stop set to 0
+[SCAN] 5 Aws Security
+Target: https://siigo.com
+Variable $issues set to 0
+Extracted status and stored in $status
+Extracted status and stored in $api_status
+[✓] Completed: 0050_aws_security - Found 0 vulnerabilities tested
+
+✅ Script completed in 4.228031041s
+
+────────────────────────────────────────────────────────────
+CHECK: 0051_azure_security
+────────────────────────────────────────────────────────────
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0051_azure_security.http
+════════════════════════════════════════════════════════════
+Variable $target set to https://siigo.com
+Variable $stop set to 0
+[SCAN] 51 Azure Security
+Target: https://siigo.com
+Variable $issues set to 0
+Extracted status and stored in $status
+Extracted status and stored in $api_status
+[✓] Completed: 0051_azure_security - Found 0 vulnerabilities tested
+
+✅ Script completed in 6.572010709s
+
+────────────────────────────────────────────────────────────
+CHECK: 0052_gcp_security
+────────────────────────────────────────────────────────────
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0052_gcp_security.http
+════════════════════════════════════════════════════════════
+Variable $target set to https://siigo.com
+Variable $stop set to 0
+[SCAN] 52 Gcp Security
+Target: https://siigo.com
+Variable $issues set to 0
+Extracted status and stored in $status
+Extracted status and stored in $api_status
+[✓] Completed: 0052_gcp_security - Found 0 vulnerabilities tested
+
+✅ Script completed in 3.955218625s
+
+────────────────────────────────────────────────────────────
+CHECK: 0053_linux_general
+────────────────────────────────────────────────────────────
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0053_linux_general.http
+════════════════════════════════════════════════════════════
+Variable $target set to https://siigo.com
+Variable $stop set to 0
+[SCAN] General Linux Security Testing
+Target: https://siigo.com
+Variable $linux_vulns set to 0
+Extracted root:x:0:0: using regex and stored in $passwd_file
+Extracted root: using regex and stored in $passwd_traversal
+Extracted root:\$ using regex and stored in $shadow_file
+Extracted BEGIN RSA PRIVATE KEY|BEGIN OPENSSH PRIVATE KEY using regex and stored in $ssh_key
+Extracted ssh-rsa|ssh-ed25519 using regex and stored in $auth_keys
+Extracted sudo|passwd|mysql|ssh using regex and stored in $bash_history
+Extracted PATH=|HOME=|USER= using regex and stored in $proc_environ
+Extracted python|java|node using regex and stored in $proc_cmdline
+Extracted ExecStart=|User=|WorkingDirectory= using regex and stored in $systemd_service
+Extracted root|/usr/bin|* * * * * using regex and stored in $crontab
+Extracted * * * * * using regex and stored in $user_cron
+Extracted sshd|sudo|authentication using regex and stored in $auth_log
+Extracted PHP|error|warning using regex and stored in $error_log
+Extracted Package:|Version:|Status: using regex and stored in $dpkg_status
+Extracted status and stored in $rpm_db
+Extracted iface|address|netmask using regex and stored in $net_interfaces
+Extracted nameserver|domain|search using regex and stored in $resolv_conf
+Extracted root ALL|NOPASSWD using regex and stored in $sudoers
+Extracted export|alias|function using regex and stored in $bashrc
+Extracted PATH=|export using regex and stored in $profile
+[✓] Completed: 0053_linux_general - Found 0 of 12 vulnerabilities tested
+
+✅ Script completed in 30.222415875s
+
+────────────────────────────────────────────────────────────
+CHECK: 0054_ubuntu_debian
+────────────────────────────────────────────────────────────
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0054_ubuntu_debian.http
+════════════════════════════════════════════════════════════
+Variable $target set to https://siigo.com
+Variable $stop set to 0
+[SCAN] Ubuntu/Debian Security Testing
+Target: https://siigo.com
+Variable $ubuntu_vulns set to 0
+Extracted ubuntu.com|debian.org|Packages using regex and stored in $apt_lists
+Extracted cloud-init|DataSource|user-data using regex and stored in $cloudinit_log
+Extracted name:|version:|apps: using regex and stored in $snap_info
+Extracted ALLOW|DENY|ufw-user using regex and stored in $ufw_rules
+Extracted network:|ethernets:|addresses: using regex and stored in $netplan
+Extracted profile|capability|network using regex and stored in $apparmor
+Extracted attached|expires|services using regex and stored in $ua_status
+Extracted Unattended-Upgrade|Origins-Pattern using regex and stored in $unattended
+Extracted Package: linux-image|Version: using regex and stored in $dpkg_db
+Extracted #!/bin/sh|uname|lsb_release using regex and stored in $motd_scripts
+Extracted account_name|registration_key|url using regex and stored in $landscape
+Extracted Dist:|Supported:|Version: using regex and stored in $release_upgrade
+[✓] Completed: 0054_ubuntu_debian - Found 0 of 12 vulnerabilities tested
+
+✅ Script completed in 16.621770584s
+
+────────────────────────────────────────────────────────────
+CHECK: 0055_login_bypass_general
+────────────────────────────────────────────────────────────
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0055_login_bypass_general.http
+════════════════════════════════════════════════════════════
+Variable $target set to https://siigo.com
+Variable $stop set to 0
+[SCAN] 55 Login Bypass General
+Target: https://siigo.com
+Variable $issues set to 0
+Extracted status and stored in $status
+Extracted status and stored in $api_status
+[✓] Completed: 0055_login_bypass_general - Found 0 vulnerabilities tested
+
+✅ Script completed in 6.390452083s
+
+────────────────────────────────────────────────────────────
+CHECK: 0056_nodejs_vulnerabilities
+────────────────────────────────────────────────────────────
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0056_nodejs_vulnerabilities.http
+════════════════════════════════════════════════════════════
+Variable $target set to https://siigo.com
+Variable $stop set to 0
+[SCAN] 56 Nodejs Vulnerabilities
+Target: https://siigo.com
+Variable $issues set to 0
+Extracted status and stored in $status
+Extracted status and stored in $api_status
+[✓] Completed: 0056_nodejs_vulnerabilities - Found 0 vulnerabilities tested
+
+✅ Script completed in 5.740115375s
+
+────────────────────────────────────────────────────────────
+CHECK: 0057_auth0_vulnerabilities
+────────────────────────────────────────────────────────────
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0057_auth0_vulnerabilities.http
+════════════════════════════════════════════════════════════
+Variable $target set to https://siigo.com
+Variable $stop set to 0
+[SCAN] 57 Auth Vulnerabilities
+Target: https://siigo.com
+Variable $issues set to 0
+Extracted status and stored in $status
+Extracted status and stored in $api_status
+[✓] Completed: 0057_auth0_vulnerabilities - Found 0 vulnerabilities tested
+
+✅ Script completed in 5.297332583s
+
+────────────────────────────────────────────────────────────
+CHECK: 0058_azure_b2c_vulnerabilities
+────────────────────────────────────────────────────────────
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0058_azure_b2c_vulnerabilities.http
+════════════════════════════════════════════════════════════
+Variable $target set to https://siigo.com
+Variable $stop set to 0
+[SCAN] 58 Azure B2C Vulnerabilities
+Target: https://siigo.com
+Variable $issues set to 0
+Extracted status and stored in $status
+Extracted status and stored in $api_status
+[✓] Completed: 0058_azure_b2c_vulnerabilities - Found 0 vulnerabilities tested
+
+✅ Script completed in 3.657733s
+
+────────────────────────────────────────────────────────────
+CHECK: 0059_openid_connect_vulnerabilities
+────────────────────────────────────────────────────────────
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0059_openid_connect_vulnerabilities.http
+════════════════════════════════════════════════════════════
+Variable $target set to https://siigo.com
+Variable $stop set to 0
+[SCAN] 59 Openid Connect Vulnerabilities
+Target: https://siigo.com
+Variable $issues set to 0
+Extracted status and stored in $status
+Extracted status and stored in $api_status
+[✓] Completed: 0059_openid_connect_vulnerabilities - Found 0 vulnerabilities tested
+
+✅ Script completed in 4.4080515s
+
+────────────────────────────────────────────────────────────
+CHECK: 0060_saml_vulnerabilities
+────────────────────────────────────────────────────────────
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0060_saml_vulnerabilities.http
+════════════════════════════════════════════════════════════
+Variable $target set to https://siigo.com
+Variable $stop set to 0
+[SCAN] 6 Saml Vulnerabilities
+Target: https://siigo.com
+Variable $issues set to 0
+Extracted status and stored in $status
+Extracted status and stored in $api_status
+[✓] Completed: 0060_saml_vulnerabilities - Found 0 vulnerabilities tested
+
+✅ Script completed in 5.066269292s
+
+────────────────────────────────────────────────────────────
+CHECK: 0061_scim_vulnerabilities
+────────────────────────────────────────────────────────────
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0061_scim_vulnerabilities.http
+════════════════════════════════════════════════════════════
+Variable $target set to https://siigo.com
+Variable $stop set to 0
+[SCAN] 61 Scim Vulnerabilities
+Target: https://siigo.com
+Variable $issues set to 0
+Extracted status and stored in $status
+Extracted status and stored in $api_status
+[✓] Completed: 0061_scim_vulnerabilities - Found 0 vulnerabilities tested
+
+✅ Script completed in 3.1911245s
+
+────────────────────────────────────────────────────────────
+CHECK: 0062_react_vulnerabilities
+────────────────────────────────────────────────────────────
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0062_react_vulnerabilities.http
+════════════════════════════════════════════════════════════
+Variable $target set to https://siigo.com
+Variable $stop set to 0
+[SCAN] 62 React Vulnerabilities
+Target: https://siigo.com
+Variable $issues set to 0
+Extracted status and stored in $status
+Extracted status and stored in $api_status
+[✓] Completed: 0062_react_vulnerabilities - Found 0 vulnerabilities tested
+
+✅ Script completed in 4.347770792s
+
+────────────────────────────────────────────────────────────
+CHECK: 0063_angular_vulnerabilities
+────────────────────────────────────────────────────────────
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0063_angular_vulnerabilities.http
+════════════════════════════════════════════════════════════
+Variable $target set to https://siigo.com
+Variable $stop set to 0
+[SCAN] 63 Angular Vulnerabilities
+Target: https://siigo.com
+Variable $issues set to 0
+Extracted status and stored in $status
+Extracted status and stored in $api_status
+[✓] Completed: 0063_angular_vulnerabilities - Found 0 vulnerabilities tested
+
+✅ Script completed in 4.040580208s
+
+────────────────────────────────────────────────────────────
+CHECK: 0064_jquery_vulnerabilities
+────────────────────────────────────────────────────────────
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0064_jquery_vulnerabilities.http
+════════════════════════════════════════════════════════════
+Variable $target set to https://siigo.com
+Variable $stop set to 0
+[SCAN] 64 Jquery Vulnerabilities
+Target: https://siigo.com
+Variable $issues set to 0
+Extracted status and stored in $status
+Extracted status and stored in $api_status
+[✓] Completed: 0064_jquery_vulnerabilities - Found 0 vulnerabilities tested
+
+✅ Script completed in 4.41580025s
+
+────────────────────────────────────────────────────────────
+CHECK: 0065_ai_llm_vulnerabilities
+────────────────────────────────────────────────────────────
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0065_ai_llm_vulnerabilities.http
+════════════════════════════════════════════════════════════
+Variable $target set to https://siigo.com
+Variable $stop set to 0
+[SCAN] 65 Ai Llm Vulnerabilities
+Target: https://siigo.com
+Variable $issues set to 0
+Extracted status and stored in $status
+Extracted status and stored in $api_status
+[✓] Completed: 0065_ai_llm_vulnerabilities - Found 0 vulnerabilities tested
+
+✅ Script completed in 5.390734875s
+
+────────────────────────────────────────────────────────────
+CHECK: 0066_data_reconnaissance
+────────────────────────────────────────────────────────────
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0066_data_reconnaissance.http
+════════════════════════════════════════════════════════════
+Variable $target set to https://siigo.com
+Variable $stop set to 0
+[SCAN] 66 Data Reconnaissance
+Target: https://siigo.com
+Variable $issues set to 0
+Extracted status and stored in $status
+Extracted status and stored in $api_status
+[✓] Completed: 0066_data_reconnaissance - Found 0 vulnerabilities tested
+
+✅ Script completed in 3.564004916s
+
+────────────────────────────────────────────────────────────
+CHECK: 0070_owasp_top_01_10
+────────────────────────────────────────────────────────────
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0070_owasp_top_01_10.http
+════════════════════════════════════════════════════════════
+Variable $target set to https://siigo.com
+Variable $stop set to 0
+[SCAN] 7 Owasp Top 1 1
+Target: https://siigo.com
+Variable $issues set to 0
+Extracted status and stored in $status
+Extracted status and stored in $api_status
+[✓] Completed: 0070_owasp_top_01_10 - Found 0 vulnerabilities tested
+
+✅ Script completed in 3.05892425s
+
+────────────────────────────────────────────────────────────
+CHECK: 0071_owasp_top_11_20
+────────────────────────────────────────────────────────────
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0071_owasp_top_11_20.http
+════════════════════════════════════════════════════════════
+Variable $target set to https://siigo.com
+Variable $stop set to 0
+[SCAN] 71 Owasp Top 11 2
+Target: https://siigo.com
+Variable $issues set to 0
+Extracted status and stored in $status
+Extracted status and stored in $api_status
+[✓] Completed: 0071_owasp_top_11_20 - Found 0 vulnerabilities tested
+
+✅ Script completed in 4.279468291s
+
+────────────────────────────────────────────────────────────
+CHECK: 0072_owasp_top_21_30
+────────────────────────────────────────────────────────────
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0072_owasp_top_21_30.http
+════════════════════════════════════════════════════════════
+Variable $target set to https://siigo.com
+Variable $stop set to 0
+[SCAN] 72 Owasp Top 21 3
+Target: https://siigo.com
+Variable $issues set to 0
+Extracted status and stored in $status
+Extracted status and stored in $api_status
+[✓] Completed: 0072_owasp_top_21_30 - Found 0 vulnerabilities tested
+
+✅ Script completed in 3.445231875s
+
+────────────────────────────────────────────────────────────
+CHECK: 0073_owasp_top_31_40
+────────────────────────────────────────────────────────────
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0073_owasp_top_31_40.http
+════════════════════════════════════════════════════════════
+Variable $target set to https://siigo.com
+Variable $stop set to 0
+[SCAN] 73 Owasp Top 31 4
+Target: https://siigo.com
+Variable $issues set to 0
+Extracted status and stored in $status
+Extracted status and stored in $api_status
+[✓] Completed: 0073_owasp_top_31_40 - Found 0 vulnerabilities tested
+
+✅ Script completed in 4.24656425s
+
+────────────────────────────────────────────────────────────
+CHECK: 0074_owasp_top_41_50
+────────────────────────────────────────────────────────────
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0074_owasp_top_41_50.http
+════════════════════════════════════════════════════════════
+Variable $target set to https://siigo.com
+Variable $stop set to 0
+[SCAN] 74 Owasp Top 41 5
+Target: https://siigo.com
+Variable $issues set to 0
+Extracted status and stored in $status
+Extracted status and stored in $api_status
+[✓] Completed: 0074_owasp_top_41_50 - Found 0 vulnerabilities tested
+
+✅ Script completed in 3.801456083s
+
+
+════════════════════════════════════════════════════════════
+SUMMARY
+════════════════════════════════════════════════════════════
+
+Vulnerabilities Found:
+  CRITICAL: 0
+  HIGH:     0
+  MEDIUM:   0
+  LOW:      0
+
+Risk Score: 0
+Risk Level: SECURE

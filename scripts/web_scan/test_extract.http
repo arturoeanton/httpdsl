@@ -1,0 +1,6 @@
+# Test extract syntax
+set $target $ARG1
+GET "$target/get"
+extract body as $response_body
+extract status as $response_status
+print "Status: $response_status"

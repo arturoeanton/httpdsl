@@ -1,0 +1,6 @@
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0063_angular_vulnerabilities.http
+════════════════════════════════════════════════════════════
+❌ Error: execution failed: error parsing HTTP request: unexpected token: alert at line 1, column 59:
+GET "$target/api/template?name={{constructor.constructor("alert(1)")()}}"
+                                                          ^

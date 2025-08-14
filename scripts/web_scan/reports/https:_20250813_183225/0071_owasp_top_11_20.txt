@@ -1,0 +1,6 @@
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0071_owasp_top_11_20.http
+════════════════════════════════════════════════════════════
+❌ Error: execution failed: error at line 27: unexpected character: : at line 1, column 69:
+body "<?xml version="1.0"?><!DOCTYPE root [<!ENTITY xxe SYSTEM "file:///etc/passwd">]><root>&xxe;</root>"
+                                                                    ^

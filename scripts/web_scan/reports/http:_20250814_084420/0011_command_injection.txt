@@ -1,0 +1,11 @@
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0011_command_injection.http
+════════════════════════════════════════════════════════════
+Variable $target set to http://127.0.0.1:4000
+Variable $stop set to 0
+[SCAN] Command Injection Testing
+Target: http://127.0.0.1:4000
+Variable $cmdi_found set to 0
+[✓] Completed: 0011_command_injection - Found 0 of 5 vulnerabilities tested
+
+✅ Script completed in 4.192667ms

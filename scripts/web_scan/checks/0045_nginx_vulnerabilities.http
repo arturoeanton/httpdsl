@@ -1,0 +1,38 @@
+# Nginx Vulnerability Testing
+# Security vulnerability testing script
+
+if $ARGC < 1 then
+    print "ERROR: Missing target URL"
+    set $stop 1
+else
+    set $target $ARG1
+    set $stop 0
+endif
+
+if $stop == 0 then
+    print "[SCAN] Nginx Vulnerability Testing"
+    print "Target: $target"
+    
+    set $issues 0
+    
+    # Test 1: Nginx version
+    GET "$target/"
+    
+    
+    extract header "Server" as $server
+    if $server contains "nginx/" then
+        print "[LOW] Nginx version disclosed"
+        set $issues $issues + 1
+    endif
+
+    # Test 2: Path traversal
+    GET "$target/static../etc/passwd"
+    
+    
+    if response contains "root:" then
+        print "[CRITICAL] Nginx path traversal"
+        set $issues $issues + 1
+    endif
+
+    print "[✓] Completed: 0045_nginx_vulnerabilities - Found $issues of 2 vulnerabilities tested"
+endif

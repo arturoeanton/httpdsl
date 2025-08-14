@@ -1,0 +1,13 @@
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0003_sql_injection.http
+════════════════════════════════════════════════════════════
+Variable $target set to https://siigo.com
+Variable $stop set to 0
+[SCAN] SQL Injection Testing
+Target: https://siigo.com
+Variable $vulns set to 0
+Warning: No response available for extraction. Variable $true_status set to empty.
+Warning: No response available for extraction. Variable $false_status set to empty.
+[✓] Completed: 0003_sql_injection - Found 0 of 10 vulnerabilities tested
+
+✅ Script completed in 2.464881667s

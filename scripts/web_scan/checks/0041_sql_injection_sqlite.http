@@ -1,0 +1,37 @@
+# SQLite SQL Injection Testing
+# Security vulnerability testing script
+
+if $ARGC < 1 then
+    print "ERROR: Missing target URL"
+    set $stop 1
+else
+    set $target $ARG1
+    set $stop 0
+endif
+
+if $stop == 0 then
+    print "[SCAN] SQLite SQL Injection Testing"
+    print "Target: $target"
+    
+    set $issues 0
+    
+    # Test 1: SQLite error
+    GET "$target/search?q=test'"
+    
+    
+    if response contains "sqlite" then
+        print "[HIGH] SQLite error disclosed"
+        set $issues $issues + 1
+    endif
+
+    # Test 2: SQLite version
+    GET "$target/db?query=SELECT%20sqlite_version()"
+    
+    
+    if response contains "3." then
+        print "[MEDIUM] SQLite version disclosed"
+        set $issues $issues + 1
+    endif
+
+    print "[✓] Completed: 0041_sql_injection_sqlite - Found $issues of 2 vulnerabilities tested"
+endif

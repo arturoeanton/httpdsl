@@ -1,0 +1,15 @@
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0007_csrf.http
+════════════════════════════════════════════════════════════
+Variable $target set to https://siigo.com
+Variable $stop set to 0
+[SCAN] CSRF Testing
+Target: https://siigo.com
+Variable $csrf_issues set to 0
+Extracted Set-Cookie using header and stored in $cookie
+Extracted X-Frame-Options using header and stored in $xframe
+Extracted status and stored in $evil_referer_status
+Extracted status and stored in $origin_status
+[✓] Completed: 0007_csrf - Found 0 of 5 vulnerabilities tested
+
+✅ Script completed in 5.72469475s

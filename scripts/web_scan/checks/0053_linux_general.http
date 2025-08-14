@@ -1,0 +1,160 @@
+# General Linux Security Detection
+# Testing for common Linux misconfigurations and vulnerabilities
+
+set $target $ARG1
+set $stop 0
+
+print "[SCAN] General Linux Security Testing"
+print "Target: $target"
+
+set $linux_vulns 0
+
+# Test 1: /etc/passwd exposure
+GET "$target/etc/passwd"
+extract regex "root:x:0:0:" as $passwd_file
+GET "$target/../../../../etc/passwd"
+extract regex "root:" as $passwd_traversal
+if $passwd_file not empty then
+    print "[CRITICAL] /etc/passwd file exposed"
+    print "  URL: $target/etc/passwd"
+    print "  Risk: User enumeration"
+    print "  Fix: Block system file access"
+    set $linux_vulns $linux_vulns + 1
+endif
+
+# Test 2: /etc/shadow exposure
+GET "$target/etc/shadow"
+extract regex "root:\$" as $shadow_file
+if $shadow_file not empty then
+    print "[CRITICAL] /etc/shadow file exposed"
+    print "  URL: $target/etc/shadow"
+    print "  Risk: Password hash disclosure"
+    print "  Fix: Restrict file permissions"
+    set $linux_vulns $linux_vulns + 1
+endif
+
+# Test 3: SSH key exposure
+GET "$target/.ssh/id_rsa"
+extract regex "BEGIN RSA PRIVATE KEY|BEGIN OPENSSH PRIVATE KEY" as $ssh_key
+GET "$target/.ssh/authorized_keys"
+extract regex "ssh-rsa|ssh-ed25519" as $auth_keys
+if $ssh_key not empty then
+    print "[CRITICAL] SSH private key exposed"
+    print "  URL: $target/.ssh/id_rsa"
+    print "  Risk: System access"
+    print "  Fix: Remove SSH keys from web root"
+    set $linux_vulns $linux_vulns + 1
+endif
+
+# Test 4: Bash history exposure
+GET "$target/.bash_history"
+extract regex "sudo|passwd|mysql|ssh" as $bash_history
+if $bash_history not empty then
+    print "[HIGH] Bash history exposed"
+    print "  URL: $target/.bash_history"
+    print "  Risk: Command history leak"
+    print "  Fix: Exclude history files"
+    set $linux_vulns $linux_vulns + 1
+endif
+
+# Test 5: Process information via /proc
+GET "$target/proc/self/environ"
+extract regex "PATH=|HOME=|USER=" as $proc_environ
+GET "$target/proc/self/cmdline"
+extract regex "python|java|node" as $proc_cmdline
+if $proc_environ not empty then
+    print "[HIGH] /proc filesystem exposed"
+    print "  URL: $target/proc/self/"
+    print "  Risk: Process information leak"
+    print "  Fix: Block /proc access"
+    set $linux_vulns $linux_vulns + 1
+endif
+
+# Test 6: Systemd service files
+GET "$target/etc/systemd/system/app.service"
+extract regex "ExecStart=|User=|WorkingDirectory=" as $systemd_service
+if $systemd_service not empty then
+    print "[MEDIUM] Systemd service exposed"
+    print "  URL: $target/etc/systemd/"
+    print "  Risk: Service configuration leak"
+    print "  Fix: Restrict systemd access"
+    set $linux_vulns $linux_vulns + 1
+endif
+
+# Test 7: Cron job exposure
+GET "$target/etc/crontab"
+extract regex "root|/usr/bin|* * * * *" as $crontab
+GET "$target/var/spool/cron/root"
+extract regex "* * * * *" as $user_cron
+if $crontab not empty then
+    print "[MEDIUM] Cron configuration exposed"
+    print "  URL: $target/etc/crontab"
+    print "  Risk: Scheduled task disclosure"
+    print "  Fix: Protect cron files"
+    set $linux_vulns $linux_vulns + 1
+endif
+
+# Test 8: Log file exposure
+GET "$target/var/log/auth.log"
+extract regex "sshd|sudo|authentication" as $auth_log
+GET "$target/var/log/apache2/error.log"
+extract regex "PHP|error|warning" as $error_log
+if $auth_log not empty then
+    print "[HIGH] Authentication logs exposed"
+    print "  URL: $target/var/log/"
+    print "  Risk: Security event disclosure"
+    print "  Fix: Restrict log access"
+    set $linux_vulns $linux_vulns + 1
+endif
+
+# Test 9: Package manager files
+GET "$target/var/lib/dpkg/status"
+extract regex "Package:|Version:|Status:" as $dpkg_status
+GET "$target/var/lib/rpm/Packages"
+extract status as $rpm_db
+if $dpkg_status not empty then
+    print "[LOW] Package database exposed"
+    print "  URL: $target/var/lib/"
+    print "  Risk: Software inventory leak"
+    print "  Fix: Block package DB access"
+    set $linux_vulns $linux_vulns + 1
+endif
+
+# Test 10: Network configuration
+GET "$target/etc/network/interfaces"
+extract regex "iface|address|netmask" as $net_interfaces
+GET "$target/etc/resolv.conf"
+extract regex "nameserver|domain|search" as $resolv_conf
+if $net_interfaces not empty then
+    print "[MEDIUM] Network config exposed"
+    print "  URL: $target/etc/network/"
+    print "  Risk: Network topology leak"
+    print "  Fix: Protect network configs"
+    set $linux_vulns $linux_vulns + 1
+endif
+
+# Test 11: Sudoers file exposure
+GET "$target/etc/sudoers"
+extract regex "root ALL|NOPASSWD" as $sudoers
+if $sudoers not empty then
+    print "[HIGH] Sudoers file exposed"
+    print "  URL: $target/etc/sudoers"
+    print "  Risk: Privilege escalation info"
+    print "  Fix: Restrict sudoers access"
+    set $linux_vulns $linux_vulns + 1
+endif
+
+# Test 12: Shell configuration files
+GET "$target/.bashrc"
+extract regex "export|alias|function" as $bashrc
+GET "$target/.profile"
+extract regex "PATH=|export" as $profile
+if $bashrc not empty then
+    print "[LOW] Shell config files exposed"
+    print "  URL: $target/.bashrc"
+    print "  Risk: Configuration disclosure"
+    print "  Fix: Remove dotfiles from web"
+    set $linux_vulns $linux_vulns + 1
+endif
+
+print "[✓] Completed: 0053_linux_general - Found $linux_vulns of 12 vulnerabilities tested"

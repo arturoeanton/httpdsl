@@ -1,0 +1,43 @@
+# Template Injection Check
+# Tests for Server-Side Template Injection (SSTI)
+
+if $ARGC < 1 then
+    print "ERROR: Missing target URL"
+    set $stop 1
+else
+    set $target $ARG1
+    set $stop 0
+endif
+
+if $stop == 0 then
+    print "[SCAN] Template Injection Testing"
+    print "Target: $target"
+    
+    set $ssti_found 0
+    
+    # Test 1: Math expression
+    GET "$target/render?name={{7*7}}"
+    if response contains "49" then
+        print "[CRITICAL] Template injection (math)"
+        print "  URL: $target/render"
+        set $ssti_found $ssti_found + 1
+    endif
+    
+    # Test 2: Jinja2 injection
+    GET "$target/page?content={{config}}"
+    if response contains "SECRET_KEY" then
+        print "[CRITICAL] Jinja2 template injection"
+        print "  URL: $target/page"
+        set $ssti_found $ssti_found + 1
+    endif
+    
+    # Test 3: ERB injection
+    GET "$target/template?data=<%25%3D%207%20*%207%20%25>"
+    if response contains "49" then
+        print "[CRITICAL] ERB template injection"
+        print "  URL: $target/template"
+        set $ssti_found $ssti_found + 1
+    endif
+    
+    print "[✓] Completed: 0014_template_injection - Found $ssti_found of 3 vulnerabilities tested"
+endif

@@ -1,0 +1,12 @@
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0027_deserialization.http
+════════════════════════════════════════════════════════════
+Variable $target set to https://siigo.com
+Variable $stop set to 0
+[SCAN] Deserialization Testing
+Target: https://siigo.com
+Variable $deser_found set to 0
+Extracted status and stored in $java_status
+[✓] Completed: 0027_deserialization - Found 0 of 2 vulnerabilities tested
+
+✅ Script completed in 3.722925125s

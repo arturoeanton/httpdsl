@@ -1,0 +1,37 @@
+# .NET SQL Injection Testing
+# Security vulnerability testing script
+
+if $ARGC < 1 then
+    print "ERROR: Missing target URL"
+    set $stop 1
+else
+    set $target $ARG1
+    set $stop 0
+endif
+
+if $stop == 0 then
+    print "[SCAN] .NET SQL Injection Testing"
+    print "Target: $target"
+    
+    set $issues 0
+    
+    # Test 1: .NET SQL error
+    GET "$target/search?q=test'"
+    
+    
+    if response contains "SqlException" then
+        print "[HIGH] .NET SQL error"
+        set $issues $issues + 1
+    endif
+
+    # Test 2: Entity Framework
+    GET "$target/api/users?filter=1'%20OR%20'1'='1"
+    
+    
+    if response contains "EntityCommandExecutionException" then
+        print "[HIGH] Entity Framework injection"
+        set $issues $issues + 1
+    endif
+
+    print "[✓] Completed: 0043_sql_injection_dotnet - Found $issues of 2 vulnerabilities tested"
+endif

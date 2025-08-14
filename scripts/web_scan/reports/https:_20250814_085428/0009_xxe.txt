@@ -1,0 +1,8 @@
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0009_xxe.http
+════════════════════════════════════════════════════════════
+[2025-08-14 08:54:32.470] [ERROR] Request failed: Post "https://tudely/api/xml": dial tcp: lookup tudely: no such host
+[2025-08-14 08:54:32.472] [ERROR] Request failed: Post "https://tudely/api/xml": dial tcp: lookup tudely: no such host
+❌ Error: execution failed: error processing block: error parsing HTTP request: no alternative matched for rule program at line 1, column 1:
+POST "$target/api/xml" header "Content-Type" "application/xml"
+^

@@ -1,0 +1,6 @@
+# Test time extract syntax
+set $target $ARG1
+GET "$target/get"
+extract time "" as $response_time
+extract status as $response_status
+print "Status: $response_status, Time: $response_time"

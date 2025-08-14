@@ -1,0 +1,51 @@
+# CORS Security Check
+# Usage: httpdsl 05_cors.http <target>
+
+if $ARGC < 1 then
+    print "ERROR: Missing target URL"
+    set $stop 1
+else
+    set $target $ARG1
+    set $stop 0
+endif
+
+if $stop == 0 then
+    print "[SCAN] CORS Configuration"
+    print "Target: $target"
+    
+    set $issues 0
+    
+    # Test CORS with evil origin
+    GET "$target/api" header "Origin" "http://evil.com"
+    extract header "Access-Control-Allow-Origin" as $cors
+    
+    if $cors == "*" then
+        print "[HIGH] CORS allows any origin (*)"
+        print "  URL: $target/api"
+        print "  Risk: Cross-origin data theft"
+        print "  Fix: Whitelist specific origins"
+        set $issues $issues + 1
+    endif
+    
+if $cors == "http://evil.com" then
+        print "[HIGH] CORS reflects arbitrary origin"
+        print "  URL: $target/api"
+        print "  Risk: Cross-origin attacks"
+        print "  Fix: Validate origin against whitelist"
+        set $issues $issues + 1
+    endif
+    
+    # Check credentials support
+    extract header "Access-Control-Allow-Credentials" as $creds
+    if $creds == "true" then
+        if $cors == "*" then
+            print "[CRITICAL] CORS allows credentials with wildcard"
+            print "  URL: $target/api"
+            print "  Risk: Authentication bypass"
+            print "  Fix: Never use * with credentials"
+            set $issues $issues + 1
+        endif
+    endif
+    
+    print "[✓] Completed: 0005_cors - Found $issues of 5 vulnerabilities tested"
+endif

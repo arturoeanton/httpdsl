@@ -1,0 +1,72 @@
+# Subdomain Takeover Check
+# Tests for subdomain takeover vulnerabilities
+
+if $ARGC < 1 then
+    print "ERROR: Missing target URL"
+    set $stop 1
+else
+    set $target $ARG1
+    set $stop 0
+endif
+
+if $stop == 0 then
+    print "[SCAN] Subdomain Takeover Testing"
+    print "Target: $target"
+    
+    set $takeover_found 0
+    
+    # Test 1: CNAME to unclaimed services
+    GET "$target"
+    if response contains "NoSuchBucket" then
+        print "[CRITICAL] S3 subdomain takeover"
+        print "  URL: $target"
+        print "  Risk: Full subdomain control"
+        print "  Fix: Remove dangling CNAME"
+        set $takeover_found $takeover_found + 1
+    endif
+    
+    if response contains "There isn't a GitHub Pages site here" then
+        print "[CRITICAL] GitHub Pages takeover"
+        print "  URL: $target"
+        print "  Risk: Content injection"
+        print "  Fix: Claim or remove subdomain"
+        set $takeover_found $takeover_found + 1
+    endif
+    
+    if response contains "The specified bucket does not exist" then
+        print "[CRITICAL] Azure subdomain takeover"
+        print "  URL: $target"
+        print "  Risk: Subdomain hijacking"
+        print "  Fix: Remove Azure CNAME"
+        set $takeover_found $takeover_found + 1
+    endif
+    
+    if response contains "Sorry, this shop is currently unavailable" then
+        print "[CRITICAL] Shopify takeover possible"
+        print "  URL: $target"
+        print "  Risk: E-commerce hijacking"
+        print "  Fix: Reconfigure Shopify"
+        set $takeover_found $takeover_found + 1
+    endif
+    
+    if response contains "Project doesnt exist" then
+        print "[CRITICAL] Heroku app takeover"
+        print "  URL: $target"
+        print "  Risk: Application hijacking"
+        print "  Fix: Remove Heroku CNAME"
+        set $takeover_found $takeover_found + 1
+    endif
+    
+    # Test 2: Check DNS status
+    GET "$target"
+    extract status as $dns_status
+    if $dns_status equals 0 then
+        print "[HIGH] DNS resolution failed"
+        print "  URL: $target"
+        print "  Risk: Potential takeover"
+        print "  Fix: Check DNS configuration"
+        set $takeover_found $takeover_found + 1
+    endif
+    
+    print "[✓] Completed: 0025_subdomain_takeover - Found $takeover_found of 6 vulnerabilities tested"
+endif

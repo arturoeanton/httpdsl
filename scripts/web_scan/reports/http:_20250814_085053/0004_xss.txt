@@ -1,0 +1,11 @@
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0004_xss.http
+════════════════════════════════════════════════════════════
+Variable $target set to http://127.0.0.1:9999
+Variable $stop set to 0
+[SCAN] Cross-Site Scripting (XSS)
+Target: http://127.0.0.1:9999
+Variable $xss_found set to 0
+[✓] Completed: 0004_xss - Found 0 of 8 vulnerabilities tested
+
+✅ Script completed in 2.75125ms

@@ -1,0 +1,11 @@
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0011_command_injection.http
+════════════════════════════════════════════════════════════
+Variable $target set to https://tudely.com
+Variable $stop set to 0
+[SCAN] Command Injection Testing
+Target: https://tudely.com
+Variable $cmdi_found set to 0
+[✓] Completed: 0011_command_injection - Found 0 of 5 vulnerabilities tested
+
+✅ Script completed in 7.5520905s

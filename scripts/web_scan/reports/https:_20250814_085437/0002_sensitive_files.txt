@@ -1,0 +1,36 @@
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0002_sensitive_files.http
+════════════════════════════════════════════════════════════
+Variable $target set to https://tudely.com
+Variable $stop set to 0
+[SCAN] Sensitive Files Exposure
+Target: https://tudely.com
+Variable $exposed set to 0
+Extracted status and stored in $git_status
+Extracted status and stored in $env_status
+[CRITICAL] Environment file exposed
+  URL: https://tudely.com/.env
+  Risk: Credentials and API keys exposed
+  Fix: Move .env outside web root
+Variable $exposed set to 1
+Extracted status and stored in $backup_status
+[CRITICAL] Database backup exposed
+  URL: https://tudely.com/backup.sql
+  Risk: Complete data breach
+  Fix: Remove backup files from web root
+Variable $exposed set to 2
+Extracted status and stored in $config_status
+[CRITICAL] Configuration file exposed
+  URL: https://tudely.com/config.php
+  Risk: Database credentials exposed
+  Fix: Move config outside web root
+Variable $exposed set to 3
+Extracted status and stored in $htaccess_status
+[HIGH] .htaccess file exposed
+  URL: https://tudely.com/.htaccess
+  Risk: Security configuration exposed
+  Fix: Block .htaccess access
+Variable $exposed set to 4
+[✓] Completed: 0002_sensitive_files - Found 4 of 15 vulnerabilities tested
+
+✅ Script completed in 3.196852958s

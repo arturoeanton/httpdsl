@@ -1,0 +1,38 @@
+# WebSocket Security Check
+# Tests for WebSocket vulnerabilities
+
+if $ARGC < 1 then
+    print "ERROR: Missing target URL"
+    set $stop 1
+else
+    set $target $ARG1
+    set $stop 0
+endif
+
+if $stop == 0 then
+    print "[SCAN] WebSocket Security Testing"
+    print "Target: $target"
+    
+    set $ws_issues 0
+    
+    # Test 1: WebSocket endpoint check
+    GET "$target/ws"
+    header "Upgrade" "websocket"
+    extract status as $ws_status
+    if $ws_status equals 101 then
+        print "[INFO] WebSocket endpoint found"
+        print "  URL: $target/ws"
+        set $ws_issues $ws_issues + 1
+    endif
+    
+    # Test 2: Socket.io check
+    GET "$target/socket.io/"
+    extract status as $io_status
+    if $io_status equals 200 then
+        print "[INFO] Socket.io detected"
+        print "  URL: $target/socket.io/"
+        set $ws_issues $ws_issues + 1
+    endif
+    
+    print "[✓] Completed: 0023_websocket - Found $ws_issues of 2 vulnerabilities tested"
+endif

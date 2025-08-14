@@ -1,0 +1,49 @@
+# MSSQL-Specific SQL Injection Check
+# Tests for Microsoft SQL Server injection patterns
+
+if $ARGC < 1 then
+    print "ERROR: Missing target URL"
+    set $stop 1
+else
+    set $target $ARG1
+    set $stop 0
+endif
+
+if $stop == 0 then
+    print "[SCAN] MSSQL SQL Injection Testing"
+    print "Target: $target"
+    
+    set $mssql_vulns 0
+    
+    # Test 1: MSSQL error test
+    GET "$target/search?q=test%27"
+    if response contains "Unclosed quotation" then
+        print "[CRITICAL] MSSQL error detected"
+        print "  URL: $target/search"
+        set $mssql_vulns $mssql_vulns + 1
+    endif
+    
+    if response contains "Microsoft" then
+        print "[HIGH] MSSQL information disclosed"
+        print "  URL: $target/search"
+        set $mssql_vulns $mssql_vulns + 1
+    endif
+    
+    # Test 2: MSSQL version check
+    GET "$target/item?id=1"
+    if response contains "SQL Server" then
+        print "[MEDIUM] MSSQL version disclosed"
+        print "  URL: $target/item"
+        set $mssql_vulns $mssql_vulns + 1
+    endif
+    
+    # Test 3: MSSQL error check
+    GET "$target/product?id=1%27"
+    if response contains "syntax" then
+        print "[HIGH] SQL syntax error detected"
+        print "  URL: $target/product"
+        set $mssql_vulns $mssql_vulns + 1
+    endif
+    
+    print "[✓] Completed: 0039_sql_injection_mssql - Found $mssql_vulns of 4 vulnerabilities tested"
+endif

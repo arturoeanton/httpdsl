@@ -1,0 +1,12 @@
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0047_tomcat_vulnerabilities.http
+════════════════════════════════════════════════════════════
+Variable $target set to https://siigo.com
+Variable $stop set to 0
+[SCAN] Tomcat Vulnerability Testing
+Target: https://siigo.com
+Variable $issues set to 0
+Extracted status and stored in $mgr_status
+[✓] Completed: 0047_tomcat_vulnerabilities - Found 0 of 2 vulnerabilities tested
+
+✅ Script completed in 15.729886916s

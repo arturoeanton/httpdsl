@@ -1,0 +1,37 @@
+# XML Injection Check
+# Tests for XML injection vulnerabilities
+
+if $ARGC < 1 then
+    print "ERROR: Missing target URL"
+    set $stop 1
+else
+    set $target $ARG1
+    set $stop 0
+endif
+
+if $stop == 0 then
+    print "[SCAN] XML Injection Testing"
+    print "Target: $target"
+    
+    set $xml_issues 0
+    
+    # Test 1: Check for XML endpoints
+    GET "$target/api/xml"
+    extract status as $xml_status
+    if $xml_status equals 200 then
+        print "[INFO] XML endpoint found"
+        print "  URL: $target/api/xml"
+        set $xml_issues $xml_issues + 1
+    endif
+    
+    # Test 2: Check for SOAP services
+    GET "$target/soap"
+    extract status as $soap_status
+    if $soap_status not equals 404 then
+        print "[INFO] SOAP service detected"
+        print "  URL: $target/soap"
+        set $xml_issues $xml_issues + 1
+    endif
+    
+    print "[✓] Completed: 0017_xml_injection - Found $xml_issues of 2 vulnerabilities tested"
+endif

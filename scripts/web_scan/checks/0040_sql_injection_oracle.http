@@ -1,0 +1,35 @@
+# Oracle-Specific SQL Injection Check
+# Tests for Oracle Database injection patterns
+
+if $ARGC < 1 then
+    print "ERROR: Missing target URL"
+    set $stop 1
+else
+    set $target $ARG1
+    set $stop 0
+endif
+
+if $stop == 0 then
+    print "[SCAN] Oracle SQL Injection Testing"
+    print "Target: $target"
+    
+    set $oracle_vulns 0
+    
+    # Test 1: Oracle error test
+    GET "$target/search?q=test'"
+    if response contains "ORA-" then
+        print "[CRITICAL] Oracle error detected"
+        print "  URL: $target/search"
+        set $oracle_vulns $oracle_vulns + 1
+    endif
+    
+    # Test 2: Oracle DUAL table test
+    GET "$target/item?id=1%20UNION%20SELECT%20NULL%20FROM%20DUAL"
+    if response contains "DUAL" then
+        print "[HIGH] Oracle DUAL table accessible"
+        print "  URL: $target/item"
+        set $oracle_vulns $oracle_vulns + 1
+    endif
+    
+    print "[✓] Completed: 0040_sql_injection_oracle - Found $oracle_vulns of 2 vulnerabilities tested"
+endif

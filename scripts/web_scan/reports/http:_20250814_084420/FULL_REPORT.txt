@@ -1,0 +1,1243 @@
+════════════════════════════════════════════════════════════
+WEB SECURITY SCAN REPORT - PARALLEL EXECUTION
+════════════════════════════════════════════════════════════
+Target: http://127.0.0.1:4000
+Date: jueves, 14 de agosto de 2025, 08:44:58 EDT
+Checks: 71
+
+────────────────────────────────────────────────────────────
+CHECK: 0001_security_headers
+────────────────────────────────────────────────────────────
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0001_security_headers.http
+════════════════════════════════════════════════════════════
+Variable $target set to http://127.0.0.1:4000
+Variable $stop set to 0
+[SCAN] Security Headers Analysis
+Target: http://127.0.0.1:4000
+Extracted status and stored in $status
+Extracted X-Frame-Options using header and stored in $xframe
+Extracted Content-Security-Policy using header and stored in $csp
+Extracted Strict-Transport-Security using header and stored in $hsts
+Extracted X-Content-Type-Options using header and stored in $xcontent
+Extracted X-XSS-Protection using header and stored in $xxss
+Extracted Referrer-Policy using header and stored in $referrer
+Extracted Permissions-Policy using header and stored in $permissions
+Variable $issues set to 0
+[✓] Completed: 0001_security_headers - Found 0 of 7 vulnerabilities tested
+
+✅ Script completed in 5.003ms
+
+────────────────────────────────────────────────────────────
+CHECK: 0002_sensitive_files
+────────────────────────────────────────────────────────────
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0002_sensitive_files.http
+════════════════════════════════════════════════════════════
+Variable $target set to http://127.0.0.1:4000
+Variable $stop set to 0
+[SCAN] Sensitive Files Exposure
+Target: http://127.0.0.1:4000
+Variable $exposed set to 0
+Extracted status and stored in $git_status
+Extracted status and stored in $env_status
+Extracted status and stored in $backup_status
+Extracted status and stored in $config_status
+Extracted status and stored in $htaccess_status
+[✓] Completed: 0002_sensitive_files - Found 0 of 15 vulnerabilities tested
+
+✅ Script completed in 3.947708ms
+
+────────────────────────────────────────────────────────────
+CHECK: 0003_sql_injection
+────────────────────────────────────────────────────────────
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0003_sql_injection.http
+════════════════════════════════════════════════════════════
+Variable $target set to http://127.0.0.1:4000
+Variable $stop set to 0
+[SCAN] SQL Injection Testing
+Target: http://127.0.0.1:4000
+Variable $vulns set to 0
+Extracted status and stored in $true_status
+Extracted status and stored in $false_status
+[✓] Completed: 0003_sql_injection - Found 0 of 10 vulnerabilities tested
+
+✅ Script completed in 4.223042ms
+
+────────────────────────────────────────────────────────────
+CHECK: 0004_xss
+────────────────────────────────────────────────────────────
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0004_xss.http
+════════════════════════════════════════════════════════════
+Variable $target set to http://127.0.0.1:4000
+Variable $stop set to 0
+[SCAN] Cross-Site Scripting (XSS)
+Target: http://127.0.0.1:4000
+Variable $xss_found set to 0
+[✓] Completed: 0004_xss - Found 0 of 8 vulnerabilities tested
+
+✅ Script completed in 4.366416ms
+
+────────────────────────────────────────────────────────────
+CHECK: 0005_cors
+────────────────────────────────────────────────────────────
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0005_cors.http
+════════════════════════════════════════════════════════════
+Variable $target set to http://127.0.0.1:4000
+Variable $stop set to 0
+[SCAN] CORS Configuration
+Target: http://127.0.0.1:4000
+Variable $issues set to 0
+Extracted Access-Control-Allow-Origin using header and stored in $cors
+Extracted Access-Control-Allow-Credentials using header and stored in $creds
+[✓] Completed: 0005_cors - Found 0 of 5 vulnerabilities tested
+
+✅ Script completed in 2.615334ms
+
+────────────────────────────────────────────────────────────
+CHECK: 0006_open_redirect
+────────────────────────────────────────────────────────────
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0006_open_redirect.http
+════════════════════════════════════════════════════════════
+Variable $target set to http://127.0.0.1:4000
+Variable $stop set to 0
+[SCAN] Open Redirect
+Target: http://127.0.0.1:4000
+Variable $vulns set to 0
+Extracted Location using header and stored in $location1
+Extracted Location using header and stored in $location2
+Extracted Location using header and stored in $location3
+[✓] Completed: 0006_open_redirect - Found 0 of 6 vulnerabilities tested
+
+✅ Script completed in 3.351709ms
+
+────────────────────────────────────────────────────────────
+CHECK: 0007_csrf
+────────────────────────────────────────────────────────────
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0007_csrf.http
+════════════════════════════════════════════════════════════
+Variable $target set to http://127.0.0.1:4000
+Variable $stop set to 0
+[SCAN] CSRF Testing
+Target: http://127.0.0.1:4000
+Variable $csrf_issues set to 0
+Extracted Set-Cookie using header and stored in $cookie
+Extracted X-Frame-Options using header and stored in $xframe
+Extracted status and stored in $evil_referer_status
+Extracted status and stored in $origin_status
+[✓] Completed: 0007_csrf - Found 0 of 5 vulnerabilities tested
+
+✅ Script completed in 8.516542ms
+
+────────────────────────────────────────────────────────────
+CHECK: 0008_auth_bypass
+────────────────────────────────────────────────────────────
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0008_auth_bypass.http
+════════════════════════════════════════════════════════════
+Variable $target set to http://127.0.0.1:4000
+Variable $stop set to 0
+[SCAN] Authentication Bypass Testing
+Target: http://127.0.0.1:4000
+Variable $auth_issues set to 0
+Extracted status and stored in $admin_status
+Extracted status and stored in $dash_status
+Extracted status and stored in $api_status
+[✓] Completed: 0008_auth_bypass - Found 0 of 3 vulnerabilities tested
+
+✅ Script completed in 4.562542ms
+
+────────────────────────────────────────────────────────────
+CHECK: 0009_xxe
+────────────────────────────────────────────────────────────
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0009_xxe.http
+════════════════════════════════════════════════════════════
+Variable $target set to http://127.0.0.1:4000
+Variable $stop set to 0
+[SCAN] XXE Injection Testing
+Target: http://127.0.0.1:4000
+Variable $xxe_found set to 0
+Extracted status and stored in $xxe_status
+Extracted status and stored in $soap_status
+[✓] Completed: 0009_xxe - Found 0 of 2 vulnerabilities tested
+
+✅ Script completed in 2.990375ms
+
+────────────────────────────────────────────────────────────
+CHECK: 0010_ssrf
+────────────────────────────────────────────────────────────
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0010_ssrf.http
+════════════════════════════════════════════════════════════
+Variable $target set to http://127.0.0.1:4000
+Variable $stop set to 0
+[SCAN] SSRF Testing
+Target: http://127.0.0.1:4000
+Variable $ssrf_found set to 0
+Extracted status and stored in $img_status
+Extracted status and stored in $redirect_status
+[✓] Completed: 0010_ssrf - Found 0 of 3 vulnerabilities tested
+
+✅ Script completed in 3.183959ms
+
+────────────────────────────────────────────────────────────
+CHECK: 0011_command_injection
+────────────────────────────────────────────────────────────
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0011_command_injection.http
+════════════════════════════════════════════════════════════
+Variable $target set to http://127.0.0.1:4000
+Variable $stop set to 0
+[SCAN] Command Injection Testing
+Target: http://127.0.0.1:4000
+Variable $cmdi_found set to 0
+[✓] Completed: 0011_command_injection - Found 0 of 5 vulnerabilities tested
+
+✅ Script completed in 4.192667ms
+
+────────────────────────────────────────────────────────────
+CHECK: 0012_ldap_injection
+────────────────────────────────────────────────────────────
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0012_ldap_injection.http
+════════════════════════════════════════════════════════════
+Variable $target set to http://127.0.0.1:4000
+Variable $stop set to 0
+[SCAN] LDAP Injection Testing
+Target: http://127.0.0.1:4000
+Variable $ldap_found set to 0
+[✓] Completed: 0012_ldap_injection - Found 0 of 2 vulnerabilities tested
+
+✅ Script completed in 3.740417ms
+
+────────────────────────────────────────────────────────────
+CHECK: 0013_nosql_injection
+────────────────────────────────────────────────────────────
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0013_nosql_injection.http
+════════════════════════════════════════════════════════════
+Variable $target set to http://127.0.0.1:4000
+Variable $stop set to 0
+[SCAN] NoSQL Injection Testing
+Target: http://127.0.0.1:4000
+Variable $nosql_found set to 0
+[✓] Completed: 0013_nosql_injection - Found 0 of 2 vulnerabilities tested
+
+✅ Script completed in 2.516333ms
+
+────────────────────────────────────────────────────────────
+CHECK: 0014_template_injection
+────────────────────────────────────────────────────────────
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0014_template_injection.http
+════════════════════════════════════════════════════════════
+Variable $target set to http://127.0.0.1:4000
+Variable $stop set to 0
+[SCAN] Template Injection Testing
+Target: http://127.0.0.1:4000
+Variable $ssti_found set to 0
+[✓] Completed: 0014_template_injection - Found 0 of 3 vulnerabilities tested
+
+✅ Script completed in 2.707ms
+
+────────────────────────────────────────────────────────────
+CHECK: 0015_file_upload
+────────────────────────────────────────────────────────────
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0015_file_upload.http
+════════════════════════════════════════════════════════════
+Variable $target set to http://127.0.0.1:4000
+Variable $stop set to 0
+[SCAN] File Upload Vulnerability Testing
+Target: http://127.0.0.1:4000
+Variable $upload_vulns set to 0
+Extracted status and stored in $upload_status
+[✓] Completed: 0015_file_upload - Found 0 of 2 vulnerabilities tested
+
+✅ Script completed in 2.346667ms
+
+────────────────────────────────────────────────────────────
+CHECK: 0016_jwt
+────────────────────────────────────────────────────────────
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0016_jwt.http
+════════════════════════════════════════════════════════════
+Variable $target set to http://127.0.0.1:4000
+Variable $stop set to 0
+[SCAN] JWT Security Testing
+Target: http://127.0.0.1:4000
+Variable $jwt_issues set to 0
+Extracted status and stored in $none_status
+Extracted status and stored in $weak_status
+Extracted status and stored in $alg_status
+[✓] Completed: 0016_jwt - Found 0 of 4 vulnerabilities tested
+
+✅ Script completed in 6.17225ms
+
+────────────────────────────────────────────────────────────
+CHECK: 0017_xml_injection
+────────────────────────────────────────────────────────────
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0017_xml_injection.http
+════════════════════════════════════════════════════════════
+Variable $target set to http://127.0.0.1:4000
+Variable $stop set to 0
+[SCAN] XML Injection Testing
+Target: http://127.0.0.1:4000
+Variable $xml_issues set to 0
+Extracted status and stored in $xml_status
+Extracted status and stored in $soap_status
+[✓] Completed: 0017_xml_injection - Found 0 of 2 vulnerabilities tested
+
+✅ Script completed in 2.41125ms
+
+────────────────────────────────────────────────────────────
+CHECK: 0018_directory_traversal
+────────────────────────────────────────────────────────────
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0018_directory_traversal.http
+════════════════════════════════════════════════════════════
+Variable $target set to http://127.0.0.1:4000
+Variable $stop set to 0
+[SCAN] Directory Traversal Testing
+Target: http://127.0.0.1:4000
+Variable $traversal_found set to 0
+[✓] Completed: 0018_directory_traversal - Found 0 of 5 vulnerabilities tested
+
+✅ Script completed in 3.857625ms
+
+────────────────────────────────────────────────────────────
+CHECK: 0019_session_management
+────────────────────────────────────────────────────────────
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0019_session_management.http
+════════════════════════════════════════════════════════════
+Variable $target set to http://127.0.0.1:4000
+Variable $stop set to 0
+[SCAN] Session Management Testing
+Target: http://127.0.0.1:4000
+Variable $session_issues set to 0
+Extracted status and stored in $fixation_status
+Extracted Set-Cookie using header and stored in $cookie
+Extracted Set-Cookie using header and stored in $cookie2
+Extracted Set-Cookie using header and stored in $session1
+Extracted Set-Cookie using header and stored in $session2
+[✓] Completed: 0019_session_management - Found 0 of 4 vulnerabilities tested
+
+✅ Script completed in 10.986459ms
+
+────────────────────────────────────────────────────────────
+CHECK: 0020_api_security
+────────────────────────────────────────────────────────────
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0020_api_security.http
+════════════════════════════════════════════════════════════
+Variable $target set to http://127.0.0.1:4000
+Variable $stop set to 0
+[SCAN] API Security Testing
+Target: http://127.0.0.1:4000
+Variable $api_issues set to 0
+Extracted status and stored in $auth_status
+Extracted status and stored in $rate_status
+Extracted Access-Control-Allow-Origin using header and stored in $cors
+Extracted status and stored in $v1_status
+[✓] Completed: 0020_api_security - Found 0 of 5 vulnerabilities tested
+
+✅ Script completed in 5.877167ms
+
+────────────────────────────────────────────────────────────
+CHECK: 0021_cache_poisoning
+────────────────────────────────────────────────────────────
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0021_cache_poisoning.http
+════════════════════════════════════════════════════════════
+Variable $target set to http://127.0.0.1:4000
+Variable $stop set to 0
+[SCAN] Cache Poisoning Testing
+Target: http://127.0.0.1:4000
+Variable $cache_issues set to 0
+[✓] Completed: 0021_cache_poisoning - Found 0 of 5 vulnerabilities tested
+
+✅ Script completed in 10.832292ms
+
+────────────────────────────────────────────────────────────
+CHECK: 0022_http_smuggling
+────────────────────────────────────────────────────────────
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0022_http_smuggling.http
+════════════════════════════════════════════════════════════
+Variable $target set to http://127.0.0.1:4000
+Variable $stop set to 0
+[SCAN] HTTP Request Smuggling Testing
+Target: http://127.0.0.1:4000
+Variable $smuggling_found set to 0
+Extracted status and stored in $te_status
+Extracted status and stored in $cl_status
+[✓] Completed: 0022_http_smuggling - Found 0 of 2 vulnerabilities tested
+
+✅ Script completed in 2.776666ms
+
+────────────────────────────────────────────────────────────
+CHECK: 0023_websocket
+────────────────────────────────────────────────────────────
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0023_websocket.http
+════════════════════════════════════════════════════════════
+Variable $target set to http://127.0.0.1:4000
+Variable $stop set to 0
+[SCAN] WebSocket Security Testing
+Target: http://127.0.0.1:4000
+Variable $ws_issues set to 0
+Extracted status and stored in $ws_status
+Extracted status and stored in $io_status
+[✓] Completed: 0023_websocket - Found 0 of 2 vulnerabilities tested
+
+✅ Script completed in 2.422ms
+
+────────────────────────────────────────────────────────────
+CHECK: 0024_graphql
+────────────────────────────────────────────────────────────
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0024_graphql.http
+════════════════════════════════════════════════════════════
+Variable $target set to http://127.0.0.1:4000
+Variable $stop set to 0
+[SCAN] GraphQL Security Testing
+Target: http://127.0.0.1:4000
+Variable $graphql_issues set to 0
+Extracted status and stored in $gql_status
+Extracted status and stored in $playground_status
+[✓] Completed: 0024_graphql - Found 0 of 2 vulnerabilities tested
+
+✅ Script completed in 2.491084ms
+
+────────────────────────────────────────────────────────────
+CHECK: 0025_subdomain_takeover
+────────────────────────────────────────────────────────────
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0025_subdomain_takeover.http
+════════════════════════════════════════════════════════════
+Variable $target set to http://127.0.0.1:4000
+Variable $stop set to 0
+[SCAN] Subdomain Takeover Testing
+Target: http://127.0.0.1:4000
+Variable $takeover_found set to 0
+Extracted status and stored in $dns_status
+[✓] Completed: 0025_subdomain_takeover - Found 0 of 6 vulnerabilities tested
+
+✅ Script completed in 5.21475ms
+
+────────────────────────────────────────────────────────────
+CHECK: 0026_clickjacking
+────────────────────────────────────────────────────────────
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0026_clickjacking.http
+════════════════════════════════════════════════════════════
+Variable $target set to http://127.0.0.1:4000
+Variable $stop set to 0
+[SCAN] Clickjacking Testing
+Target: http://127.0.0.1:4000
+Variable $clickjack_found set to 0
+Extracted X-Frame-Options using header and stored in $xframe
+Extracted Content-Security-Policy using header and stored in $csp
+Extracted X-Frame-Options using header and stored in $login_xframe
+Extracted X-Frame-Options using header and stored in $admin_xframe
+Extracted X-Frame-Options using header and stored in $payment_xframe
+[✓] Completed: 0026_clickjacking - Found 0 of 5 vulnerabilities tested
+
+✅ Script completed in 6.9715ms
+
+────────────────────────────────────────────────────────────
+CHECK: 0027_deserialization
+────────────────────────────────────────────────────────────
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0027_deserialization.http
+════════════════════════════════════════════════════════════
+Variable $target set to http://127.0.0.1:4000
+Variable $stop set to 0
+[SCAN] Deserialization Testing
+Target: http://127.0.0.1:4000
+Variable $deser_found set to 0
+Extracted status and stored in $java_status
+[✓] Completed: 0027_deserialization - Found 0 of 2 vulnerabilities tested
+
+✅ Script completed in 2.81125ms
+
+────────────────────────────────────────────────────────────
+CHECK: 0028_business_logic
+────────────────────────────────────────────────────────────
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0028_business_logic.http
+════════════════════════════════════════════════════════════
+Variable $target set to http://127.0.0.1:4000
+Variable $stop set to 0
+[SCAN] Business Logic Testing
+Target: http://127.0.0.1:4000
+Variable $logic_issues set to 0
+Extracted status and stored in $neg_status
+[✓] Completed: 0028_business_logic - Found 0 of 2 vulnerabilities tested
+
+✅ Script completed in 2.330875ms
+
+────────────────────────────────────────────────────────────
+CHECK: 0029_race_condition
+────────────────────────────────────────────────────────────
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0029_race_condition.http
+════════════════════════════════════════════════════════════
+Variable $target set to http://127.0.0.1:4000
+Variable $stop set to 0
+[SCAN] Race Condition Testing
+Target: http://127.0.0.1:4000
+Variable $race_found set to 0
+Extracted status and stored in $status1
+Extracted status and stored in $status2
+Extracted status and stored in $status3
+[✓] Completed: 0029_race_condition - Found 0 of 1 vulnerabilities tested
+
+✅ Script completed in 2.993667ms
+
+────────────────────────────────────────────────────────────
+CHECK: 0030_host_header
+────────────────────────────────────────────────────────────
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0030_host_header.http
+════════════════════════════════════════════════════════════
+Variable $target set to http://127.0.0.1:4000
+Variable $stop set to 0
+[SCAN] Host Header Injection Testing
+Target: http://127.0.0.1:4000
+Variable $host_issues set to 0
+[✓] Completed: 0030_host_header - Found 0 of 2 vulnerabilities tested
+
+✅ Script completed in 5.58275ms
+
+────────────────────────────────────────────────────────────
+CHECK: 0031_oauth
+────────────────────────────────────────────────────────────
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0031_oauth.http
+════════════════════════════════════════════════════════════
+Variable $target set to http://127.0.0.1:4000
+Variable $stop set to 0
+[SCAN] OAuth Security Testing
+Target: http://127.0.0.1:4000
+Variable $oauth_issues set to 0
+Extracted status and stored in $auth_status
+Extracted status and stored in $token_status
+[✓] Completed: 0031_oauth - Found 0 of 2 vulnerabilities tested
+
+✅ Script completed in 2.5625ms
+
+────────────────────────────────────────────────────────────
+CHECK: 0032_idor
+────────────────────────────────────────────────────────────
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0032_idor.http
+════════════════════════════════════════════════════════════
+Variable $target set to http://127.0.0.1:4000
+Variable $stop set to 0
+[SCAN] IDOR Testing
+Target: http://127.0.0.1:4000
+Variable $idor_found set to 0
+Extracted status and stored in $user1_status
+Extracted status and stored in $user2_status
+Extracted status and stored in $uuid_status
+Extracted status and stored in $array_status
+[✓] Completed: 0032_idor - Found 0 of 5 vulnerabilities tested
+
+✅ Script completed in 6.54575ms
+
+────────────────────────────────────────────────────────────
+CHECK: 0033_log4j
+────────────────────────────────────────────────────────────
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0033_log4j.http
+════════════════════════════════════════════════════════════
+Variable $target set to http://127.0.0.1:4000
+Variable $stop set to 0
+[SCAN] Log4j (Log4Shell) Testing
+Target: http://127.0.0.1:4000
+Variable $log4j_found set to 0
+Extracted status and stored in $test_status
+Extracted status and stored in $api_status
+[✓] Completed: 0033_log4j - Found 0 of 2 vulnerabilities tested
+
+✅ Script completed in 4.59175ms
+
+────────────────────────────────────────────────────────────
+CHECK: 0034_verb_tampering
+────────────────────────────────────────────────────────────
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0034_verb_tampering.http
+════════════════════════════════════════════════════════════
+Variable $target set to http://127.0.0.1:4000
+Variable $stop set to 0
+[SCAN] HTTP Verb Tampering Testing
+Target: http://127.0.0.1:4000
+Variable $verb_issues set to 0
+Warning: No response available for extraction. Variable $head_status set to empty.
+Extracted Allow using header and stored in $allow_header
+Extracted status and stored in $trace_status
+[✓] Completed: 0034_verb_tampering - Found 0 of 3 vulnerabilities tested
+
+✅ Script completed in 2.817417ms
+
+────────────────────────────────────────────────────────────
+CHECK: 0035_ssl_tls
+────────────────────────────────────────────────────────────
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0035_ssl_tls.http
+════════════════════════════════════════════════════════════
+Variable $target set to http://127.0.0.1:4000
+Variable $stop set to 0
+[SCAN] SSL/TLS Security Testing
+Target: http://127.0.0.1:4000
+Variable $tls_issues set to 0
+Extracted Strict-Transport-Security using header and stored in $hsts
+Extracted Set-Cookie using header and stored in $cookie
+Extracted Public-Key-Pins using header and stored in $hpkp
+Extracted Expect-CT using header and stored in $expect_ct
+[✓] Completed: 0035_ssl_tls - Found 0 of 5 vulnerabilities tested
+
+✅ Script completed in 10.751125ms
+
+────────────────────────────────────────────────────────────
+CHECK: 0036_information_disclosure
+────────────────────────────────────────────────────────────
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0036_information_disclosure.http
+════════════════════════════════════════════════════════════
+Variable $target set to http://127.0.0.1:4000
+Variable $stop set to 0
+[SCAN] Information Disclosure Testing
+Target: http://127.0.0.1:4000
+Variable $info_leaks set to 0
+Extracted Server using header and stored in $server
+Extracted X-Powered-By using header and stored in $powered
+[✓] Completed: 0036_information_disclosure - Found 0 of 6 vulnerabilities tested
+
+✅ Script completed in 9.527542ms
+
+────────────────────────────────────────────────────────────
+CHECK: 0037_sql_injection_mysql
+────────────────────────────────────────────────────────────
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0037_sql_injection_mysql.http
+════════════════════════════════════════════════════════════
+Variable $target set to http://127.0.0.1:4000
+Variable $stop set to 0
+[SCAN] MySQL SQL Injection Testing
+Target: http://127.0.0.1:4000
+Variable $mysql_vulns set to 0
+[✓] Completed: 0037_sql_injection_mysql - Found 0 of 4 vulnerabilities tested
+
+✅ Script completed in 2.574333ms
+
+────────────────────────────────────────────────────────────
+CHECK: 0038_sql_injection_postgres
+────────────────────────────────────────────────────────────
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0038_sql_injection_postgres.http
+════════════════════════════════════════════════════════════
+Variable $target set to http://127.0.0.1:4000
+Variable $stop set to 0
+[SCAN] PostgreSQL SQL Injection Testing
+Target: http://127.0.0.1:4000
+Variable $pgsql_vulns set to 0
+[✓] Completed: 0038_sql_injection_postgres - Found 0 of 2 vulnerabilities tested
+
+✅ Script completed in 2.236792ms
+
+────────────────────────────────────────────────────────────
+CHECK: 0039_sql_injection_mssql
+────────────────────────────────────────────────────────────
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0039_sql_injection_mssql.http
+════════════════════════════════════════════════════════════
+Variable $target set to http://127.0.0.1:4000
+Variable $stop set to 0
+[SCAN] MSSQL SQL Injection Testing
+Target: http://127.0.0.1:4000
+Variable $mssql_vulns set to 0
+[✓] Completed: 0039_sql_injection_mssql - Found 0 of 4 vulnerabilities tested
+
+✅ Script completed in 2.652542ms
+
+────────────────────────────────────────────────────────────
+CHECK: 0040_sql_injection_oracle
+────────────────────────────────────────────────────────────
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0040_sql_injection_oracle.http
+════════════════════════════════════════════════════════════
+Variable $target set to http://127.0.0.1:4000
+Variable $stop set to 0
+[SCAN] Oracle SQL Injection Testing
+Target: http://127.0.0.1:4000
+Variable $oracle_vulns set to 0
+[✓] Completed: 0040_sql_injection_oracle - Found 0 of 2 vulnerabilities tested
+
+✅ Script completed in 2.38025ms
+
+────────────────────────────────────────────────────────────
+CHECK: 0041_sql_injection_sqlite
+────────────────────────────────────────────────────────────
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0041_sql_injection_sqlite.http
+════════════════════════════════════════════════════════════
+Variable $target set to http://127.0.0.1:4000
+Variable $stop set to 0
+[SCAN] SQLite SQL Injection Testing
+Target: http://127.0.0.1:4000
+Variable $issues set to 0
+[✓] Completed: 0041_sql_injection_sqlite - Found 0 of 2 vulnerabilities tested
+
+✅ Script completed in 2.2055ms
+
+────────────────────────────────────────────────────────────
+CHECK: 0042_sql_injection_python
+────────────────────────────────────────────────────────────
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0042_sql_injection_python.http
+════════════════════════════════════════════════════════════
+Variable $target set to http://127.0.0.1:4000
+Variable $stop set to 0
+[SCAN] Python SQL Injection Testing
+Target: http://127.0.0.1:4000
+Variable $issues set to 0
+[✓] Completed: 0042_sql_injection_python - Found 0 of 2 vulnerabilities tested
+
+✅ Script completed in 2.335208ms
+
+────────────────────────────────────────────────────────────
+CHECK: 0043_sql_injection_dotnet
+────────────────────────────────────────────────────────────
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0043_sql_injection_dotnet.http
+════════════════════════════════════════════════════════════
+Variable $target set to http://127.0.0.1:4000
+Variable $stop set to 0
+[SCAN] .NET SQL Injection Testing
+Target: http://127.0.0.1:4000
+Variable $issues set to 0
+[✓] Completed: 0043_sql_injection_dotnet - Found 0 of 2 vulnerabilities tested
+
+✅ Script completed in 2.068167ms
+
+────────────────────────────────────────────────────────────
+CHECK: 0044_sql_injection_java
+────────────────────────────────────────────────────────────
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0044_sql_injection_java.http
+════════════════════════════════════════════════════════════
+Variable $target set to http://127.0.0.1:4000
+Variable $stop set to 0
+[SCAN] Java SQL Injection Testing
+Target: http://127.0.0.1:4000
+Variable $issues set to 0
+[✓] Completed: 0044_sql_injection_java - Found 0 of 2 vulnerabilities tested
+
+✅ Script completed in 2.274875ms
+
+────────────────────────────────────────────────────────────
+CHECK: 0045_nginx_vulnerabilities
+────────────────────────────────────────────────────────────
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0045_nginx_vulnerabilities.http
+════════════════════════════════════════════════════════════
+Variable $target set to http://127.0.0.1:4000
+Variable $stop set to 0
+[SCAN] Nginx Vulnerability Testing
+Target: http://127.0.0.1:4000
+Variable $issues set to 0
+Extracted Server using header and stored in $server
+[✓] Completed: 0045_nginx_vulnerabilities - Found 0 of 2 vulnerabilities tested
+
+✅ Script completed in 3.878584ms
+
+────────────────────────────────────────────────────────────
+CHECK: 0046_apache_vulnerabilities
+────────────────────────────────────────────────────────────
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0046_apache_vulnerabilities.http
+════════════════════════════════════════════════════════════
+Variable $target set to http://127.0.0.1:4000
+Variable $stop set to 0
+[SCAN] Apache Vulnerability Testing
+Target: http://127.0.0.1:4000
+Variable $issues set to 0
+Extracted Server using header and stored in $server
+[✓] Completed: 0046_apache_vulnerabilities - Found 0 of 2 vulnerabilities tested
+
+✅ Script completed in 4.396625ms
+
+────────────────────────────────────────────────────────────
+CHECK: 0047_tomcat_vulnerabilities
+────────────────────────────────────────────────────────────
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0047_tomcat_vulnerabilities.http
+════════════════════════════════════════════════════════════
+Variable $target set to http://127.0.0.1:4000
+Variable $stop set to 0
+[SCAN] Tomcat Vulnerability Testing
+Target: http://127.0.0.1:4000
+Variable $issues set to 0
+Extracted status and stored in $mgr_status
+[✓] Completed: 0047_tomcat_vulnerabilities - Found 0 of 2 vulnerabilities tested
+
+✅ Script completed in 4.033416ms
+
+────────────────────────────────────────────────────────────
+CHECK: 0048_iis_vulnerabilities
+────────────────────────────────────────────────────────────
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0048_iis_vulnerabilities.http
+════════════════════════════════════════════════════════════
+Variable $target set to http://127.0.0.1:4000
+Variable $stop set to 0
+[SCAN] IIS Vulnerability Testing
+Target: http://127.0.0.1:4000
+Variable $issues set to 0
+Extracted Server using header and stored in $server
+[✓] Completed: 0048_iis_vulnerabilities - Found 0 of 2 vulnerabilities tested
+
+✅ Script completed in 3.729375ms
+
+────────────────────────────────────────────────────────────
+CHECK: 0049_cloud_security_general
+────────────────────────────────────────────────────────────
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0049_cloud_security_general.http
+════════════════════════════════════════════════════════════
+Variable $target set to http://127.0.0.1:4000
+Variable $stop set to 0
+[SCAN] 49 Cloud Security General
+Target: http://127.0.0.1:4000
+Variable $issues set to 0
+Extracted status and stored in $status
+Extracted status and stored in $api_status
+[✓] Completed: 0049_cloud_security_general - Found 0 vulnerabilities tested
+
+✅ Script completed in 3.836958ms
+
+────────────────────────────────────────────────────────────
+CHECK: 0050_aws_security
+────────────────────────────────────────────────────────────
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0050_aws_security.http
+════════════════════════════════════════════════════════════
+Variable $target set to http://127.0.0.1:4000
+Variable $stop set to 0
+[SCAN] 5 Aws Security
+Target: http://127.0.0.1:4000
+Variable $issues set to 0
+Extracted status and stored in $status
+Extracted status and stored in $api_status
+[✓] Completed: 0050_aws_security - Found 0 vulnerabilities tested
+
+✅ Script completed in 4.2565ms
+
+────────────────────────────────────────────────────────────
+CHECK: 0051_azure_security
+────────────────────────────────────────────────────────────
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0051_azure_security.http
+════════════════════════════════════════════════════════════
+Variable $target set to http://127.0.0.1:4000
+Variable $stop set to 0
+[SCAN] 51 Azure Security
+Target: http://127.0.0.1:4000
+Variable $issues set to 0
+Extracted status and stored in $status
+Extracted status and stored in $api_status
+[✓] Completed: 0051_azure_security - Found 0 vulnerabilities tested
+
+✅ Script completed in 3.925917ms
+
+────────────────────────────────────────────────────────────
+CHECK: 0052_gcp_security
+────────────────────────────────────────────────────────────
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0052_gcp_security.http
+════════════════════════════════════════════════════════════
+Variable $target set to http://127.0.0.1:4000
+Variable $stop set to 0
+[SCAN] 52 Gcp Security
+Target: http://127.0.0.1:4000
+Variable $issues set to 0
+Extracted status and stored in $status
+Extracted status and stored in $api_status
+[✓] Completed: 0052_gcp_security - Found 0 vulnerabilities tested
+
+✅ Script completed in 3.798208ms
+
+────────────────────────────────────────────────────────────
+CHECK: 0053_linux_general
+────────────────────────────────────────────────────────────
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0053_linux_general.http
+════════════════════════════════════════════════════════════
+Variable $target set to http://127.0.0.1:4000
+Variable $stop set to 0
+[SCAN] General Linux Security Testing
+Target: http://127.0.0.1:4000
+Variable $linux_vulns set to 0
+Extracted root:x:0:0: using regex and stored in $passwd_file
+Extracted root: using regex and stored in $passwd_traversal
+Extracted root:\$ using regex and stored in $shadow_file
+Extracted BEGIN RSA PRIVATE KEY|BEGIN OPENSSH PRIVATE KEY using regex and stored in $ssh_key
+Extracted ssh-rsa|ssh-ed25519 using regex and stored in $auth_keys
+Extracted sudo|passwd|mysql|ssh using regex and stored in $bash_history
+Extracted PATH=|HOME=|USER= using regex and stored in $proc_environ
+Extracted python|java|node using regex and stored in $proc_cmdline
+Extracted ExecStart=|User=|WorkingDirectory= using regex and stored in $systemd_service
+Extracted root|/usr/bin|* * * * * using regex and stored in $crontab
+Extracted * * * * * using regex and stored in $user_cron
+Extracted sshd|sudo|authentication using regex and stored in $auth_log
+Extracted PHP|error|warning using regex and stored in $error_log
+Extracted Package:|Version:|Status: using regex and stored in $dpkg_status
+Extracted status and stored in $rpm_db
+Extracted iface|address|netmask using regex and stored in $net_interfaces
+Extracted nameserver|domain|search using regex and stored in $resolv_conf
+Extracted root ALL|NOPASSWD using regex and stored in $sudoers
+Extracted export|alias|function using regex and stored in $bashrc
+Extracted PATH=|export using regex and stored in $profile
+[✓] Completed: 0053_linux_general - Found 0 of 12 vulnerabilities tested
+
+✅ Script completed in 13.558625ms
+
+────────────────────────────────────────────────────────────
+CHECK: 0054_ubuntu_debian
+────────────────────────────────────────────────────────────
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0054_ubuntu_debian.http
+════════════════════════════════════════════════════════════
+Variable $target set to http://127.0.0.1:4000
+Variable $stop set to 0
+[SCAN] Ubuntu/Debian Security Testing
+Target: http://127.0.0.1:4000
+Variable $ubuntu_vulns set to 0
+Extracted ubuntu.com|debian.org|Packages using regex and stored in $apt_lists
+Extracted cloud-init|DataSource|user-data using regex and stored in $cloudinit_log
+Extracted name:|version:|apps: using regex and stored in $snap_info
+Extracted ALLOW|DENY|ufw-user using regex and stored in $ufw_rules
+Extracted network:|ethernets:|addresses: using regex and stored in $netplan
+Extracted profile|capability|network using regex and stored in $apparmor
+Extracted attached|expires|services using regex and stored in $ua_status
+Extracted Unattended-Upgrade|Origins-Pattern using regex and stored in $unattended
+Extracted Package: linux-image|Version: using regex and stored in $dpkg_db
+Extracted #!/bin/sh|uname|lsb_release using regex and stored in $motd_scripts
+Extracted account_name|registration_key|url using regex and stored in $landscape
+Extracted Dist:|Supported:|Version: using regex and stored in $release_upgrade
+[✓] Completed: 0054_ubuntu_debian - Found 0 of 12 vulnerabilities tested
+
+✅ Script completed in 9.693667ms
+
+────────────────────────────────────────────────────────────
+CHECK: 0055_login_bypass_general
+────────────────────────────────────────────────────────────
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0055_login_bypass_general.http
+════════════════════════════════════════════════════════════
+Variable $target set to http://127.0.0.1:4000
+Variable $stop set to 0
+[SCAN] 55 Login Bypass General
+Target: http://127.0.0.1:4000
+Variable $issues set to 0
+Extracted status and stored in $status
+Extracted status and stored in $api_status
+[✓] Completed: 0055_login_bypass_general - Found 0 vulnerabilities tested
+
+✅ Script completed in 4.033292ms
+
+────────────────────────────────────────────────────────────
+CHECK: 0056_nodejs_vulnerabilities
+────────────────────────────────────────────────────────────
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0056_nodejs_vulnerabilities.http
+════════════════════════════════════════════════════════════
+Variable $target set to http://127.0.0.1:4000
+Variable $stop set to 0
+[SCAN] 56 Nodejs Vulnerabilities
+Target: http://127.0.0.1:4000
+Variable $issues set to 0
+Extracted status and stored in $status
+Extracted status and stored in $api_status
+[✓] Completed: 0056_nodejs_vulnerabilities - Found 0 vulnerabilities tested
+
+✅ Script completed in 4.219375ms
+
+────────────────────────────────────────────────────────────
+CHECK: 0057_auth0_vulnerabilities
+────────────────────────────────────────────────────────────
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0057_auth0_vulnerabilities.http
+════════════════════════════════════════════════════════════
+Variable $target set to http://127.0.0.1:4000
+Variable $stop set to 0
+[SCAN] 57 Auth Vulnerabilities
+Target: http://127.0.0.1:4000
+Variable $issues set to 0
+Extracted status and stored in $status
+Extracted status and stored in $api_status
+[✓] Completed: 0057_auth0_vulnerabilities - Found 0 vulnerabilities tested
+
+✅ Script completed in 3.914209ms
+
+────────────────────────────────────────────────────────────
+CHECK: 0058_azure_b2c_vulnerabilities
+────────────────────────────────────────────────────────────
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0058_azure_b2c_vulnerabilities.http
+════════════════════════════════════════════════════════════
+Variable $target set to http://127.0.0.1:4000
+Variable $stop set to 0
+[SCAN] 58 Azure B2C Vulnerabilities
+Target: http://127.0.0.1:4000
+Variable $issues set to 0
+Extracted status and stored in $status
+Extracted status and stored in $api_status
+[✓] Completed: 0058_azure_b2c_vulnerabilities - Found 0 vulnerabilities tested
+
+✅ Script completed in 3.981291ms
+
+────────────────────────────────────────────────────────────
+CHECK: 0059_openid_connect_vulnerabilities
+────────────────────────────────────────────────────────────
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0059_openid_connect_vulnerabilities.http
+════════════════════════════════════════════════════════════
+Variable $target set to http://127.0.0.1:4000
+Variable $stop set to 0
+[SCAN] 59 Openid Connect Vulnerabilities
+Target: http://127.0.0.1:4000
+Variable $issues set to 0
+Extracted status and stored in $status
+Extracted status and stored in $api_status
+[✓] Completed: 0059_openid_connect_vulnerabilities - Found 0 vulnerabilities tested
+
+✅ Script completed in 3.990792ms
+
+────────────────────────────────────────────────────────────
+CHECK: 0060_saml_vulnerabilities
+────────────────────────────────────────────────────────────
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0060_saml_vulnerabilities.http
+════════════════════════════════════════════════════════════
+Variable $target set to http://127.0.0.1:4000
+Variable $stop set to 0
+[SCAN] 6 Saml Vulnerabilities
+Target: http://127.0.0.1:4000
+Variable $issues set to 0
+Extracted status and stored in $status
+Extracted status and stored in $api_status
+[✓] Completed: 0060_saml_vulnerabilities - Found 0 vulnerabilities tested
+
+✅ Script completed in 3.876708ms
+
+────────────────────────────────────────────────────────────
+CHECK: 0061_scim_vulnerabilities
+────────────────────────────────────────────────────────────
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0061_scim_vulnerabilities.http
+════════════════════════════════════════════════════════════
+Variable $target set to http://127.0.0.1:4000
+Variable $stop set to 0
+[SCAN] 61 Scim Vulnerabilities
+Target: http://127.0.0.1:4000
+Variable $issues set to 0
+Extracted status and stored in $status
+Extracted status and stored in $api_status
+[✓] Completed: 0061_scim_vulnerabilities - Found 0 vulnerabilities tested
+
+✅ Script completed in 4.0085ms
+
+────────────────────────────────────────────────────────────
+CHECK: 0062_react_vulnerabilities
+────────────────────────────────────────────────────────────
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0062_react_vulnerabilities.http
+════════════════════════════════════════════════════════════
+Variable $target set to http://127.0.0.1:4000
+Variable $stop set to 0
+[SCAN] 62 React Vulnerabilities
+Target: http://127.0.0.1:4000
+Variable $issues set to 0
+Extracted status and stored in $status
+Extracted status and stored in $api_status
+[✓] Completed: 0062_react_vulnerabilities - Found 0 vulnerabilities tested
+
+✅ Script completed in 4.008541ms
+
+────────────────────────────────────────────────────────────
+CHECK: 0063_angular_vulnerabilities
+────────────────────────────────────────────────────────────
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0063_angular_vulnerabilities.http
+════════════════════════════════════════════════════════════
+Variable $target set to http://127.0.0.1:4000
+Variable $stop set to 0
+[SCAN] 63 Angular Vulnerabilities
+Target: http://127.0.0.1:4000
+Variable $issues set to 0
+Extracted status and stored in $status
+Extracted status and stored in $api_status
+[✓] Completed: 0063_angular_vulnerabilities - Found 0 vulnerabilities tested
+
+✅ Script completed in 3.736833ms
+
+────────────────────────────────────────────────────────────
+CHECK: 0064_jquery_vulnerabilities
+────────────────────────────────────────────────────────────
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0064_jquery_vulnerabilities.http
+════════════════════════════════════════════════════════════
+Variable $target set to http://127.0.0.1:4000
+Variable $stop set to 0
+[SCAN] 64 Jquery Vulnerabilities
+Target: http://127.0.0.1:4000
+Variable $issues set to 0
+Extracted status and stored in $status
+Extracted status and stored in $api_status
+[✓] Completed: 0064_jquery_vulnerabilities - Found 0 vulnerabilities tested
+
+✅ Script completed in 4.019375ms
+
+────────────────────────────────────────────────────────────
+CHECK: 0065_ai_llm_vulnerabilities
+────────────────────────────────────────────────────────────
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0065_ai_llm_vulnerabilities.http
+════════════════════════════════════════════════════════════
+Variable $target set to http://127.0.0.1:4000
+Variable $stop set to 0
+[SCAN] 65 Ai Llm Vulnerabilities
+Target: http://127.0.0.1:4000
+Variable $issues set to 0
+Extracted status and stored in $status
+Extracted status and stored in $api_status
+[✓] Completed: 0065_ai_llm_vulnerabilities - Found 0 vulnerabilities tested
+
+✅ Script completed in 3.791916ms
+
+────────────────────────────────────────────────────────────
+CHECK: 0066_data_reconnaissance
+────────────────────────────────────────────────────────────
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0066_data_reconnaissance.http
+════════════════════════════════════════════════════════════
+Variable $target set to http://127.0.0.1:4000
+Variable $stop set to 0
+[SCAN] 66 Data Reconnaissance
+Target: http://127.0.0.1:4000
+Variable $issues set to 0
+Extracted status and stored in $status
+Extracted status and stored in $api_status
+[✓] Completed: 0066_data_reconnaissance - Found 0 vulnerabilities tested
+
+✅ Script completed in 4.043625ms
+
+────────────────────────────────────────────────────────────
+CHECK: 0070_owasp_top_01_10
+────────────────────────────────────────────────────────────
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0070_owasp_top_01_10.http
+════════════════════════════════════════════════════════════
+Variable $target set to http://127.0.0.1:4000
+Variable $stop set to 0
+[SCAN] 7 Owasp Top 1 1
+Target: http://127.0.0.1:4000
+Variable $issues set to 0
+Extracted status and stored in $status
+Extracted status and stored in $api_status
+[✓] Completed: 0070_owasp_top_01_10 - Found 0 vulnerabilities tested
+
+✅ Script completed in 3.762166ms
+
+────────────────────────────────────────────────────────────
+CHECK: 0071_owasp_top_11_20
+────────────────────────────────────────────────────────────
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0071_owasp_top_11_20.http
+════════════════════════════════════════════════════════════
+Variable $target set to http://127.0.0.1:4000
+Variable $stop set to 0
+[SCAN] 71 Owasp Top 11 2
+Target: http://127.0.0.1:4000
+Variable $issues set to 0
+Extracted status and stored in $status
+Extracted status and stored in $api_status
+[✓] Completed: 0071_owasp_top_11_20 - Found 0 vulnerabilities tested
+
+✅ Script completed in 3.911792ms
+
+────────────────────────────────────────────────────────────
+CHECK: 0072_owasp_top_21_30
+────────────────────────────────────────────────────────────
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0072_owasp_top_21_30.http
+════════════════════════════════════════════════════════════
+Variable $target set to http://127.0.0.1:4000
+Variable $stop set to 0
+[SCAN] 72 Owasp Top 21 3
+Target: http://127.0.0.1:4000
+Variable $issues set to 0
+Extracted status and stored in $status
+Extracted status and stored in $api_status
+[✓] Completed: 0072_owasp_top_21_30 - Found 0 vulnerabilities tested
+
+✅ Script completed in 3.763042ms
+
+────────────────────────────────────────────────────────────
+CHECK: 0073_owasp_top_31_40
+────────────────────────────────────────────────────────────
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0073_owasp_top_31_40.http
+════════════════════════════════════════════════════════════
+Variable $target set to http://127.0.0.1:4000
+Variable $stop set to 0
+[SCAN] 73 Owasp Top 31 4
+Target: http://127.0.0.1:4000
+Variable $issues set to 0
+Extracted status and stored in $status
+Extracted status and stored in $api_status
+[✓] Completed: 0073_owasp_top_31_40 - Found 0 vulnerabilities tested
+
+✅ Script completed in 3.867791ms
+
+────────────────────────────────────────────────────────────
+CHECK: 0074_owasp_top_41_50
+────────────────────────────────────────────────────────────
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0074_owasp_top_41_50.http
+════════════════════════════════════════════════════════════
+Variable $target set to http://127.0.0.1:4000
+Variable $stop set to 0
+[SCAN] 74 Owasp Top 41 5
+Target: http://127.0.0.1:4000
+Variable $issues set to 0
+Extracted status and stored in $status
+Extracted status and stored in $api_status
+[✓] Completed: 0074_owasp_top_41_50 - Found 0 vulnerabilities tested
+
+✅ Script completed in 3.782625ms
+
+
+════════════════════════════════════════════════════════════
+SUMMARY
+════════════════════════════════════════════════════════════
+
+Vulnerabilities Found:
+  CRITICAL: 0
+  HIGH:     0
+  MEDIUM:   0
+  LOW:      0
+
+Risk Score: 0
+Risk Level: SECURE

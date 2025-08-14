@@ -1,0 +1,14 @@
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0006_open_redirect.http
+════════════════════════════════════════════════════════════
+Variable $target set to https://siigo.com
+Variable $stop set to 0
+[SCAN] Open Redirect
+Target: https://siigo.com
+Variable $vulns set to 0
+Extracted Location using header and stored in $location1
+Extracted Location using header and stored in $location2
+Extracted Location using header and stored in $location3
+[✓] Completed: 0006_open_redirect - Found 0 of 6 vulnerabilities tested
+
+✅ Script completed in 4.351949s

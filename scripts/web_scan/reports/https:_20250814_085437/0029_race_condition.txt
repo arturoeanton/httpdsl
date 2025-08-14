@@ -1,0 +1,14 @@
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0029_race_condition.http
+════════════════════════════════════════════════════════════
+Variable $target set to https://tudely.com
+Variable $stop set to 0
+[SCAN] Race Condition Testing
+Target: https://tudely.com
+Variable $race_found set to 0
+Extracted status and stored in $status1
+Extracted status and stored in $status2
+Extracted status and stored in $status3
+[✓] Completed: 0029_race_condition - Found 0 of 1 vulnerabilities tested
+
+✅ Script completed in 2.170698s

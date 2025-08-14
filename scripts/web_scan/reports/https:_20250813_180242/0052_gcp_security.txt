@@ -1,0 +1,7 @@
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0052_gcp_security.http
+════════════════════════════════════════════════════════════
+[2025-08-13 18:06:18.170] [ERROR] Request failed: Get "http://metadata.google.internal/computeMetadata/v1/instance/": dial tcp: lookup metadata.google.internal: no such host
+❌ Error: execution failed: error parsing HTTP request: no alternative matched for rule program at line 1, column 1:
+GET "http://metadata.google.internal/computeMetadata/v1/instance/"
+^

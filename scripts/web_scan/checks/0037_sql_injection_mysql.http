@@ -1,0 +1,49 @@
+# MySQL-Specific SQL Injection Check
+# Tests for MySQL-specific SQL injection patterns
+
+if $ARGC < 1 then
+    print "ERROR: Missing target URL"
+    set $stop 1
+else
+    set $target $ARG1
+    set $stop 0
+endif
+
+if $stop == 0 then
+    print "[SCAN] MySQL SQL Injection Testing"
+    print "Target: $target"
+    
+    set $mysql_vulns 0
+    
+    # Test 1: MySQL comment injection
+    GET "$target/search?q=test%27%23"
+    if response contains "SQL syntax" then
+        print "[CRITICAL] MySQL error detected"
+        print "  URL: $target/search"
+        set $mysql_vulns $mysql_vulns + 1
+    endif
+    
+    if response contains "mysql" then
+        print "[HIGH] MySQL information disclosed"
+        print "  URL: $target/search"
+        set $mysql_vulns $mysql_vulns + 1
+    endif
+    
+    # Test 2: MySQL version check
+    GET "$target/item?id=1"
+    if response contains "MySQL" then
+        print "[MEDIUM] MySQL version disclosed"
+        print "  URL: $target/item"
+        set $mysql_vulns $mysql_vulns + 1
+    endif
+    
+    # Test 3: MySQL error check
+    GET "$target/product?id=1%27"
+    if response contains "error" then
+        print "[HIGH] SQL error detected"
+        print "  URL: $target/product"
+        set $mysql_vulns $mysql_vulns + 1
+    endif
+    
+    print "[✓] Completed: 0037_sql_injection_mysql - Found $mysql_vulns of 4 vulnerabilities tested"
+endif

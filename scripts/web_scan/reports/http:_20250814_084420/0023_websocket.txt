@@ -1,0 +1,13 @@
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0023_websocket.http
+════════════════════════════════════════════════════════════
+Variable $target set to http://127.0.0.1:4000
+Variable $stop set to 0
+[SCAN] WebSocket Security Testing
+Target: http://127.0.0.1:4000
+Variable $ws_issues set to 0
+Extracted status and stored in $ws_status
+Extracted status and stored in $io_status
+[✓] Completed: 0023_websocket - Found 0 of 2 vulnerabilities tested
+
+✅ Script completed in 2.422ms

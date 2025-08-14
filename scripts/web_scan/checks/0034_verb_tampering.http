@@ -1,0 +1,46 @@
+# HTTP Verb Tampering Check
+# Tests for HTTP method override vulnerabilities
+
+if $ARGC < 1 then
+    print "ERROR: Missing target URL"
+    set $stop 1
+else
+    set $target $ARG1
+    set $stop 0
+endif
+
+if $stop == 0 then
+    print "[SCAN] HTTP Verb Tampering Testing"
+    print "Target: $target"
+    
+    set $verb_issues 0
+    
+    # Test 1: HEAD method test
+    HEAD "$target/admin"
+    extract status as $head_status
+    if $head_status equals 200 then
+        print "[MEDIUM] HEAD method accepted on admin"
+        print "  URL: $target/admin"
+        set $verb_issues $verb_issues + 1
+    endif
+    
+    # Test 2: OPTIONS method test
+    OPTIONS "$target/"
+    extract header "Allow" as $allow_header
+    if $allow_header not empty then
+        print "[LOW] OPTIONS reveals allowed methods"
+        print "  Methods: $allow_header"
+        set $verb_issues $verb_issues + 1
+    endif
+    
+    # Test 3: TRACE method test
+    TRACE "$target/"
+    extract status as $trace_status
+    if $trace_status equals 200 then
+        print "[MEDIUM] TRACE method enabled"
+        print "  URL: $target/"
+        set $verb_issues $verb_issues + 1
+    endif
+    
+    print "[✓] Completed: 0034_verb_tampering - Found $verb_issues of 3 vulnerabilities tested"
+endif

@@ -1,0 +1,23 @@
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0054_ubuntu_debian.http
+════════════════════════════════════════════════════════════
+Variable $target set to http://127.0.0.1:4000
+Variable $stop set to 0
+[SCAN] Ubuntu/Debian Security Testing
+Target: http://127.0.0.1:4000
+Variable $ubuntu_vulns set to 0
+Extracted ubuntu.com|debian.org|Packages using regex and stored in $apt_lists
+Extracted cloud-init|DataSource|user-data using regex and stored in $cloudinit_log
+Extracted name:|version:|apps: using regex and stored in $snap_info
+Extracted ALLOW|DENY|ufw-user using regex and stored in $ufw_rules
+Extracted network:|ethernets:|addresses: using regex and stored in $netplan
+Extracted profile|capability|network using regex and stored in $apparmor
+Extracted attached|expires|services using regex and stored in $ua_status
+Extracted Unattended-Upgrade|Origins-Pattern using regex and stored in $unattended
+Extracted Package: linux-image|Version: using regex and stored in $dpkg_db
+Extracted #!/bin/sh|uname|lsb_release using regex and stored in $motd_scripts
+Extracted account_name|registration_key|url using regex and stored in $landscape
+Extracted Dist:|Supported:|Version: using regex and stored in $release_upgrade
+[✓] Completed: 0054_ubuntu_debian - Found 0 of 12 vulnerabilities tested
+
+✅ Script completed in 9.693667ms

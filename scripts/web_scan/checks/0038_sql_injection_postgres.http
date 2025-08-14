@@ -1,0 +1,35 @@
+# PostgreSQL-Specific SQL Injection Check
+# Tests for PostgreSQL-specific SQL injection patterns
+
+if $ARGC < 1 then
+    print "ERROR: Missing target URL"
+    set $stop 1
+else
+    set $target $ARG1
+    set $stop 0
+endif
+
+if $stop == 0 then
+    print "[SCAN] PostgreSQL SQL Injection Testing"
+    print "Target: $target"
+    
+    set $pgsql_vulns 0
+    
+    # Test 1: PostgreSQL comment injection
+    GET "$target/search?q=test'--"
+    if response contains "syntax error" then
+        print "[CRITICAL] PostgreSQL error detected"
+        print "  URL: $target/search"
+        set $pgsql_vulns $pgsql_vulns + 1
+    endif
+    
+    # Test 2: PostgreSQL version check
+    GET "$target/item?id=1::int"
+    if response contains "PostgreSQL" then
+        print "[HIGH] PostgreSQL version disclosed"
+        print "  URL: $target/item"
+        set $pgsql_vulns $pgsql_vulns + 1
+    endif
+    
+    print "[✓] Completed: 0038_sql_injection_postgres - Found $pgsql_vulns of 2 vulnerabilities tested"
+endif

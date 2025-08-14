@@ -1,0 +1,19 @@
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0001_security_headers.http
+════════════════════════════════════════════════════════════
+Variable $target set to https://siigo.com
+Variable $stop set to 0
+[SCAN] Security Headers Analysis
+Target: https://siigo.com
+Extracted status and stored in $status
+Extracted X-Frame-Options using header and stored in $xframe
+Extracted Content-Security-Policy using header and stored in $csp
+Extracted Strict-Transport-Security using header and stored in $hsts
+Extracted X-Content-Type-Options using header and stored in $xcontent
+Extracted X-XSS-Protection using header and stored in $xxss
+Extracted Referrer-Policy using header and stored in $referrer
+Extracted Permissions-Policy using header and stored in $permissions
+Variable $issues set to 0
+[✓] Completed: 0001_security_headers - Found 0 of 7 vulnerabilities tested
+
+✅ Script completed in 1.910225459s

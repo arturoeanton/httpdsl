@@ -1,0 +1,37 @@
+# Host Header Injection Check
+# Tests for host header injection vulnerabilities
+
+if $ARGC < 1 then
+    print "ERROR: Missing target URL"
+    set $stop 1
+else
+    set $target $ARG1
+    set $stop 0
+endif
+
+if $stop == 0 then
+    print "[SCAN] Host Header Injection Testing"
+    print "Target: $target"
+    
+    set $host_issues 0
+    
+    # Test 1: Host header manipulation
+    GET "$target/"
+    header "Host" "evil.com"
+    if response contains "evil.com" then
+        print "[HIGH] Host header reflected"
+        print "  URL: $target/"
+        set $host_issues $host_issues + 1
+    endif
+    
+    # Test 2: X-Forwarded-Host
+    GET "$target/"
+    header "X-Forwarded-Host" "attacker.com"
+    if response contains "attacker.com" then
+        print "[MEDIUM] X-Forwarded-Host reflected"
+        print "  URL: $target/"
+        set $host_issues $host_issues + 1
+    endif
+    
+    print "[✓] Completed: 0030_host_header - Found $host_issues of 2 vulnerabilities tested"
+endif

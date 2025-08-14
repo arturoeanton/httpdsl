@@ -1,0 +1,38 @@
+# Apache Vulnerability Testing
+# Security vulnerability testing script
+
+if $ARGC < 1 then
+    print "ERROR: Missing target URL"
+    set $stop 1
+else
+    set $target $ARG1
+    set $stop 0
+endif
+
+if $stop == 0 then
+    print "[SCAN] Apache Vulnerability Testing"
+    print "Target: $target"
+    
+    set $issues 0
+    
+    # Test 1: Apache version
+    GET "$target/"
+    
+    
+    extract header "Server" as $server
+    if $server contains "Apache/" then
+        print "[LOW] Apache version disclosed"
+        set $issues $issues + 1
+    endif
+
+    # Test 2: mod_status exposed
+    GET "$target/server-status"
+    
+    
+    if response contains "Server uptime" then
+        print "[MEDIUM] Apache mod_status exposed"
+        set $issues $issues + 1
+    endif
+
+    print "[✓] Completed: 0046_apache_vulnerabilities - Found $issues of 2 vulnerabilities tested"
+endif

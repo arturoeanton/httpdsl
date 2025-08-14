@@ -1,0 +1,7 @@
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0010_ssrf.http
+════════════════════════════════════════════════════════════
+[2025-08-14 08:54:32.997] [ERROR] Request failed: Get "https://tudely/fetch?url=http://169.254.169.254/latest/meta-data/": dial tcp: lookup tudely: no such host
+❌ Error: execution failed: error processing block: error parsing HTTP request: no alternative matched for rule program at line 1, column 1:
+GET "$target/fetch?url=http://169.254.169.254/latest/meta-data/"
+^

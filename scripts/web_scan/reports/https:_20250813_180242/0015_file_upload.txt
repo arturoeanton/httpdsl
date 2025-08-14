@@ -1,0 +1,6 @@
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0015_file_upload.http
+════════════════════════════════════════════════════════════
+❌ Error: execution failed: error parsing HTTP request: unexpected character: . at line 1, column 102:
+POST "$target/upload" body "------test\r\nContent-Disposition: form-data; name="file"; filename="test.php"\r\nContent-Type: application/x-php\r\n\r\n<?php phpinfo(); ?>\r\n------test--"
+                                                                                                     ^

@@ -1,0 +1,16 @@
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0019_session_management.http
+════════════════════════════════════════════════════════════
+Variable $target set to http://127.0.0.1:9090
+Variable $stop set to 0
+[SCAN] Session Management Testing
+Target: http://127.0.0.1:9090
+Variable $session_issues set to 0
+Extracted status and stored in $fixation_status
+Extracted Set-Cookie using header and stored in $cookie
+Extracted Set-Cookie using header and stored in $cookie2
+Extracted Set-Cookie using header and stored in $session1
+Extracted Set-Cookie using header and stored in $session2
+[✓] Completed: 0019_session_management - Found 0 of 4 vulnerabilities tested
+
+✅ Script completed in 4.119ms

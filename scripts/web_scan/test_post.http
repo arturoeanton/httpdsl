@@ -1,0 +1,7 @@
+# Simple POST test
+set $target $ARG1
+POST "$target/api/xml"
+    header "Content-Type" "application/xml"  
+    body "<xml>test</xml>"
+extract status as $status
+print "Status: $status"

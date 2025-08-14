@@ -1,0 +1,6 @@
+# Test extract regex for body content
+set $target $ARG1
+GET "$target/get" 
+extract regex ".*" as $full_response
+extract status as $response_status
+print "Status: $response_status"

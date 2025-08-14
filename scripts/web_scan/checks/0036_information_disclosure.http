@@ -1,0 +1,85 @@
+# Information Disclosure Check
+# Tests for information leakage vulnerabilities
+
+if $ARGC < 1 then
+    print "ERROR: Missing target URL"
+    set $stop 1
+else
+    set $target $ARG1
+    set $stop 0
+endif
+
+if $stop == 0 then
+    print "[SCAN] Information Disclosure Testing"
+    print "Target: $target"
+    
+    set $info_leaks 0
+    
+    # Test 1: Server header disclosure
+    GET "$target"
+    extract header "Server" as $server
+    if $server not empty then
+        if $server contains "/" then
+            print "[LOW] Server version disclosed"
+            print "  URL: $target"
+            print "  Info: $server"
+            print "  Fix: Remove version info"
+            set $info_leaks $info_leaks + 1
+        endif
+    endif
+    
+    # Test 2: X-Powered-By disclosure
+    GET "$target"
+    extract header "X-Powered-By" as $powered
+    if $powered not empty then
+        print "[LOW] Technology stack disclosed"
+        print "  URL: $target"
+        print "  Info: $powered"
+        print "  Fix: Remove X-Powered-By"
+        set $info_leaks $info_leaks + 1
+    endif
+    
+    # Test 3: Debug information
+    GET "$target/?debug=true"
+    if response contains "stack trace" then
+        print "[HIGH] Debug mode enabled"
+        print "  URL: $target/?debug=true"
+        print "  Risk: Code disclosure"
+        print "  Fix: Disable debug in production"
+        set $info_leaks $info_leaks + 1
+    endif
+    
+    # Test 4: Error message disclosure
+    GET "$target/nonexistent12345"
+    if response contains "at line" then
+        print "[MEDIUM] Verbose error messages"
+        print "  URL: $target/nonexistent12345"
+        print "  Risk: Path disclosure"
+        print "  Fix: Generic error pages"
+        set $info_leaks $info_leaks + 1
+    endif
+    
+    # Test 5: Comments in HTML
+    GET "$target"
+    if response contains "<!--" then
+        if response contains "TODO" then
+            print "[LOW] Developer comments in HTML"
+            print "  URL: $target"
+            print "  Risk: Information leakage"
+            print "  Fix: Remove HTML comments"
+            set $info_leaks $info_leaks + 1
+        endif
+    endif
+    
+    # Test 6: Version in URL
+    GET "$target/api/v1/version"
+    if response contains "version" then
+        print "[LOW] Version endpoint exposed"
+        print "  URL: $target/api/v1/version"
+        print "  Risk: Version disclosure"
+        print "  Fix: Restrict version endpoint"
+        set $info_leaks $info_leaks + 1
+    endif
+    
+    print "[✓] Completed: 0036_information_disclosure - Found $info_leaks of 6 vulnerabilities tested"
+endif

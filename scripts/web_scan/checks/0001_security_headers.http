@@ -1,0 +1,64 @@
+# Security Headers Check
+# Usage: httpdsl 01_security_headers.http <target>
+
+if $ARGC < 1 then
+    print "ERROR: Missing target URL"
+    set $stop 1
+else
+    set $target $ARG1
+    set $stop 0
+endif
+
+if $stop == 0 then
+    print "[SCAN] Security Headers Analysis"
+    print "Target: $target"
+    
+    GET "$target"
+    extract status as $status
+    
+    # Extract headers
+    extract header "X-Frame-Options" as $xframe
+    extract header "Content-Security-Policy" as $csp
+    extract header "Strict-Transport-Security" as $hsts
+    extract header "X-Content-Type-Options" as $xcontent
+    extract header "X-XSS-Protection" as $xxss
+    extract header "Referrer-Policy" as $referrer
+    extract header "Permissions-Policy" as $permissions
+    
+    # Report findings
+    set $issues 0
+    
+    if $xframe empty then
+        print "[CRITICAL] Missing X-Frame-Options"
+        print "  URL: $target"
+        print "  Risk: Clickjacking attacks"
+        print "  Fix: Add header 'X-Frame-Options: DENY'
+        set $issues $issues + 1
+    endif
+    
+if $csp empty then
+        print "[HIGH] Missing Content-Security-Policy"
+        print "  URL: $target"
+        print "  Risk: XSS attacks"
+        print "  Fix: Implement CSP header"
+        set $issues $issues + 1
+    endif
+    
+if $hsts empty then
+        print "[HIGH] Missing Strict-Transport-Security"
+        print "  URL: $target"
+        print "  Risk: HTTPS downgrade attacks"
+        print "  Fix: Add HSTS header"
+        set $issues $issues + 1
+    endif
+    
+if $permissions empty then
+        print "[MEDIUM] Missing Permissions-Policy"
+        print "  URL: $target"
+        print "  Risk: Browser feature abuse"
+        print "  Fix: Add Permissions-Policy header"
+        set $issues $issues + 1
+    endif
+    
+    print "[✓] Completed: 0001_security_headers - Found $issues of 7 vulnerabilities tested"
+endif

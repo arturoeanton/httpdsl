@@ -1,0 +1,6 @@
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0044_sql_injection_java.http
+════════════════════════════════════════════════════════════
+❌ Error: execution failed: error parsing HTTP request: unexpected character: ' at line 1, column 59:
+GET "$target/api/users?filter=from User where%20name="test' or '1'='1""
+                                                          ^

@@ -1,0 +1,78 @@
+# Clickjacking Detection
+# Tests for clickjacking vulnerabilities
+
+set $target $ARG1
+set $stop 0
+
+print "[SCAN] Clickjacking Testing"
+print "Target: $target"
+
+set $clickjack_found 0
+
+# Test 1: Missing X-Frame-Options
+GET "$target"
+extract header "X-Frame-Options" as $xframe
+extract header "Content-Security-Policy" as $csp
+
+if $xframe empty then
+    if $csp not contains "frame-ancestors" then
+        print "[HIGH] Missing clickjacking protection"
+        print "  URL: $target"
+        print "  Risk: UI redressing attacks"
+        print "  Fix: Set X-Frame-Options or CSP frame-ancestors"
+        set $clickjack_found $clickjack_found + 1
+    endif
+endif
+
+# Test 2: Weak X-Frame-Options
+if $xframe equals "SAMEORIGIN" then
+    print "[INFO] X-Frame-Options set to SAMEORIGIN"
+    print "  URL: $target"
+    print "  Risk: Limited clickjacking protection"
+endif
+
+if $xframe equals "ALLOW-FROM" then
+    print "[MEDIUM] X-Frame-Options with ALLOW-FROM"
+    print "  URL: $target"
+    print "  Risk: Browser compatibility issues"
+    print "  Fix: Use CSP frame-ancestors instead"
+    set $clickjack_found $clickjack_found + 1
+endif
+
+# Test 3: Login page framing
+GET "$target/login"
+extract header "X-Frame-Options" as $login_xframe
+
+if $login_xframe empty then
+    print "[CRITICAL] Login page frameable"
+    print "  URL: $target/login"
+    print "  Risk: Credential theft via clickjacking"
+    print "  Fix: Protect authentication pages"
+    set $clickjack_found $clickjack_found + 1
+endif
+
+# Test 4: Admin panel framing
+GET "$target/admin"
+extract header "X-Frame-Options" as $admin_xframe
+
+if $admin_xframe empty then
+    print "[CRITICAL] Admin panel frameable"
+    print "  URL: $target/admin"
+    print "  Risk: Administrative action hijacking"
+    print "  Fix: Protect admin interfaces"
+    set $clickjack_found $clickjack_found + 1
+endif
+
+# Test 5: Payment page framing
+GET "$target/payment"
+extract header "X-Frame-Options" as $payment_xframe
+
+if $payment_xframe empty then
+    print "[CRITICAL] Payment page frameable"
+    print "  URL: $target/payment"
+    print "  Risk: Payment hijacking"
+    print "  Fix: Protect payment pages"
+    set $clickjack_found $clickjack_found + 1
+endif
+
+print "[✓] Completed: 0026_clickjacking - Found $clickjack_found of 5 vulnerabilities tested"

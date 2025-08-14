@@ -1,0 +1,38 @@
+# Tomcat Vulnerability Testing
+# Security vulnerability testing script
+
+if $ARGC < 1 then
+    print "ERROR: Missing target URL"
+    set $stop 1
+else
+    set $target $ARG1
+    set $stop 0
+endif
+
+if $stop == 0 then
+    print "[SCAN] Tomcat Vulnerability Testing"
+    print "Target: $target"
+    
+    set $issues 0
+    
+    # Test 1: Tomcat manager
+    GET "$target/manager/html"
+    
+    
+    extract status as $mgr_status
+    if $mgr_status equals 401 then
+        print "[MEDIUM] Tomcat manager found"
+        set $issues $issues + 1
+    endif
+
+    # Test 2: Tomcat version
+    GET "$target/"
+    
+    
+    if response contains "Apache Tomcat" then
+        print "[LOW] Tomcat version disclosed"
+        set $issues $issues + 1
+    endif
+
+    print "[✓] Completed: 0047_tomcat_vulnerabilities - Found $issues of 2 vulnerabilities tested"
+endif

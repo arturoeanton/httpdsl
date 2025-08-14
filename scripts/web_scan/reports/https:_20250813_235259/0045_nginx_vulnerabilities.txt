@@ -1,0 +1,12 @@
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0045_nginx_vulnerabilities.http
+════════════════════════════════════════════════════════════
+Variable $target set to https://siigo.com
+Variable $stop set to 0
+[SCAN] Nginx Vulnerability Testing
+Target: https://siigo.com
+Variable $issues set to 0
+Extracted Server using header and stored in $server
+[✓] Completed: 0045_nginx_vulnerabilities - Found 0 of 2 vulnerabilities tested
+
+✅ Script completed in 2.568146458s

@@ -1,0 +1,37 @@
+# Python SQL Injection Testing
+# Security vulnerability testing script
+
+if $ARGC < 1 then
+    print "ERROR: Missing target URL"
+    set $stop 1
+else
+    set $target $ARG1
+    set $stop 0
+endif
+
+if $stop == 0 then
+    print "[SCAN] Python SQL Injection Testing"
+    print "Target: $target"
+    
+    set $issues 0
+    
+    # Test 1: Python DB-API error
+    GET "$target/search?q=test'"
+    
+    
+    if response contains "ProgrammingError" then
+        print "[HIGH] Python SQL error"
+        set $issues $issues + 1
+    endif
+
+    # Test 2: SQLAlchemy error
+    GET "$target/query?filter=1'%20OR%20'1'='1"
+    
+    
+    if response contains "SQLAlchemy" then
+        print "[HIGH] SQLAlchemy injection"
+        set $issues $issues + 1
+    endif
+
+    print "[✓] Completed: 0042_sql_injection_python - Found $issues of 2 vulnerabilities tested"
+endif

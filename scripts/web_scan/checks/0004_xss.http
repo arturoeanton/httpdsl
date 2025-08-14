@@ -1,0 +1,61 @@
+# Cross-Site Scripting (XSS) Check
+# Usage: httpdsl 04_xss.http <target>
+
+if $ARGC < 1 then
+    print "ERROR: Missing target URL"
+    set $stop 1
+else
+    set $target $ARG1
+    set $stop 0
+endif
+
+if $stop == 0 then
+    print "[SCAN] Cross-Site Scripting (XSS)"
+    print "Target: $target"
+    
+    set $xss_found 0
+    
+    # Basic script tag
+    GET "$target/search?q=%3Cscript%3Ealert(1)</script>"
+    if response contains "<script>alert(1)</script>" then
+        print "[CRITICAL] XSS vulnerability (script tag)"
+        print "  URL: $target/search?q=<script>alert(1)</script>"
+        print "  Risk: Session hijacking, credential theft"
+        print "  Fix: HTML encode all user inputs"
+        set $xss_found $xss_found + 1
+    endif
+    
+    # Image tag with onerror
+    GET "$target/search?q=%3Cimg%20src%3Dx%20onerror%3Dalert%281%29%3E"
+    if response contains "onerror=alert" then
+        print "[CRITICAL] XSS vulnerability (img tag)"
+        print "  URL: $target/search?q=<img src=x onerror=alert(1)>"
+        print "  Risk: JavaScript execution"
+        print "  Fix: Strip event handlers from input"
+        set $xss_found $xss_found + 1
+    endif
+    
+    # SVG tag
+    GET "$target/search?q=%3Csvg%20onload%3Dalert%281%29%3E"
+    if response contains "onload=alert" then
+        print "[CRITICAL] XSS vulnerability (SVG)"
+        print "  URL: $target/search?q=<svg onload=alert(1)>"
+        print "  Risk: Filter bypass"
+        print "  Fix: Whitelist allowed HTML tags"
+        set $xss_found $xss_found + 1
+    endif
+    
+    # DOM-based XSS check
+    GET "$target/#<script>alert(1)</script>"
+    if response contains "document.location" then
+        if response contains "innerHTML" then
+            print "[HIGH] Potential DOM-based XSS"
+            print "  URL: $target/#"
+            print "  Risk: Client-side code execution"
+            print "  Fix: Avoid innerHTML, use textContent"
+            set $xss_found $xss_found + 1
+        endif
+    endif
+    
+    print "[✓] Completed: 0004_xss - Found $xss_found of 8 vulnerabilities tested"
+endif

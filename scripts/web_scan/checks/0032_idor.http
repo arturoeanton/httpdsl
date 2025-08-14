@@ -1,0 +1,76 @@
+# IDOR (Insecure Direct Object Reference) Check
+# Tests for IDOR vulnerabilities
+
+if $ARGC < 1 then
+    print "ERROR: Missing target URL"
+    set $stop 1
+else
+    set $target $ARG1
+    set $stop 0
+endif
+
+if $stop == 0 then
+    print "[SCAN] IDOR Testing"
+    print "Target: $target"
+    
+    set $idor_found 0
+    
+    # Test 1: Sequential ID enumeration
+    GET "$target/api/user/1"
+    extract status as $user1_status
+    GET "$target/api/user/2"
+    extract status as $user2_status
+    if $user1_status equals 200 then
+        if $user2_status equals 200 then
+            print "[HIGH] User enumeration via IDOR"
+            print "  URL: $target/api/user/{id}"
+            print "  Risk: Information disclosure"
+            print "  Fix: Implement access controls"
+            set $idor_found $idor_found + 1
+        endif
+    endif
+    
+    # Test 2: UUID prediction
+    GET "$target/document/00000000-0000-0000-0000-000000000001"
+    extract status as $uuid_status
+    if $uuid_status equals 200 then
+        print "[MEDIUM] Predictable UUID IDOR"
+        print "  URL: $target/document/{uuid}"
+        print "  Risk: Document access"
+        print "  Fix: Use random UUIDs"
+        set $idor_found $idor_found + 1
+    endif
+    
+    # Test 3: File path traversal IDOR
+    GET "$target/download?file=../users/1/private.pdf"
+    if response contains "PDF" then
+        print "[CRITICAL] File IDOR via traversal"
+        print "  URL: $target/download"
+        print "  Risk: File disclosure"
+        print "  Fix: Validate file access"
+        set $idor_found $idor_found + 1
+    endif
+    
+    # Test 4: Array index IDOR
+    GET "$target/api/messages[0]"
+    extract status as $array_status
+    if $array_status equals 200 then
+        print "[HIGH] Array index IDOR"
+        print "  URL: $target/api/messages"
+        print "  Risk: Message disclosure"
+        print "  Fix: Check array bounds"
+        set $idor_found $idor_found + 1
+    endif
+    
+    # Test 5: Parameter pollution IDOR
+    GET "$target/profile?id=1&id=2"
+    if response contains "user" then
+        print "[MEDIUM] Parameter pollution IDOR"
+        print "  URL: $target/profile"
+        print "  Risk: Profile access"
+        print "  Fix: Handle duplicate params"
+        set $idor_found $idor_found + 1
+    endif
+    
+    print "[✓] Completed: 0032_idor - Found $idor_found of 5 vulnerabilities tested"
+endif

@@ -1,0 +1,37 @@
+# HTTP Request Smuggling Check
+# Tests for HTTP request smuggling vulnerabilities
+
+if $ARGC < 1 then
+    print "ERROR: Missing target URL"
+    set $stop 1
+else
+    set $target $ARG1
+    set $stop 0
+endif
+
+if $stop == 0 then
+    print "[SCAN] HTTP Request Smuggling Testing"
+    print "Target: $target"
+    
+    set $smuggling_found 0
+    
+    # Test 1: Basic smuggling test
+    POST "$target/"
+    header "Transfer-Encoding" "chunked"
+    extract status as $te_status
+    if $te_status equals 400 then
+        print "[INFO] Server rejects Transfer-Encoding"
+        set $smuggling_found $smuggling_found + 1
+    endif
+    
+    # Test 2: Content-Length test
+    POST "$target/"
+    header "Content-Length" "0"
+    extract status as $cl_status
+    if $cl_status equals 411 then
+        print "[INFO] Server requires Content-Length"
+        set $smuggling_found $smuggling_found + 1
+    endif
+    
+    print "[✓] Completed: 0022_http_smuggling - Found $smuggling_found of 2 vulnerabilities tested"
+endif

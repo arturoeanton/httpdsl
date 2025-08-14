@@ -1,0 +1,37 @@
+# GraphQL Security Check
+# Tests for GraphQL API vulnerabilities
+
+if $ARGC < 1 then
+    print "ERROR: Missing target URL"
+    set $stop 1
+else
+    set $target $ARG1
+    set $stop 0
+endif
+
+if $stop == 0 then
+    print "[SCAN] GraphQL Security Testing"
+    print "Target: $target"
+    
+    set $graphql_issues 0
+    
+    # Test 1: GraphQL endpoint detection
+    GET "$target/graphql"
+    extract status as $gql_status
+    if $gql_status not equals 404 then
+        print "[INFO] GraphQL endpoint found"
+        print "  URL: $target/graphql"
+        set $graphql_issues $graphql_issues + 1
+    endif
+    
+    # Test 2: GraphQL playground
+    GET "$target/graphiql"
+    extract status as $playground_status
+    if $playground_status equals 200 then
+        print "[MEDIUM] GraphQL playground exposed"
+        print "  URL: $target/graphiql"
+        set $graphql_issues $graphql_issues + 1
+    endif
+    
+    print "[✓] Completed: 0024_graphql - Found $graphql_issues of 2 vulnerabilities tested"
+endif

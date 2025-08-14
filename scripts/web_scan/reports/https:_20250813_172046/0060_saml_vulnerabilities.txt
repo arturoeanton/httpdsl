@@ -1,0 +1,6 @@
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0060_saml_vulnerabilities.http
+════════════════════════════════════════════════════════════
+❌ Error: execution failed: error parsing HTTP request: unexpected token: http://evil.com">" at line 1, column 67:
+POST "$target/saml/acs" body "SAMLResponse=<Response Destination="http://evil.com">"
+                                                                  ^

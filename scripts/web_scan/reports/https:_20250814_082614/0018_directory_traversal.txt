@@ -1,0 +1,11 @@
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0018_directory_traversal.http
+════════════════════════════════════════════════════════════
+Variable $target set to https://siigo.com
+Variable $stop set to 0
+[SCAN] Directory Traversal Testing
+Target: https://siigo.com
+Variable $traversal_found set to 0
+[✓] Completed: 0018_directory_traversal - Found 0 of 5 vulnerabilities tested
+
+✅ Script completed in 7.5800965s

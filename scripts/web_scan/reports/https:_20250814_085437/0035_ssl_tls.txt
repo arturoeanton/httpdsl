@@ -1,0 +1,15 @@
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0035_ssl_tls.http
+════════════════════════════════════════════════════════════
+Variable $target set to https://tudely.com
+Variable $stop set to 0
+[SCAN] SSL/TLS Security Testing
+Target: https://tudely.com
+Variable $tls_issues set to 0
+Extracted Strict-Transport-Security using header and stored in $hsts
+Extracted Set-Cookie using header and stored in $cookie
+Extracted Public-Key-Pins using header and stored in $hpkp
+Extracted Expect-CT using header and stored in $expect_ct
+[✓] Completed: 0035_ssl_tls - Found 0 of 5 vulnerabilities tested
+
+✅ Script completed in 7.503674708s

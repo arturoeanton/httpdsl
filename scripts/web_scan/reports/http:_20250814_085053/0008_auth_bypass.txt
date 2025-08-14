@@ -1,0 +1,14 @@
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0008_auth_bypass.http
+════════════════════════════════════════════════════════════
+Variable $target set to http://127.0.0.1:9999
+Variable $stop set to 0
+[SCAN] Authentication Bypass Testing
+Target: http://127.0.0.1:9999
+Variable $auth_issues set to 0
+Extracted status and stored in $admin_status
+Extracted status and stored in $dash_status
+Extracted status and stored in $api_status
+[✓] Completed: 0008_auth_bypass - Found 0 of 3 vulnerabilities tested
+
+✅ Script completed in 2.566625ms

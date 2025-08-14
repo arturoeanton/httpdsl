@@ -1,0 +1,37 @@
+# Deserialization Vulnerability Check
+# Tests for insecure deserialization
+
+if $ARGC < 1 then
+    print "ERROR: Missing target URL"
+    set $stop 1
+else
+    set $target $ARG1
+    set $stop 0
+endif
+
+if $stop == 0 then
+    print "[SCAN] Deserialization Testing"
+    print "Target: $target"
+    
+    set $deser_found 0
+    
+    # Test 1: Java deserialization check
+    POST "$target/api/data"
+    header "Content-Type" "application/x-java-serialized-object"
+    extract status as $java_status
+    if $java_status equals 500 then
+        print "[CRITICAL] Possible Java deserialization"
+        print "  URL: $target/api/data"
+        set $deser_found $deser_found + 1
+    endif
+    
+    # Test 2: PHP deserialization check
+    GET "$target/api/unserialize?data=O:8:stdClass:0:{}"
+    if response contains "stdClass" then
+        print "[CRITICAL] PHP unserialization detected"
+        print "  URL: $target/api/unserialize"
+        set $deser_found $deser_found + 1
+    endif
+    
+    print "[✓] Completed: 0027_deserialization - Found $deser_found of 2 vulnerabilities tested"
+endif

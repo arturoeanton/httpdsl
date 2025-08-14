@@ -1,0 +1,37 @@
+# Java SQL Injection Testing
+# Security vulnerability testing script
+
+if $ARGC < 1 then
+    print "ERROR: Missing target URL"
+    set $stop 1
+else
+    set $target $ARG1
+    set $stop 0
+endif
+
+if $stop == 0 then
+    print "[SCAN] Java SQL Injection Testing"
+    print "Target: $target"
+    
+    set $issues 0
+    
+    # Test 1: JDBC error
+    GET "$target/search?q=test'"
+    
+    
+    if response contains "java.sql.SQLException" then
+        print "[HIGH] JDBC SQL injection"
+        set $issues $issues + 1
+    endif
+
+    # Test 2: Hibernate error
+    GET "$target/query?hql=from%20User%20where%20id='1"
+    
+    
+    if response contains "org.hibernate" then
+        print "[HIGH] Hibernate injection"
+        set $issues $issues + 1
+    endif
+
+    print "[✓] Completed: 0044_sql_injection_java - Found $issues of 2 vulnerabilities tested"
+endif

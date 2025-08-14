@@ -1,0 +1,12 @@
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0025_subdomain_takeover.http
+════════════════════════════════════════════════════════════
+Variable $target set to https://siigo.com
+Variable $stop set to 0
+[SCAN] Subdomain Takeover Testing
+Target: https://siigo.com
+Variable $takeover_found set to 0
+Extracted status and stored in $dns_status
+[✓] Completed: 0025_subdomain_takeover - Found 0 of 6 vulnerabilities tested
+
+✅ Script completed in 2.165083459s

@@ -1,0 +1,13 @@
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0066_data_reconnaissance.http
+════════════════════════════════════════════════════════════
+Variable $target set to http://127.0.0.1:9999
+Variable $stop set to 0
+[SCAN] 66 Data Reconnaissance
+Target: http://127.0.0.1:9999
+Variable $issues set to 0
+Extracted status and stored in $status
+Extracted status and stored in $api_status
+[✓] Completed: 0066_data_reconnaissance - Found 0 vulnerabilities tested
+
+✅ Script completed in 1.967667ms

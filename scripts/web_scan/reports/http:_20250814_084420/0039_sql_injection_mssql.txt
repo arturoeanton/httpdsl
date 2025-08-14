@@ -1,0 +1,11 @@
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0039_sql_injection_mssql.http
+════════════════════════════════════════════════════════════
+Variable $target set to http://127.0.0.1:4000
+Variable $stop set to 0
+[SCAN] MSSQL SQL Injection Testing
+Target: http://127.0.0.1:4000
+Variable $mssql_vulns set to 0
+[✓] Completed: 0039_sql_injection_mssql - Found 0 of 4 vulnerabilities tested
+
+✅ Script completed in 2.652542ms

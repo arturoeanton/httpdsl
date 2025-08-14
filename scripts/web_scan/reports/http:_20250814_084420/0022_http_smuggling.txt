@@ -1,0 +1,13 @@
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0022_http_smuggling.http
+════════════════════════════════════════════════════════════
+Variable $target set to http://127.0.0.1:4000
+Variable $stop set to 0
+[SCAN] HTTP Request Smuggling Testing
+Target: http://127.0.0.1:4000
+Variable $smuggling_found set to 0
+Extracted status and stored in $te_status
+Extracted status and stored in $cl_status
+[✓] Completed: 0022_http_smuggling - Found 0 of 2 vulnerabilities tested
+
+✅ Script completed in 2.776666ms

@@ -1,0 +1,83 @@
+# CSRF Check
+# Tests for Cross-Site Request Forgery vulnerabilities
+
+if $ARGC < 1 then
+    print "ERROR: Missing target URL"
+    set $stop 1
+else
+    set $target $ARG1
+    set $stop 0
+endif
+
+if $stop == 0 then
+    print "[SCAN] CSRF Testing"
+    print "Target: $target"
+    
+    set $csrf_issues 0
+    
+    # Test 1: Check for CSRF token in forms
+    GET "$target/form"
+    if response contains "<form" then
+        if response not contains "csrf" then
+            if response not contains "_token" then
+                print "[HIGH] Form without CSRF protection"
+                print "  URL: $target/form"
+                print "  Risk: CSRF attacks possible"
+                print "  Fix: Implement CSRF tokens"
+                set $csrf_issues $csrf_issues + 1
+            endif
+        endif
+    endif
+    
+    # Test 2: Check SameSite cookie attribute
+    GET "$target"
+    extract header "Set-Cookie" as $cookie
+    if $cookie not empty then
+        if $cookie not contains "SameSite" then
+            print "[MEDIUM] Cookie without SameSite attribute"
+            print "  URL: $target"
+            print "  Risk: CSRF via cookies"
+            print "  Fix: Add SameSite=Strict to cookies"
+            set $csrf_issues $csrf_issues + 1
+        endif
+    endif
+    
+    # Test 3: Check for X-Frame-Options (related defense)
+    GET "$target"
+    extract header "X-Frame-Options" as $xframe
+    if $xframe empty then
+        print "[LOW] Missing X-Frame-Options header"
+        print "  URL: $target"
+        print "  Risk: Clickjacking + CSRF combo"
+        print "  Fix: Add X-Frame-Options header"
+        set $csrf_issues $csrf_issues + 1
+    endif
+    
+    # Test 4: Check for Referer validation
+    GET "$target/api/action"
+    header "Referer" "http://evil.com"
+    extract status as $evil_referer_status
+    if $evil_referer_status equals 200 then
+        print "[MEDIUM] No Referer validation"
+        print "  URL: $target/api/action"
+        print "  Risk: CSRF via Referer spoofing"
+        print "  Fix: Validate Referer header"
+        set $csrf_issues $csrf_issues + 1
+    endif
+    
+    # Test 5: Check for Origin validation
+    POST "$target/api/action" json {"test": "data"}
+    header "Origin" "http://attacker.com"
+    header "Content-Type" "application/json"
+
+    extract status as $origin_status
+    if $origin_status equals 200 then
+        print "[HIGH] No Origin validation"
+        print "  URL: $target/api/action"
+        print "  Risk: Cross-origin requests accepted"
+        print "  Fix: Validate Origin header"
+        set $csrf_issues $csrf_issues + 1
+    endif
+    
+    print "[✓] Completed: 0007_csrf - Found $csrf_issues of 5 vulnerabilities tested"
+endif

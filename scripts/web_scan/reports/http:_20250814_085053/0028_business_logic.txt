@@ -1,0 +1,12 @@
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0028_business_logic.http
+════════════════════════════════════════════════════════════
+Variable $target set to http://127.0.0.1:9999
+Variable $stop set to 0
+[SCAN] Business Logic Testing
+Target: http://127.0.0.1:9999
+Variable $logic_issues set to 0
+Extracted status and stored in $neg_status
+[✓] Completed: 0028_business_logic - Found 0 of 2 vulnerabilities tested
+
+✅ Script completed in 1.854542ms

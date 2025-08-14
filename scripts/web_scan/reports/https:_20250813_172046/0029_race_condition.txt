@@ -1,0 +1,19 @@
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0029_race_condition.http
+════════════════════════════════════════════════════════════
+Variable $target set to https://siigo.com
+Variable $stop set to 0
+[SCAN] Race Condition Testing
+Target: https://siigo.com
+Variable $race_found set to 0
+Extracted status and stored in $withdraw1
+Extracted status and stored in $withdraw2
+Extracted status and stored in $vote1
+Extracted status and stored in $vote2
+Extracted status and stored in $coupon_a
+Extracted status and stored in $coupon_b
+Extracted status and stored in $upload1
+Extracted status and stored in $upload2
+[✓] Completed: 0029_race_condition - Found 0 of 4 vulnerabilities tested
+
+✅ Script completed in 17.865759792s

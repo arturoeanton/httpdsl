@@ -1,0 +1,14 @@
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0034_verb_tampering.http
+════════════════════════════════════════════════════════════
+Variable $target set to http://127.0.0.1:4000
+Variable $stop set to 0
+[SCAN] HTTP Verb Tampering Testing
+Target: http://127.0.0.1:4000
+Variable $verb_issues set to 0
+Warning: No response available for extraction. Variable $head_status set to empty.
+Extracted Allow using header and stored in $allow_header
+Extracted status and stored in $trace_status
+[✓] Completed: 0034_verb_tampering - Found 0 of 3 vulnerabilities tested
+
+✅ Script completed in 2.817417ms

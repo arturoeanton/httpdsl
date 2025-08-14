@@ -1,0 +1,38 @@
+# IIS Vulnerability Testing
+# Security vulnerability testing script
+
+if $ARGC < 1 then
+    print "ERROR: Missing target URL"
+    set $stop 1
+else
+    set $target $ARG1
+    set $stop 0
+endif
+
+if $stop == 0 then
+    print "[SCAN] IIS Vulnerability Testing"
+    print "Target: $target"
+    
+    set $issues 0
+    
+    # Test 1: IIS version
+    GET "$target/"
+    
+    
+    extract header "Server" as $server
+    if $server contains "IIS/" then
+        print "[LOW] IIS version disclosed"
+        set $issues $issues + 1
+    endif
+
+    # Test 2: ASP.NET trace
+    GET "$target/trace.axd"
+    
+    
+    if response contains "Application Trace" then
+        print "[HIGH] ASP.NET trace enabled"
+        set $issues $issues + 1
+    endif
+
+    print "[✓] Completed: 0048_iis_vulnerabilities - Found $issues of 2 vulnerabilities tested"
+endif

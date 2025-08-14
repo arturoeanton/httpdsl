@@ -1,0 +1,7 @@
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0023_websocket.http
+════════════════════════════════════════════════════════════
+[2025-08-13 17:22:34.899] [ERROR] Request failed: Get "https://www.siigo.com/ws": context deadline exceeded (Client.Timeout exceeded while awaiting headers)
+❌ Error: execution failed: error parsing HTTP request: unexpected token: header at line 1, column 18:
+GET "$target/ws" header "Upgrade" "websocket" header "Connection" "Upgrade" header "Origin" "http://evil.com" header "Sec-WebSocket-Version" "13" header "Sec-WebSocket-Key" "dGhlIHNhbXBsZSBub25jZQ=="
+                 ^

@@ -1,0 +1,11 @@
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0004_xss.http
+════════════════════════════════════════════════════════════
+Variable $target set to https://siigo.com
+Variable $stop set to 0
+[SCAN] Cross-Site Scripting (XSS)
+Target: https://siigo.com
+Variable $xss_found set to 0
+[✓] Completed: 0004_xss - Found 0 of 8 vulnerabilities tested
+
+✅ Script completed in 5.310598333s

@@ -1,0 +1,77 @@
+# SSL/TLS Security Check
+# Tests for SSL/TLS configuration issues
+
+if $ARGC < 1 then
+    print "ERROR: Missing target URL"
+    set $stop 1
+else
+    set $target $ARG1
+    set $stop 0
+endif
+
+if $stop == 0 then
+    print "[SCAN] SSL/TLS Security Testing"
+    print "Target: $target"
+    
+    set $tls_issues 0
+    
+    # Test 1: HTTP Strict Transport Security
+    GET "$target"
+    extract header "Strict-Transport-Security" as $hsts
+    if $hsts empty then
+        print "[HIGH] Missing HSTS header"
+        print "  URL: $target"
+        print "  Risk: Protocol downgrade"
+        print "  Fix: Enable HSTS"
+        set $tls_issues $tls_issues + 1
+    endif
+    
+    # Test 2: Insecure cookies
+    GET "$target"
+    extract header "Set-Cookie" as $cookie
+    if $cookie not empty then
+        if $cookie not contains "Secure" then
+            print "[MEDIUM] Cookie without Secure flag"
+            print "  URL: $target"
+            print "  Risk: Cookie hijacking"
+            print "  Fix: Set Secure flag"
+            set $tls_issues $tls_issues + 1
+        endif
+    endif
+    
+    # Test 3: Mixed content
+    GET "$target"
+    if response contains "http://" then
+        if response contains "<script" then
+            print "[HIGH] Mixed content (HTTP scripts)"
+            print "  URL: $target"
+            print "  Risk: Man-in-the-middle"
+            print "  Fix: Use HTTPS everywhere"
+            set $tls_issues $tls_issues + 1
+        endif
+    endif
+    
+    # Test 4: Certificate validation
+    GET "$target"
+    extract header "Public-Key-Pins" as $hpkp
+    if $hpkp empty then
+        print "[LOW] No certificate pinning"
+        print "  URL: $target"
+        print "  Risk: Certificate substitution"
+        print "  Fix: Consider HPKP or CT"
+        set $tls_issues $tls_issues + 1
+    endif
+    
+    # Test 5: Expect-CT header
+    GET "$target"
+    extract header "Expect-CT" as $expect_ct
+    if $expect_ct empty then
+        print "[LOW] Missing Expect-CT header"
+        print "  URL: $target"
+        print "  Risk: Certificate transparency"
+        print "  Fix: Enable Expect-CT"
+        set $tls_issues $tls_issues + 1
+    endif
+    
+    print "[✓] Completed: 0035_ssl_tls - Found $tls_issues of 5 vulnerabilities tested"
+endif

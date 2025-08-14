@@ -1,0 +1,11 @@
+
+🚀 Executing HTTP Script: /Users/arturoeliasanton/github.com/arturoeanton/httpdsl/scripts/web_scan/checks/0042_sql_injection_python.http
+════════════════════════════════════════════════════════════
+Variable $target set to https://tudely.com
+Variable $stop set to 0
+[SCAN] Python SQL Injection Testing
+Target: https://tudely.com
+Variable $issues set to 0
+[✓] Completed: 0042_sql_injection_python - Found 0 of 2 vulnerabilities tested
+
+✅ Script completed in 5.813420875s

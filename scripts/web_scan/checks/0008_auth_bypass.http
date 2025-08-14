@@ -1,0 +1,48 @@
+# Authentication Bypass Check
+# Tests for authentication bypass vulnerabilities
+
+if $ARGC < 1 then
+    print "ERROR: Missing target URL"
+    set $stop 1
+else
+    set $target $ARG1
+    set $stop 0
+endif
+
+if $stop == 0 then
+    print "[SCAN] Authentication Bypass Testing"
+    print "Target: $target"
+    
+    set $auth_issues 0
+    
+    # Test 1: Direct admin access
+    GET "$target/admin"
+    extract status as $admin_status
+    if $admin_status equals 200 then
+        print "[CRITICAL] Admin panel accessible without auth"
+        print "  URL: $target/admin"
+        set $auth_issues $auth_issues + 1
+    endif
+    
+    # Test 2: Dashboard access
+    GET "$target/dashboard"
+    extract status as $dash_status
+    if $dash_status equals 200 then
+        if response contains "Welcome" then
+            print "[CRITICAL] Dashboard accessible without auth"
+            print "  URL: $target/dashboard"
+            set $auth_issues $auth_issues + 1
+        endif
+    endif
+    
+    # Test 3: API key bypass
+    GET "$target/api/user"
+    extract status as $api_status
+    if $api_status equals 200 then
+        print "[HIGH] API accessible without authentication"
+        print "  URL: $target/api/user"
+        set $auth_issues $auth_issues + 1
+    endif
+    
+    print "[✓] Completed: 0008_auth_bypass - Found $auth_issues of 3 vulnerabilities tested"
+endif

@@ -1,0 +1,144 @@
+# Ubuntu/Debian-Specific Security Detection
+# Testing for Ubuntu and Debian distribution vulnerabilities
+
+set $target $ARG1
+set $stop 0
+
+print "[SCAN] Ubuntu/Debian Security Testing"
+print "Target: $target"
+
+set $ubuntu_vulns 0
+
+# Test 1: APT package lists exposure
+GET "$target/var/lib/apt/lists/"
+extract regex "ubuntu.com|debian.org|Packages" as $apt_lists
+if $apt_lists not empty then
+    print "[LOW] APT package lists exposed"
+    print "  URL: $target/var/lib/apt/lists/"
+    print "  Risk: Package inventory disclosure"
+    print "  Fix: Exclude APT cache from web"
+    set $ubuntu_vulns $ubuntu_vulns + 1
+endif
+
+# Test 2: Ubuntu cloud-init logs
+GET "$target/var/log/cloud-init.log"
+extract regex "cloud-init|DataSource|user-data" as $cloudinit_log
+if $cloudinit_log not empty then
+    print "[HIGH] Cloud-init logs exposed"
+    print "  URL: $target/var/log/cloud-init.log"
+    print "  Risk: Initialization secrets"
+    print "  Fix: Protect cloud-init logs"
+    set $ubuntu_vulns $ubuntu_vulns + 1
+endif
+
+# Test 3: Snap package information
+GET "$target/snap/snapd/current/meta/snap.yaml"
+extract regex "name:|version:|apps:" as $snap_info
+if $snap_info not empty then
+    print "[LOW] Snap package info exposed"
+    print "  URL: $target/snap/"
+    print "  Risk: Application inventory"
+    print "  Fix: Block snap directory"
+    set $ubuntu_vulns $ubuntu_vulns + 1
+endif
+
+# Test 4: UFW firewall rules
+GET "$target/etc/ufw/user.rules"
+extract regex "ALLOW|DENY|ufw-user" as $ufw_rules
+if $ufw_rules not empty then
+    print "[MEDIUM] UFW firewall rules exposed"
+    print "  URL: $target/etc/ufw/"
+    print "  Risk: Firewall policy disclosure"
+    print "  Fix: Protect UFW configs"
+    set $ubuntu_vulns $ubuntu_vulns + 1
+endif
+
+# Test 5: Netplan configuration
+GET "$target/etc/netplan/01-netcfg.yaml"
+extract regex "network:|ethernets:|addresses:" as $netplan
+if $netplan not empty then
+    print "[MEDIUM] Netplan config exposed"
+    print "  URL: $target/etc/netplan/"
+    print "  Risk: Network configuration leak"
+    print "  Fix: Secure netplan files"
+    set $ubuntu_vulns $ubuntu_vulns + 1
+endif
+
+# Test 6: AppArmor profiles
+GET "$target/etc/apparmor.d/"
+extract regex "profile|capability|network" as $apparmor
+if $apparmor not empty then
+    print "[LOW] AppArmor profiles exposed"
+    print "  URL: $target/etc/apparmor.d/"
+    print "  Risk: Security policy disclosure"
+    print "  Fix: Restrict AppArmor access"
+    set $ubuntu_vulns $ubuntu_vulns + 1
+endif
+
+# Test 7: Ubuntu Advantage status
+GET "$target/var/lib/ubuntu-advantage/status.json"
+extract regex "attached|expires|services" as $ua_status
+if $ua_status not empty then
+    print "[LOW] Ubuntu Advantage status exposed"
+    print "  URL: $target/var/lib/ubuntu-advantage/"
+    print "  Risk: Subscription info leak"
+    print "  Fix: Protect UA status files"
+    set $ubuntu_vulns $ubuntu_vulns + 1
+endif
+
+# Test 8: Unattended upgrades config
+GET "$target/etc/apt/apt.conf.d/50unattended-upgrades"
+extract regex "Unattended-Upgrade|Origins-Pattern" as $unattended
+if $unattended not empty then
+    print "[LOW] Unattended upgrades config exposed"
+    print "  URL: $target/etc/apt/apt.conf.d/"
+    print "  Risk: Update policy disclosure"
+    print "  Fix: Secure APT configs"
+    set $ubuntu_vulns $ubuntu_vulns + 1
+endif
+
+# Test 9: DPKG database status
+GET "$target/var/lib/dpkg/status"
+extract regex "Package: linux-image|Version:" as $dpkg_db
+if $dpkg_db not empty then
+    print "[MEDIUM] DPKG database exposed"
+    print "  URL: $target/var/lib/dpkg/status"
+    print "  Risk: Kernel version disclosure"
+    print "  Fix: Block DPKG database"
+    set $ubuntu_vulns $ubuntu_vulns + 1
+endif
+
+# Test 10: Ubuntu MOTD scripts
+GET "$target/etc/update-motd.d/"
+extract regex "#!/bin/sh|uname|lsb_release" as $motd_scripts
+if $motd_scripts not empty then
+    print "[LOW] MOTD scripts exposed"
+    print "  URL: $target/etc/update-motd.d/"
+    print "  Risk: System info scripts"
+    print "  Fix: Protect MOTD directory"
+    set $ubuntu_vulns $ubuntu_vulns + 1
+endif
+
+# Test 11: Landscape client config
+GET "$target/etc/landscape/client.conf"
+extract regex "account_name|registration_key|url" as $landscape
+if $landscape not empty then
+    print "[MEDIUM] Landscape config exposed"
+    print "  URL: $target/etc/landscape/"
+    print "  Risk: Management system info"
+    print "  Fix: Secure Landscape config"
+    set $ubuntu_vulns $ubuntu_vulns + 1
+endif
+
+# Test 12: Do-release-upgrade state
+GET "$target/var/lib/update-manager/meta-release"
+extract regex "Dist:|Supported:|Version:" as $release_upgrade
+if $release_upgrade not empty then
+    print "[LOW] Release upgrade info exposed"
+    print "  URL: $target/var/lib/update-manager/"
+    print "  Risk: Version information"
+    print "  Fix: Block update-manager data"
+    set $ubuntu_vulns $ubuntu_vulns + 1
+endif
+
+print "[✓] Completed: 0054_ubuntu_debian - Found $ubuntu_vulns of 12 vulnerabilities tested"

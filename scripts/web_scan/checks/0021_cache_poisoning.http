@@ -1,0 +1,74 @@
+# Cache Poisoning Detection
+# Tests for web cache poisoning vulnerabilities
+
+if $ARGC < 1 then
+    print "ERROR: Missing target URL"
+    set $stop 1
+else
+    set $target $ARG1
+    set $stop 0
+endif
+
+if $stop == 0 then
+    print "[SCAN] Cache Poisoning Testing"
+    print "Target: $target"
+    
+    set $cache_issues 0
+    
+    # Test 1: Host header poisoning
+    GET "$target/"
+    header "Host" "evil.com"
+    if response contains "evil.com" then
+        print "[HIGH] Host header injection in cache"
+        print "  URL: $target/"
+        print "  Risk: Cache poisoning"
+        print "  Fix: Validate Host header"
+        set $cache_issues $cache_issues + 1
+    endif
+    
+    # Test 2: X-Forwarded-Host poisoning
+    GET "$target/"
+    header "X-Forwarded-Host" "attacker.com"
+    if response contains "attacker.com" then
+        print "[HIGH] X-Forwarded-Host cache poisoning"
+        print "  URL: $target/"
+        print "  Risk: Cache poisoning via proxy headers"
+        print "  Fix: Validate forwarded headers"
+        set $cache_issues $cache_issues + 1
+    endif
+    
+    # Test 3: X-Forwarded-Scheme poisoning
+    GET "$target/"
+    header "X-Forwarded-Scheme" "http"
+    header "X-Forwarded-Port" "80"
+    if response contains "http://" then
+        print "[MEDIUM] Protocol downgrade in cache"
+        print "  URL: $target/"
+        print "  Risk: HTTPS stripping"
+        print "  Fix: Enforce HTTPS"
+        set $cache_issues $cache_issues + 1
+    endif
+    
+    # Test 4: Query parameter pollution
+    GET "$target/?utm_content=<script>alert(1)</script>&callback=evil"
+    if response contains "<script>alert(1)</script>" then
+        print "[HIGH] Unkeyed parameter in cache"
+        print "  URL: $target/"
+        print "  Risk: XSS via cache"
+        print "  Fix: Validate cache keys"
+        set $cache_issues $cache_issues + 1
+    endif
+    
+    # Test 5: Accept-Language poisoning
+    GET "$target/"
+    header "Accept-Language" "../../../etc/passwd"
+    if response contains "root:" then
+        print "[CRITICAL] Path traversal via Accept-Language"
+        print "  URL: $target/"
+        print "  Risk: File disclosure"
+        print "  Fix: Sanitize language headers"
+        set $cache_issues $cache_issues + 1
+    endif
+    
+    print "[✓] Completed: 0021_cache_poisoning - Found $cache_issues of 5 vulnerabilities tested"
+endif
