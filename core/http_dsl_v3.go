@@ -113,6 +113,7 @@ func (hd *HTTPDSLv3) setupGrammar() {
 	hd.dsl.KeywordToken("var", "var")
 	hd.dsl.KeywordToken("print", "print")
 	hd.dsl.KeywordToken("length", "length")
+	hd.dsl.KeywordToken("split", "split")
 	hd.dsl.KeywordToken("at", "at")
 	hd.dsl.KeywordToken("extract", "extract")
 	hd.dsl.KeywordToken("from", "from")
@@ -523,6 +524,7 @@ func (hd *HTTPDSLv3) setupGrammar() {
 
 	// Function calls
 	hd.dsl.Rule("function_call", []string{"length", "VARIABLE"}, "lengthFunction")
+	hd.dsl.Rule("function_call", []string{"split", "VARIABLE", "STRING"}, "splitFunction")
 
 	// DEVELOPER GUIDE: Array Indexing
 	// Arrays use bracket notation: $array[index]
@@ -583,6 +585,34 @@ func (hd *HTTPDSLv3) setupGrammar() {
 			}
 		}
 		return 0, nil
+	})
+
+	hd.dsl.Action("splitFunction", func(args []interface{}) (interface{}, error) {
+		varName := strings.TrimPrefix(args[1].(string), "$")
+		delimiter := hd.unquoteString(args[2].(string))
+		
+		if val, ok := hd.variables[varName]; ok {
+			// Convert value to string if needed
+			strVal := ""
+			switch v := val.(type) {
+			case string:
+				strVal = v
+			default:
+				strVal = fmt.Sprintf("%v", v)
+			}
+			
+			// Split the string
+			parts := strings.Split(strVal, delimiter)
+			
+			// Convert to interface array for consistency
+			result := make([]interface{}, len(parts))
+			for i, part := range parts {
+				result[i] = part
+			}
+			
+			return result, nil
+		}
+		return nil, fmt.Errorf("variable $%s not found", varName)
 	})
 
 	hd.dsl.Action("arrayAccess", func(args []interface{}) (interface{}, error) {
