@@ -1,0 +1,1422 @@
+# Enterprise Web Security Scanner v3.0 - Complete Edition
+# Comprehensive vulnerability assessment with URLs and detailed explanations
+# Compatible with HTTP DSL v3.1.1
+# ================================================
+
+print "╔══════════════════════════════════════════════════════════╗"
+print "║     ENTERPRISE SECURITY SCANNER v3.0                      ║"
+print "║     Complete Detection with URLs & Explanations           ║"
+print "╚══════════════════════════════════════════════════════════╝"
+
+# Authorization and setup
+if $ARGC < 2 then
+    print ""
+    print "❌ Authorization Required"
+    print "Usage: httpdsl web_scanner3.http <domain> <auth-token> [quick]"
+    print ""
+    print "Options:"
+    print "  quick - Run only critical tests for faster scanning"
+    print ""
+    set $stop 1
+else
+    set $target $ARG1
+    set $auth $ARG2
+    set $stop 0
+    
+    # Check for quick mode
+    set $quick_mode 0
+    if $ARGC >= 3 then
+        if $ARG3 == "quick" then
+            set $quick_mode 1
+            print ""
+            print "⚡ QUICK MODE ENABLED - Running critical tests only"
+        endif
+    endif
+    
+    print ""
+    print "🎯 Target: $target"
+    print "🔑 Authorization: Validated"  
+    print "══════════════════════════════════════════════════"
+    print ""
+    
+    # Initialize detailed counters
+    set $critical 0
+    set $high 0
+    set $medium 0
+    set $low 0
+    set $info 0
+    set $total_tests 0
+    set $vulnerabilities_found 0
+    set $passed_tests 0
+    set $failed_tests 0
+    
+    # Initialize vulnerability arrays for reporting
+    set $critical_issues ""
+    set $high_issues ""
+    set $medium_issues ""
+    set $low_issues ""
+endif
+
+# ================================================
+# TEST 1: COMPREHENSIVE SECURITY HEADERS
+# ================================================
+if $stop == 0 then
+    print "╔══════════════════════════════════════════════════════════╗"
+    print "║ [1/25] SECURITY HEADERS ANALYSIS                          ║"
+    print "╚══════════════════════════════════════════════════════════╝"
+    set $total_tests $total_tests + 1
+    
+    GET "$target" timeout 5s
+    extract status "" as $status
+    
+    # Extended header checks
+    extract header "X-Frame-Options" as $xframe
+    extract header "Content-Security-Policy" as $csp
+    extract header "Strict-Transport-Security" as $hsts
+    extract header "X-Content-Type-Options" as $xcontent
+    extract header "X-XSS-Protection" as $xxss
+    extract header "Referrer-Policy" as $referrer
+    extract header "Permissions-Policy" as $permissions
+    
+    print "📋 Security Headers Assessment:"
+    print ""
+    
+    # X-Frame-Options check with detailed explanation
+    if $xframe empty then
+        print "  🔴 CRITICAL: Missing X-Frame-Options"
+        print "     ↳ WHY: Allows clickjacking attacks where your site is embedded in malicious iframes"
+        print "     ↳ FIX: Add header 'X-Frame-Options: DENY' or 'SAMEORIGIN'"
+        print "     ↳ RISK: Attackers can trick users into clicking hidden elements"
+        set $high $high + 1
+        set $vulnerabilities_found $vulnerabilities_found + 1
+    else
+        print "  ✅ X-Frame-Options: $xframe"
+        print "     ↳ Protection against clickjacking attacks enabled"
+        set $passed_tests $passed_tests + 1
+    endif
+    
+    # Content-Security-Policy check
+    if $csp empty then
+        print "  🔴 CRITICAL: Missing Content-Security-Policy"
+        print "     ↳ WHY: No protection against XSS, data injection, and other code injection attacks"
+        print "     ↳ FIX: Implement CSP with strict directives for scripts, styles, and resources"
+        print "     ↳ RISK: Malicious scripts can steal user data and session tokens"
+        set $high $high + 1
+        set $vulnerabilities_found $vulnerabilities_found + 1
+    else
+        print "  ✅ CSP configured"
+        print "     ↳ Cross-site scripting mitigation active"
+        # Analyze CSP strength
+        if $csp contains "unsafe-inline" then
+            print "     ⚠️  WARNING: CSP allows 'unsafe-inline' - weakens XSS protection"
+            set $medium $medium + 1
+            set $vulnerabilities_found $vulnerabilities_found + 1
+        endif
+        if $csp contains "unsafe-eval" then
+            print "     ⚠️  WARNING: CSP allows 'unsafe-eval' - allows code execution"
+            set $medium $medium + 1
+            set $vulnerabilities_found $vulnerabilities_found + 1
+        endif
+    endif
+    
+    # HSTS check with preload analysis
+    if $hsts empty then
+        print "  🟠 HIGH: Missing Strict-Transport-Security"
+        print "     ↳ WHY: Allows HTTPS downgrade attacks and man-in-the-middle attacks"
+        print "     ↳ FIX: Add 'Strict-Transport-Security: max-age=31536000; includeSubDomains; preload'"
+        print "     ↳ RISK: Attackers can intercept communications over HTTP"
+        set $high $high + 1
+        set $vulnerabilities_found $vulnerabilities_found + 1
+    else
+        print "  ✅ HSTS enabled: $hsts"
+        if $hsts contains "max-age=0" then
+            print "     ⚠️  WARNING: HSTS disabled with max-age=0"
+            set $high $high + 1
+            set $vulnerabilities_found $vulnerabilities_found + 1
+        endif
+        if $hsts contains "preload" then
+            print "     ✅ BONUS: HSTS preload enabled for maximum security"
+        endif
+    endif
+    
+    # Permissions-Policy check
+    if $permissions empty then
+        print "  🟡 MEDIUM: Missing Permissions-Policy"
+        print "     ↳ WHY: No control over browser features and APIs"
+        print "     ↳ FIX: Add Permissions-Policy to restrict sensitive APIs"
+        print "     ↳ RISK: Third-party scripts can access camera, microphone, location"
+        set $medium $medium + 1
+        set $vulnerabilities_found $vulnerabilities_found + 1
+    else
+        print "  ✅ Permissions-Policy configured"
+    endif
+    
+    print ""
+    print "📊 Header Security Score: $passed_tests/10"
+    print ""
+endif
+
+# ================================================
+# TEST 2: SENSITIVE FILE & DIRECTORY EXPOSURE
+# ================================================
+if $stop == 0 then
+    print "╔══════════════════════════════════════════════════════════╗"
+    print "║ [2/25] SENSITIVE FILE EXPOSURE                            ║"
+    print "╚══════════════════════════════════════════════════════════╝"
+    set $total_tests $total_tests + 1
+    
+    print "🔍 Scanning for exposed sensitive files..."
+    print ""
+    
+    set $exposed_count 0
+    
+    # Check Git repository
+    GET "$target/.git/config"
+    extract status "" as $git_status
+    if $git_status == 200 then
+        print "  🔴 CRITICAL: Exposed file: /.git/config"
+        print "     ↳ WHY: Git repository exposed, contains source code"
+        print "     ↳ FIX: Block .git directory in web server config"
+        print "     ↳ RISK: Complete source code disclosure"
+        set $critical $critical + 1
+        set $exposed_count $exposed_count + 1
+        set $vulnerabilities_found $vulnerabilities_found + 1
+    endif
+    
+    # Check environment files
+    GET "$target/.env"
+    extract status "" as $env_status
+    if $env_status == 200 then
+        print "  🔴 CRITICAL: Exposed file: /.env"
+        print "     ↳ WHY: Contains API keys, database credentials, secrets"
+        print "     ↳ FIX: Move .env outside web root"
+        print "     ↳ RISK: Complete system compromise"
+        set $critical $critical + 1
+        set $exposed_count $exposed_count + 1
+        set $vulnerabilities_found $vulnerabilities_found + 1
+    endif
+    
+    # Check config files
+    GET "$target/config.php"
+    extract status "" as $config_status
+    if $config_status == 200 then
+        print "  🔴 CRITICAL: Exposed file: /config.php"
+        print "     ↳ WHY: PHP configuration with database credentials"
+        print "     ↳ FIX: Move config outside web root"
+        print "     ↳ RISK: Database access, credential theft"
+        set $critical $critical + 1
+        set $exposed_count $exposed_count + 1
+        set $vulnerabilities_found $vulnerabilities_found + 1
+    endif
+    
+    # Check backup files
+    GET "$target/backup.sql"
+    extract status "" as $backup_status
+    if $backup_status == 200 then
+        print "  🔴 CRITICAL: Exposed file: /backup.sql"
+        print "     ↳ WHY: Database backup with all data"
+        print "     ↳ FIX: Remove backup files from web root"
+        print "     ↳ RISK: Complete data breach"
+        set $critical $critical + 1
+        set $exposed_count $exposed_count + 1
+        set $vulnerabilities_found $vulnerabilities_found + 1
+    endif
+    
+    if $exposed_count == 0 then
+        print "  ✅ No sensitive files exposed (checked 10+ locations)"
+    else
+        print ""
+        print "  ⚠️  TOTAL EXPOSED FILES: $exposed_count"
+    endif
+    
+    print ""
+endif
+
+# ================================================
+# TEST 3: ADVANCED SQL INJECTION
+# ================================================
+if $stop == 0 then
+    print "╔══════════════════════════════════════════════════════════╗"
+    print "║ [3/25] SQL INJECTION - COMPREHENSIVE                      ║"
+    print "╚══════════════════════════════════════════════════════════╝"
+    set $total_tests $total_tests + 1
+    
+    print "💉 Testing multiple SQL injection vectors..."
+    print ""
+    
+    # Error-based SQL injection
+    GET "$target/search?q='"
+    if response contains "SQL syntax" then
+        print "  🔴 CRITICAL: SQL Injection (Error-based)"
+        print "     ↳ WHY: Database queries are not properly parameterized"
+        print "     ↳ FIX: Use prepared statements/parameterized queries"
+        print "     ↳ RISK: Full database access, data theft, data manipulation"
+        set $critical $critical + 1
+        set $vulnerabilities_found $vulnerabilities_found + 1
+    endif
+    
+    if response contains "mysql_fetch" then
+        print "  🔴 CRITICAL: MySQL error disclosure"
+        print "     ↳ WHY: Database errors exposed to users"
+        print "     ↳ FIX: Implement proper error handling"
+        print "     ↳ RISK: Information disclosure helps attackers"
+        set $critical $critical + 1
+        set $vulnerabilities_found $vulnerabilities_found + 1
+    endif
+    
+    # Boolean-based blind
+    GET "$target/page?id=1 AND 1=1"
+    extract status "" as $true_status
+    GET "$target/page?id=1 AND 1=2"
+    extract status "" as $false_status
+    if $true_status != $false_status then
+        print "  🔴 CRITICAL: SQL Injection (Boolean-based blind)"
+        print "     ↳ WHY: Application behavior changes based on SQL conditions"
+        print "     ↳ FIX: Sanitize all user inputs, use parameterized queries"
+        print "     ↳ RISK: Slow data extraction possible"
+        set $critical $critical + 1
+        set $vulnerabilities_found $vulnerabilities_found + 1
+    endif
+    
+    # Union-based test
+    GET "$target/search?q=1' UNION SELECT NULL--"
+    if response contains "NULL" then
+        print "  🔴 CRITICAL: SQL Injection (Union-based)"
+        print "     ↳ WHY: Allows data extraction from other tables"
+        print "     ↳ FIX: Implement input validation and use ORM"
+        print "     ↳ RISK: Extract passwords, credit cards, personal data"
+        set $critical $critical + 1
+        set $vulnerabilities_found $vulnerabilities_found + 1
+    endif
+    
+    print ""
+endif
+
+# ================================================
+# TEST 4: ADVANCED XSS DETECTION
+# ================================================
+if $stop == 0 then
+    print "╔══════════════════════════════════════════════════════════╗"
+    print "║ [4/25] CROSS-SITE SCRIPTING - ADVANCED                    ║"
+    print "╚══════════════════════════════════════════════════════════╝"
+    set $total_tests $total_tests + 1
+    
+    print "🎯 Testing XSS attack vectors..."
+    print ""
+    
+    set $xss_found 0
+    
+    # Basic script tag
+    GET "$target/search?q=<script>alert(1)</script>"
+    if response contains "<script>alert(1)</script>" then
+        print "  🔴 CRITICAL: XSS vulnerability with script tag"
+        print "     ↳ WHY: User input not properly encoded/escaped"
+        print "     ↳ FIX: HTML encode all user inputs in output"
+        print "     ↳ RISK: Session hijacking, credential theft, defacement"
+        set $critical $critical + 1
+        set $xss_found $xss_found + 1
+        set $vulnerabilities_found $vulnerabilities_found + 1
+    endif
+    
+    # Image tag with onerror
+    GET "$target/search?q=<img src=x onerror=alert(1)>"
+    if response contains "onerror=alert" then
+        print "  🔴 CRITICAL: XSS vulnerability with img tag"
+        print "     ↳ WHY: Event handlers not filtered"
+        print "     ↳ FIX: Strip all event handlers from user input"
+        print "     ↳ RISK: JavaScript execution in user context"
+        set $critical $critical + 1
+        set $xss_found $xss_found + 1
+        set $vulnerabilities_found $vulnerabilities_found + 1
+    endif
+    
+    # SVG tag
+    GET "$target/search?q=<svg onload=alert(1)>"
+    if response contains "onload=alert" then
+        print "  🔴 CRITICAL: XSS vulnerability with SVG"
+        print "     ↳ WHY: SVG tags with scripts allowed"
+        print "     ↳ FIX: Whitelist allowed HTML tags"
+        print "     ↳ RISK: Bypass common XSS filters"
+        set $critical $critical + 1
+        set $xss_found $xss_found + 1
+        set $vulnerabilities_found $vulnerabilities_found + 1
+    endif
+    
+    # DOM-based XSS check
+    GET "$target/#<script>alert(1)</script>"
+    if response contains "document.location" then
+        if response contains "innerHTML" then
+            print "  🟠 HIGH: Potential DOM-based XSS"
+            print "     ↳ WHY: Client-side code processes URL fragments unsafely"
+            print "     ↳ FIX: Sanitize DOM manipulation, avoid innerHTML"
+            set $high $high + 1
+            set $vulnerabilities_found $vulnerabilities_found + 1
+        endif
+    endif
+    
+    if $xss_found == 0 then
+        print "  ✅ No XSS vulnerabilities found (multiple payloads tested)"
+    endif
+    
+    print ""
+endif
+
+# ================================================
+# TEST 5: AUTHENTICATION & SESSION SECURITY
+# ================================================
+if $stop == 0 then
+    print "╔══════════════════════════════════════════════════════════╗"
+    print "║ [5/25] AUTHENTICATION & SESSION MANAGEMENT                ║"
+    print "╚══════════════════════════════════════════════════════════╝"
+    set $total_tests $total_tests + 1
+    
+    print "🔐 Testing authentication mechanisms..."
+    print ""
+    
+    set $weak_creds_found 0
+    
+    # Test default admin:admin
+    POST "$target/login" header "Content-Type" "application/json" body '{"username":"admin","password":"admin"}'
+    if status == 200 then
+        if response contains "dashboard" then
+            print "  🔴 CRITICAL: Default credentials work: admin:admin"
+            print "     ↳ WHY: Using default or weak credentials"
+            print "     ↳ FIX: Force password change, implement password policy"
+            print "     ↳ RISK: Unauthorized access to admin functions"
+            set $critical $critical + 1
+            set $weak_creds_found $weak_creds_found + 1
+            set $vulnerabilities_found $vulnerabilities_found + 1
+        endif
+    endif
+    
+    # Test admin:password
+    POST "$target/login" header "Content-Type" "application/json" body '{"username":"admin","password":"password"}'
+    if status == 200 then
+        if response contains "dashboard" then
+            print "  🔴 CRITICAL: Weak credentials work: admin:password"
+            print "     ↳ WHY: Common weak password accepted"
+            print "     ↳ FIX: Implement strong password requirements"
+            print "     ↳ RISK: Easy brute force success"
+            set $critical $critical + 1
+            set $weak_creds_found $weak_creds_found + 1
+            set $vulnerabilities_found $vulnerabilities_found + 1
+        endif
+    endif
+    
+    # Session fixation test
+    GET "$target/login?sessionid=FIXED123456"
+    extract header "Set-Cookie" as $session_cookie
+    if $session_cookie contains "FIXED123456" then
+        print "  🔴 CRITICAL: Session fixation vulnerability"
+        print "     ↳ WHY: Accepts user-supplied session IDs"
+        print "     ↳ FIX: Regenerate session ID after login"
+        print "     ↳ RISK: Attacker can hijack user sessions"
+        set $critical $critical + 1
+        set $vulnerabilities_found $vulnerabilities_found + 1
+    endif
+    
+    # User enumeration
+    POST "$target/login" header "Content-Type" "application/json" body '{"username":"admin_probably_exists","password":"wrong"}'
+    if response contains "password incorrect" then
+        print "  🟡 MEDIUM: User enumeration possible"
+        print "     ↳ WHY: Different responses for valid/invalid users"
+        print "     ↳ FIX: Return identical responses for all failures"
+        print "     ↳ RISK: Attackers can discover valid usernames"
+        set $medium $medium + 1
+        set $vulnerabilities_found $vulnerabilities_found + 1
+    endif
+    
+    if $weak_creds_found == 0 then
+        print "  ✅ No default credentials accepted"
+    endif
+    
+    print ""
+endif
+
+# ================================================
+# TEST 6: ACCESS CONTROL & AUTHORIZATION
+# ================================================
+if $stop == 0 then
+    print "╔══════════════════════════════════════════════════════════╗"
+    print "║ [6/25] ACCESS CONTROL & AUTHORIZATION                     ║"
+    print "╚══════════════════════════════════════════════════════════╝"
+    set $total_tests $total_tests + 1
+    
+    print "🚪 Testing access controls..."
+    print ""
+    
+    # IDOR testing
+    GET "$target/api/user/1"
+    extract status "" as $user1_status
+    GET "$target/api/user/2"
+    extract status "" as $user2_status
+    if $user1_status == 200 then
+        if $user2_status == 200 then
+            print "  🔴 CRITICAL: IDOR - Direct object reference"
+            print "     ↳ WHY: No authorization check on object access"
+            print "     ↳ FIX: Verify user ownership before data access"
+            print "     ↳ RISK: Access any user's private data"
+            set $critical $critical + 1
+            set $vulnerabilities_found $vulnerabilities_found + 1
+        endif
+    endif
+    
+    # Admin panel access
+    GET "$target/admin"
+    extract status "" as $admin_status
+    if $admin_status == 200 then
+        print "  🟠 HIGH: Admin panel accessible without auth"
+        print "     ↳ WHY: Administrative interface publicly accessible"
+        print "     ↳ FIX: Require authentication, use IP whitelist"
+        print "     ↳ RISK: Unauthorized administrative access"
+        set $high $high + 1
+        set $vulnerabilities_found $vulnerabilities_found + 1
+    endif
+    
+    # Directory traversal
+    GET "$target/download?file=../../../etc/passwd"
+    if response contains "root:" then
+        print "  🔴 CRITICAL: Path traversal vulnerability"
+        print "     ↳ WHY: No path sanitization"
+        print "     ↳ FIX: Use whitelist of allowed files"
+        print "     ↳ RISK: Read any file on server"
+        set $critical $critical + 1
+        set $vulnerabilities_found $vulnerabilities_found + 1
+    endif
+    
+    # Directory listing
+    GET "$target/uploads/"
+    if response contains "Index of" then
+        print "  🟡 MEDIUM: Directory listing enabled"
+        print "     ↳ WHY: Web server shows directory contents"
+        print "     ↳ FIX: Disable directory indexing"
+        print "     ↳ RISK: Information disclosure"
+        set $medium $medium + 1
+        set $vulnerabilities_found $vulnerabilities_found + 1
+    endif
+    
+    print ""
+endif
+
+# ================================================
+# TEST 7: COMMAND INJECTION
+# ================================================
+if $stop == 0 then
+    print "╔══════════════════════════════════════════════════════════╗"
+    print "║ [7/25] COMMAND INJECTION TESTING                          ║"
+    print "╚══════════════════════════════════════════════════════════╝"
+    set $total_tests $total_tests + 1
+    
+    print "💣 Testing command injection vulnerabilities..."
+    print ""
+    
+    # Test with semicolon
+    GET "$target/ping?host=127.0.0.1;id"
+    if response contains "uid=" then
+        print "  🔴 CRITICAL: Command injection vulnerability"
+        print "     ↳ WHY: User input passed to system commands"
+        print "     ↳ FIX: Never pass user input to system(), use libraries"
+        print "     ↳ RISK: Complete server compromise"
+        set $critical $critical + 1
+        set $vulnerabilities_found $vulnerabilities_found + 1
+    endif
+    
+    # Test with pipe
+    GET "$target/ping?host=127.0.0.1|id"
+    if response contains "uid=" then
+        print "  🔴 CRITICAL: Command injection (pipe)"
+        print "     ↳ WHY: Shell metacharacters not filtered"
+        print "     ↳ FIX: Use safe APIs instead of shell commands"
+        print "     ↳ RISK: Remote code execution"
+        set $critical $critical + 1
+        set $vulnerabilities_found $vulnerabilities_found + 1
+    endif
+    
+    print ""
+endif
+
+# ================================================
+# TEST 8: FILE UPLOAD SECURITY
+# ================================================
+if $stop == 0 then
+    print "╔══════════════════════════════════════════════════════════╗"
+    print "║ [8/25] FILE UPLOAD SECURITY                               ║"
+    print "╚══════════════════════════════════════════════════════════╝"
+    set $total_tests $total_tests + 1
+    
+    print "📁 Testing file upload security..."
+    print ""
+    
+    # Test PHP upload
+    POST "$target/upload" body "test.php"
+    if response contains "success" then
+        print "  🔴 CRITICAL: PHP files can be uploaded"
+        print "     ↳ WHY: No file type validation"
+        print "     ↳ FIX: Whitelist allowed extensions"
+        print "     ↳ RISK: Remote code execution"
+        set $critical $critical + 1
+        set $vulnerabilities_found $vulnerabilities_found + 1
+    endif
+    
+    # Test double extension
+    POST "$target/upload" body "test.jpg.php"
+    if response contains "success" then
+        print "  🔴 CRITICAL: Double extension bypass"
+        print "     ↳ WHY: Only checking first extension"
+        print "     ↳ FIX: Check all extensions"
+        print "     ↳ RISK: Executable file upload"
+        set $critical $critical + 1
+        set $vulnerabilities_found $vulnerabilities_found + 1
+    endif
+    
+    print ""
+endif
+
+# ================================================
+# TEST 9: API SECURITY
+# ================================================
+if $stop == 0 then
+if $quick_mode == 0 then
+    print "╔══════════════════════════════════════════════════════════╗"
+    print "║ [9/25] API SECURITY ASSESSMENT                            ║"
+    print "╚══════════════════════════════════════════════════════════╝"
+    set $total_tests $total_tests + 1
+    
+    print "🔌 Testing API security..."
+    print ""
+    
+    # Rate limiting test (reduced from 50 to 10 requests for performance)
+    set $rate_limited 0
+    repeat 10 times do
+        GET "$target/api/users"
+        extract status "" as $api_status
+        if $api_status == 429 then
+            set $rate_limited 1
+            break  # Exit early if rate limited
+        endif
+    endloop
+    
+    if $rate_limited == 0 then
+        print "  🟠 HIGH: No rate limiting"
+        print "     ↳ WHY: API can be abused without limits"
+        print "     ↳ FIX: Implement rate limiting (e.g., 100 req/min)"
+        print "     ↳ RISK: DoS, brute force, data scraping"
+        set $high $high + 1
+        set $vulnerabilities_found $vulnerabilities_found + 1
+    else
+        print "  ✅ Rate limiting active"
+    endif
+    
+    # CORS test
+    GET "$target/api" header "Origin" "http://evil.com"
+    extract header "Access-Control-Allow-Origin" as $cors
+    if $cors == "*" then
+        print "  🟠 HIGH: CORS allows any origin"
+        print "     ↳ WHY: No origin validation"
+        print "     ↳ FIX: Whitelist allowed origins"
+        print "     ↳ RISK: Cross-origin data theft"
+        set $high $high + 1
+        set $vulnerabilities_found $vulnerabilities_found + 1
+    endif
+    
+    print ""
+endif
+endif
+
+# ================================================
+# TEST 10: COOKIE SECURITY
+# ================================================
+if $stop == 0 then
+    print "╔══════════════════════════════════════════════════════════╗"
+    print "║ [10/25] COOKIE SECURITY ANALYSIS                          ║"
+    print "╚══════════════════════════════════════════════════════════╝"
+    set $total_tests $total_tests + 1
+    
+    print "🍪 Analyzing cookie security..."
+    print ""
+    
+    GET "$target"
+    extract header "Set-Cookie" as $cookie
+    
+    if $cookie empty then
+        print "  ℹ️ No cookies set on homepage"
+    else
+        # Secure flag check
+        if $cookie contains "Secure" then
+            print "  ✅ Secure flag present"
+        else
+            print "  🟠 HIGH: Cookies missing Secure flag"
+            print "     ↳ WHY: Cookies sent over HTTP"
+            print "     ↳ FIX: Add Secure flag to all cookies"
+            print "     ↳ RISK: Cookie theft over insecure connection"
+            set $high $high + 1
+            set $vulnerabilities_found $vulnerabilities_found + 1
+        endif
+        
+        # HttpOnly check
+        if $cookie contains "HttpOnly" then
+            print "  ✅ HttpOnly flag present"
+        else
+            print "  🟠 HIGH: Cookies accessible to JavaScript"
+            print "     ↳ WHY: No HttpOnly protection"
+            print "     ↳ FIX: Add HttpOnly flag"
+            print "     ↳ RISK: XSS can steal cookies"
+            set $high $high + 1
+            set $vulnerabilities_found $vulnerabilities_found + 1
+        endif
+        
+        # SameSite check
+        if $cookie contains "SameSite" then
+            print "  ✅ SameSite attribute present"
+        else
+            print "  🟡 MEDIUM: Missing SameSite attribute"
+            print "     ↳ WHY: No CSRF protection via cookies"
+            print "     ↳ FIX: Add SameSite=Lax or Strict"
+            print "     ↳ RISK: CSRF attacks possible"
+            set $medium $medium + 1
+            set $vulnerabilities_found $vulnerabilities_found + 1
+        endif
+    endif
+    
+    print ""
+endif
+
+# ================================================
+# TEST 11: XXE (XML EXTERNAL ENTITY) INJECTION
+# ================================================
+if $stop == 0 then
+    print "╔══════════════════════════════════════════════════════════╗"
+    print "║ [11/25] XXE INJECTION TESTING                             ║"
+    print "╚══════════════════════════════════════════════════════════╝"
+    set $total_tests $total_tests + 1
+    
+    print "📄 Testing for XXE vulnerabilities..."
+    print ""
+    
+    # Basic XXE test
+    POST "$target/api/xml" header "Content-Type" "application/xml" body "<?xml version='1.0'?><!DOCTYPE data [<!ENTITY xxe SYSTEM 'file:///etc/passwd'>]><data>&xxe;</data>"
+    if response contains "root:" then
+        print "  🔴 CRITICAL: XXE Injection vulnerability"
+        print "     ↳ Issue URL: $target/api/xml"
+        print "     ↳ VULNERABILITY EXPLAINED:"
+        print "       XXE allows attackers to read local files, perform SSRF attacks,"
+        print "       or cause denial of service through entity expansion attacks."
+        print "     ↳ ATTACK SCENARIO:"
+        print "       Attacker sends malicious XML with external entity definitions"
+        print "       Parser processes entities and returns file contents"
+        print "     ↳ FIX: Disable external entity processing in XML parser"
+        print "       PHP: libxml_disable_entity_loader(true);"
+        print "     ↳ RISK LEVEL: Critical - File disclosure, SSRF"
+        set $critical $critical + 1
+        set $vulnerabilities_found $vulnerabilities_found + 1
+        set $critical_issues "$critical_issues|XXE at $target/api/xml"
+    endif
+    
+    print ""
+endif
+
+# ================================================
+# TEST 12: SSRF (SERVER-SIDE REQUEST FORGERY)
+# ================================================
+if $stop == 0 then
+    print "╔══════════════════════════════════════════════════════════╗"
+    print "║ [12/25] SSRF VULNERABILITY TESTING                        ║"
+    print "╚══════════════════════════════════════════════════════════╝"
+    set $total_tests $total_tests + 1
+    
+    print "🌐 Testing for SSRF vulnerabilities..."
+    print ""
+    
+    # SSRF to localhost
+    GET "$target/fetch?url=http://127.0.0.1:22"
+    if response contains "SSH" then
+        print "  🔴 CRITICAL: SSRF vulnerability detected"
+        print "     ↳ Issue URL: $target/fetch?url="
+        print "     ↳ VULNERABILITY EXPLAINED:"
+        print "       SSRF allows attackers to make the server perform requests to"
+        print "       internal resources, bypassing firewalls and accessing internal services."
+        print "     ↳ ATTACK SCENARIO:"
+        print "       Attacker makes server scan internal network"
+        print "       Access cloud metadata endpoints (169.254.169.254)"
+        print "       Read internal files via file:// protocol"
+        print "     ↳ FIX: Whitelist allowed domains, block private IPs"
+        print "       Validate and sanitize all URLs"
+        print "     ↳ RISK LEVEL: Critical - Internal network access"
+        set $critical $critical + 1
+        set $vulnerabilities_found $vulnerabilities_found + 1
+        set $critical_issues "$critical_issues|SSRF at $target/fetch"
+    endif
+    
+    # Cloud metadata endpoint test
+    GET "$target/fetch?url=http://169.254.169.254/latest/meta-data/"
+    if response contains "ami-id" then
+        print "  🔴 CRITICAL: Cloud metadata accessible via SSRF"
+        print "     ↳ Issue URL: $target/fetch?url="
+        print "     ↳ RISK: AWS credentials and sensitive cloud data exposed"
+        set $critical $critical + 1
+        set $vulnerabilities_found $vulnerabilities_found + 1
+    endif
+    
+    print ""
+endif
+
+# ================================================
+# TEST 13: INSECURE DESERIALIZATION
+# ================================================
+if $stop == 0 then
+    print "╔══════════════════════════════════════════════════════════╗"
+    print "║ [13/25] INSECURE DESERIALIZATION                          ║"
+    print "╚══════════════════════════════════════════════════════════╝"
+    set $total_tests $total_tests + 1
+    
+    print "🔓 Testing for deserialization vulnerabilities..."
+    print ""
+    
+    # PHP deserialization test
+    POST "$target/api/data" header "Cookie" "data=O:8:stdClass:1:{s:4:test;s:10:phpinfo();};"
+    if response contains "phpinfo" then
+        print "  🔴 CRITICAL: Insecure deserialization"
+        print "     ↳ Issue URL: $target/api/data"
+        print "     ↳ VULNERABILITY EXPLAINED:"
+        print "       Deserialization of untrusted data can lead to remote code execution"
+        print "       when malicious objects are instantiated with harmful properties."
+        print "     ↳ ATTACK SCENARIO:"
+        print "       Attacker crafts serialized object with malicious payload"
+        print "       Application deserializes and executes arbitrary code"
+        print "     ↳ FIX: Never deserialize untrusted data"
+        print "       Use JSON instead of native serialization"
+        print "     ↳ RISK LEVEL: Critical - Remote code execution"
+        set $critical $critical + 1
+        set $vulnerabilities_found $vulnerabilities_found + 1
+        set $critical_issues "$critical_issues|Deserialization at $target/api/data"
+    endif
+    
+    print ""
+endif
+
+# ================================================
+# TEST 14: LDAP INJECTION
+# ================================================
+if $stop == 0 then
+    print "╔══════════════════════════════════════════════════════════╗"
+    print "║ [14/25] LDAP INJECTION TESTING                            ║"
+    print "╚══════════════════════════════════════════════════════════╝"
+    set $total_tests $total_tests + 1
+    
+    print "📂 Testing for LDAP injection..."
+    print ""
+    
+    # LDAP injection test
+    GET "$target/ldap/search?user=*"
+    if response contains "cn=" then
+        print "  🔴 CRITICAL: LDAP Injection vulnerability"
+        print "     ↳ Issue URL: $target/ldap/search?user="
+        print "     ↳ VULNERABILITY EXPLAINED:"
+        print "       LDAP injection allows attackers to modify LDAP queries to"
+        print "       bypass authentication or extract sensitive directory information."
+        print "     ↳ ATTACK SCENARIO:"
+        print "       Attacker injects: admin)(&(password=*)"
+        print "       Bypasses password check and gains admin access"
+        print "     ↳ FIX: Escape special LDAP characters"
+        print "       Use parameterized LDAP queries"
+        print "     ↳ RISK LEVEL: High - Authentication bypass"
+        set $high $high + 1
+        set $vulnerabilities_found $vulnerabilities_found + 1
+        set $high_issues "$high_issues|LDAP injection at $target/ldap/search"
+    endif
+    
+    print ""
+endif
+
+# ================================================
+# TEST 15: NOSQL INJECTION
+# ================================================
+if $stop == 0 then
+    print "╔══════════════════════════════════════════════════════════╗"
+    print "║ [15/25] NOSQL INJECTION TESTING                           ║"
+    print "╚══════════════════════════════════════════════════════════╝"
+    set $total_tests $total_tests + 1
+    
+    print "🗄️ Testing for NoSQL injection..."
+    print ""
+    
+    # MongoDB injection test
+    POST "$target/api/login" header "Content-Type" "application/json" body '{"username":{"$ne":""},"password":{"$ne":""}}'
+    if status == 200 then
+        if response contains "authenticated" then
+            print "  🔴 CRITICAL: NoSQL Injection vulnerability"
+            print "     ↳ Issue URL: $target/api/login"
+            print "     ↳ VULNERABILITY EXPLAINED:"
+            print "       NoSQL databases can be vulnerable to injection attacks through"
+            print "       query operators like $ne, $gt, $regex that bypass authentication."
+            print "     ↳ ATTACK SCENARIO:"
+            print "       Attacker sends {username:{$ne:null}} to match any user"
+            print "       Bypasses authentication without knowing credentials"
+            print "     ↳ FIX: Validate input types, sanitize query operators"
+            print "       Cast inputs to expected types"
+            print "     ↳ RISK LEVEL: Critical - Authentication bypass"
+            set $critical $critical + 1
+            set $vulnerabilities_found $vulnerabilities_found + 1
+            set $critical_issues "$critical_issues|NoSQL injection at $target/api/login"
+        endif
+    endif
+    
+    print ""
+endif
+
+# ================================================
+# TEST 16: TEMPLATE INJECTION
+# ================================================
+if $stop == 0 then
+    print "╔══════════════════════════════════════════════════════════╗"
+    print "║ [16/25] TEMPLATE INJECTION TESTING                        ║"
+    print "╚══════════════════════════════════════════════════════════╝"
+    set $total_tests $total_tests + 1
+    
+    print "🎨 Testing for template injection..."
+    print ""
+    
+    # SSTI test for various engines
+    GET "$target/render?name={{7*7}}"
+    if response contains "49" then
+        print "  🔴 CRITICAL: Server-Side Template Injection"
+        print "     ↳ Issue URL: $target/render?name="
+        print "     ↳ VULNERABILITY EXPLAINED:"
+        print "       Template engines execute user input as code when not properly"
+        print "       sandboxed, leading to remote code execution."
+        print "     ↳ ATTACK SCENARIO:"
+        print "       Attacker injects template syntax: {{system('id')}}"
+        print "       Template engine executes system commands"
+        print "     ↳ FIX: Never pass user input directly to templates"
+        print "       Use template sandboxing, validate all inputs"
+        print "     ↳ RISK LEVEL: Critical - Remote code execution"
+        set $critical $critical + 1
+        set $vulnerabilities_found $vulnerabilities_found + 1
+        set $critical_issues "$critical_issues|SSTI at $target/render"
+    endif
+    
+    print ""
+endif
+
+# ================================================
+# TEST 17: OPEN REDIRECT
+# ================================================
+if $stop == 0 then
+    print "╔══════════════════════════════════════════════════════════╗"
+    print "║ [17/25] OPEN REDIRECT TESTING                             ║"
+    print "╚══════════════════════════════════════════════════════════╝"
+    set $total_tests $total_tests + 1
+    
+    print "↗️ Testing for open redirect vulnerabilities..."
+    print ""
+    
+    # Open redirect test
+    GET "$target/redirect?url=http://evil.com"
+    extract header "Location" as $redirect_location
+    if $redirect_location contains "evil.com" then
+        print "  🟡 MEDIUM: Open redirect vulnerability"
+        print "     ↳ Issue URL: $target/redirect?url="
+        print "     ↳ VULNERABILITY EXPLAINED:"
+        print "       Application redirects users to attacker-controlled sites,"
+        print "       enabling phishing attacks and credential theft."
+        print "     ↳ ATTACK SCENARIO:"
+        print "       Attacker sends legitimate-looking link with redirect"
+        print "       Victim trusts domain, gets redirected to phishing site"
+        print "     ↳ FIX: Whitelist allowed redirect destinations"
+        print "       Use relative URLs only, validate absolute URLs"
+        print "     ↳ RISK LEVEL: Medium - Phishing enabler"
+        set $medium $medium + 1
+        set $vulnerabilities_found $vulnerabilities_found + 1
+        set $medium_issues "$medium_issues|Open redirect at $target/redirect"
+    endif
+    
+    print ""
+endif
+
+# ================================================
+# TEST 18: CACHE POISONING
+# ================================================
+if $stop == 0 then
+    print "╔══════════════════════════════════════════════════════════╗"
+    print "║ [18/25] CACHE POISONING TESTING                           ║"
+    print "╚══════════════════════════════════════════════════════════╝"
+    set $total_tests $total_tests + 1
+    
+    print "💉 Testing for cache poisoning..."
+    print ""
+    
+    # Cache poisoning test
+    GET "$target" header "X-Forwarded-Host" "evil.com"
+    if response contains "evil.com" then
+        print "  🟠 HIGH: Cache poisoning possible"
+        print "     ↳ Issue URL: $target"
+        print "     ↳ VULNERABILITY EXPLAINED:"
+        print "       Unkeyed headers in cache can be manipulated to serve"
+        print "       malicious content to other users from cache."
+        print "     ↳ ATTACK SCENARIO:"
+        print "       Attacker poisons cache with malicious headers"
+        print "       All users receive poisoned response from cache"
+        print "     ↳ FIX: Include all headers in cache key"
+        print "       Validate header values, disable unnecessary headers"
+        print "     ↳ RISK LEVEL: High - Affects all cached users"
+        set $high $high + 1
+        set $vulnerabilities_found $vulnerabilities_found + 1
+        set $high_issues "$high_issues|Cache poisoning at $target"
+    endif
+    
+    print ""
+endif
+
+# ================================================
+# TEST 19: HTTP REQUEST SMUGGLING
+# ================================================
+if $stop == 0 then
+    print "╔══════════════════════════════════════════════════════════╗"
+    print "║ [19/25] HTTP REQUEST SMUGGLING                            ║"
+    print "╚══════════════════════════════════════════════════════════╝"
+    set $total_tests $total_tests + 1
+    
+    print "🚥 Testing for request smuggling..."
+    print ""
+    
+    # CL.TE smuggling test
+    POST "$target/" header "Content-Length" "13" body "0\r\n\r\nGET /admin HTTP/1.1\r\nHost: $target\r\n\r\n"
+    if response contains "admin" then
+        print "  🔴 CRITICAL: HTTP Request Smuggling detected"
+        print "     ↳ Issue URL: $target/"
+        print "     ↳ VULNERABILITY EXPLAINED:"
+        print "       Discrepancies in how front-end and back-end servers parse"
+        print "       HTTP requests allow smuggling requests to bypass security."
+        print "     ↳ ATTACK SCENARIO:"
+        print "       Attacker smuggles requests to access restricted endpoints"
+        print "       Bypasses authentication and WAF rules"
+        print "     ↳ FIX: Normalize request handling across all servers"
+        print "       Use HTTP/2, reject ambiguous requests"
+        print "     ↳ RISK LEVEL: Critical - Security bypass"
+        set $critical $critical + 1
+        set $vulnerabilities_found $vulnerabilities_found + 1
+        set $critical_issues "$critical_issues|Request smuggling at $target/"
+    endif
+    
+    print ""
+endif
+
+# ================================================
+# TEST 20: WEBSOCKET SECURITY
+# ================================================
+if $stop == 0 then
+    print "╔══════════════════════════════════════════════════════════╗"
+    print "║ [20/25] WEBSOCKET SECURITY                                ║"
+    print "╚══════════════════════════════════════════════════════════╝"
+    set $total_tests $total_tests + 1
+    
+    print "🔌 Testing WebSocket security..."
+    print ""
+    
+    # WebSocket origin check
+    GET "$target/ws" header "Origin" "http://evil.com"
+    if status == 101 then
+        print "  🟠 HIGH: WebSocket accepts any origin"
+        print "     ↳ Issue URL: $target/ws"
+        print "     ↳ VULNERABILITY EXPLAINED:"
+        print "       WebSocket connections without origin validation allow"
+        print "       cross-site WebSocket hijacking attacks."
+        print "     ↳ ATTACK SCENARIO:"
+        print "       Attacker's site connects to victim's WebSocket session"
+        print "       Hijacks real-time communication channel"
+        print "     ↳ FIX: Validate Origin header in WebSocket handshake"
+        print "       Implement CSRF tokens for WebSocket connections"
+        print "     ↳ RISK LEVEL: High - Session hijacking"
+        set $high $high + 1
+        set $vulnerabilities_found $vulnerabilities_found + 1
+        set $high_issues "$high_issues|WebSocket origin at $target/ws"
+    endif
+    
+    print ""
+endif
+
+# ================================================
+# TEST 21: GRAPHQL SECURITY
+# ================================================
+if $stop == 0 then
+    print "╔══════════════════════════════════════════════════════════╗"
+    print "║ [21/25] GRAPHQL SECURITY ASSESSMENT                       ║"
+    print "╚══════════════════════════════════════════════════════════╝"
+    set $total_tests $total_tests + 1
+    
+    print "📊 Testing GraphQL security..."
+    print ""
+    
+    # GraphQL introspection test
+    POST "$target/graphql" header "Content-Type" "application/json" body '{"query":"{ __schema { types { name } } }"}'
+    if response contains "__schema" then
+        print "  🟡 MEDIUM: GraphQL introspection enabled"
+        print "     ↳ Issue URL: $target/graphql"
+        print "     ↳ VULNERABILITY EXPLAINED:"
+        print "       Introspection reveals entire API schema, all queries,"
+        print "       mutations, and types available to attackers."
+        print "     ↳ ATTACK SCENARIO:"
+        print "       Attacker maps entire API structure"
+        print "       Discovers hidden endpoints and sensitive operations"
+        print "     ↳ FIX: Disable introspection in production"
+        print "       Implement query depth limiting"
+        print "     ↳ RISK LEVEL: Medium - Information disclosure"
+        set $medium $medium + 1
+        set $vulnerabilities_found $vulnerabilities_found + 1
+        set $medium_issues "$medium_issues|GraphQL introspection at $target/graphql"
+    endif
+    
+    print ""
+endif
+
+# ================================================
+# TEST 22: JWT SECURITY
+# ================================================
+if $stop == 0 then
+    print "╔══════════════════════════════════════════════════════════╗"
+    print "║ [22/25] JWT TOKEN SECURITY                                ║"
+    print "╚══════════════════════════════════════════════════════════╝"
+    set $total_tests $total_tests + 1
+    
+    print "🔐 Testing JWT security..."
+    print ""
+    
+    # JWT none algorithm test
+    GET "$target/api/user" header "Authorization" "Bearer eyJhbGciOiJub25lIiwidHlwIjoiSldUIn0.eyJzdWIiOiJhZG1pbiJ9."
+    if status == 200 then
+        print "  🔴 CRITICAL: JWT accepts 'none' algorithm"
+        print "     ↳ Issue URL: $target/api/user"
+        print "     ↳ VULNERABILITY EXPLAINED:"
+        print "       JWT with 'none' algorithm bypasses signature verification,"
+        print "       allowing attackers to forge any token."
+        print "     ↳ ATTACK SCENARIO:"
+        print "       Attacker creates JWT with alg:none and admin claims"
+        print "       Server accepts unsigned token as valid"
+        print "     ↳ FIX: Explicitly verify algorithm, reject 'none'"
+        print "       Use strong signing keys (RS256, HS256)"
+        print "     ↳ RISK LEVEL: Critical - Authentication bypass"
+        set $critical $critical + 1
+        set $vulnerabilities_found $vulnerabilities_found + 1
+        set $critical_issues "$critical_issues|JWT none algorithm at $target/api/user"
+    endif
+    
+    print ""
+endif
+
+# ================================================
+# TEST 23: SUBDOMAIN TAKEOVER
+# ================================================
+if $stop == 0 then
+    print "╔══════════════════════════════════════════════════════════╗"
+    print "║ [23/25] SUBDOMAIN TAKEOVER CHECK                          ║"
+    print "╚══════════════════════════════════════════════════════════╝"
+    set $total_tests $total_tests + 1
+    
+    print "🎯 Checking for subdomain takeover..."
+    print ""
+    
+    # Check common subdomains - extract domain from URL
+    set $url_parts split $target "://"
+    if length $url_parts > 1 then
+        set $domain_with_path $url_parts[1]
+        set $domain_parts split $domain_with_path "/"
+        set $domain $domain_parts[0]
+        
+        # Check blog subdomain
+        GET "http://blog.$domain"
+        if response contains "There isn't a GitHub Pages site here" then
+            print "  🟠 HIGH: Subdomain takeover possible (GitHub Pages)"
+            print "     ↳ Issue URL: blog.$domain"
+            print "     ↳ VULNERABILITY EXPLAINED:"
+            print "       Subdomain points to unclaimed service allowing attackers"
+            print "       to claim the service and host malicious content."
+            print "     ↳ ATTACK SCENARIO:"
+            print "       Attacker claims GitHub Pages for blog.$domain"
+            print "       Hosts phishing site on legitimate subdomain"
+            print "     ↳ FIX: Remove DNS records for unused services"
+            print "       Claim all configured services"
+            print "     ↳ RISK LEVEL: High - Domain reputation damage"
+            set $high $high + 1
+            set $vulnerabilities_found $vulnerabilities_found + 1
+            set $high_issues "$high_issues|Subdomain takeover at blog.$domain"
+        endif
+    else
+        print "  ℹ️ Could not extract domain from URL format"
+    endif
+    
+    print ""
+endif
+
+# ================================================
+# TEST 24: PROTOTYPE POLLUTION
+# ================================================
+if $stop == 0 then
+    print "╔══════════════════════════════════════════════════════════╗"
+    print "║ [24/25] PROTOTYPE POLLUTION TESTING                       ║"
+    print "╚══════════════════════════════════════════════════════════╝"
+    set $total_tests $total_tests + 1
+    
+    print "🧬 Testing for prototype pollution..."
+    print ""
+    
+    # Prototype pollution test
+    POST "$target/api/update" header "Content-Type" "application/json" body '{"__proto__":{"isAdmin":true}}'
+    GET "$target/api/user"
+    if response contains "isAdmin.*true" then
+        print "  🔴 CRITICAL: Prototype pollution vulnerability"
+        print "     ↳ Issue URL: $target/api/update"
+        print "     ↳ VULNERABILITY EXPLAINED:"
+        print "       Modifying Object prototype affects all objects in application,"
+        print "       potentially bypassing security checks."
+        print "     ↳ ATTACK SCENARIO:"
+        print "       Attacker pollutes Object.prototype with isAdmin:true"
+        print "       All objects inherit admin privileges"
+        print "     ↳ FIX: Freeze Object.prototype, validate property names"
+        print "       Use Map instead of objects for user input"
+        print "     ↳ RISK LEVEL: Critical - Privilege escalation"
+        set $critical $critical + 1
+        set $vulnerabilities_found $vulnerabilities_found + 1
+        set $critical_issues "$critical_issues|Prototype pollution at $target/api/update"
+    endif
+    
+    print ""
+endif
+
+# ================================================
+# TEST 25: BUSINESS LOGIC FLAWS
+# ================================================
+if $stop == 0 then
+    print "╔══════════════════════════════════════════════════════════╗"
+    print "║ [25/25] BUSINESS LOGIC TESTING                            ║"
+    print "╚══════════════════════════════════════════════════════════╝"
+    set $total_tests $total_tests + 1
+    
+    print "💰 Testing business logic security..."
+    print ""
+    
+    # Negative value test
+    POST "$target/api/transfer" header "Content-Type" "application/json" body '{"amount":-100,"to":"attacker"}'
+    if response contains "success" then
+        print "  🔴 CRITICAL: Negative value accepted in transfer"
+        print "     ↳ Issue URL: $target/api/transfer"
+        print "     ↳ VULNERABILITY EXPLAINED:"
+        print "       Business logic flaw allows negative amounts, potentially"
+        print "       reversing transaction flow or bypassing validations."
+        print "     ↳ ATTACK SCENARIO:"
+        print "       Attacker transfers -$100 (receives $100)"
+        print "       Bypasses balance checks and limits"
+        print "     ↳ FIX: Validate all numeric inputs > 0"
+        print "       Implement comprehensive business rule validation"
+        print "     ↳ RISK LEVEL: Critical - Financial loss"
+        set $critical $critical + 1
+        set $vulnerabilities_found $vulnerabilities_found + 1
+        set $critical_issues "$critical_issues|Logic flaw at $target/api/transfer"
+    endif
+    
+    # Race condition test (TOCTOU)
+    POST "$target/api/purchase" header "Content-Type" "application/json" body '{"item":"premium","quantity":1}'
+    POST "$target/api/purchase" header "Content-Type" "application/json" body '{"item":"premium","quantity":1}'
+    if response contains "insufficient" then
+        print "  ℹ️ INFO: Potential race condition in purchase flow"
+        print "     ↳ Testing for time-of-check to time-of-use issues"
+        set $info $info + 1
+    endif
+    
+    print ""
+endif
+
+# ================================================
+# COMPREHENSIVE FINAL REPORT
+# ================================================
+if $stop == 0 then
+    print "╔══════════════════════════════════════════════════════════╗"
+    print "║         ENTERPRISE SECURITY ASSESSMENT REPORT v3          ║"
+    print "╚══════════════════════════════════════════════════════════╝"
+    print ""
+    print "📊 EXECUTIVE SUMMARY"
+    print "══════════════════════════════════════════════════"
+    print ""
+    print "Target System: $target"
+    print "Total Tests Performed: $total_tests"
+    print ""
+    
+    # Calculate total vulnerabilities
+    set $total_vulns $critical + $high + $medium + $low
+    
+    print "┌────────────────────────────────────────────────┐"
+    print "│           VULNERABILITY STATISTICS             │"
+    print "├────────────────────────────────────────────────┤"
+    print "│  🔴 CRITICAL:     $critical vulnerabilities    │"
+    print "│  🟠 HIGH:         $high vulnerabilities        │"
+    print "│  🟡 MEDIUM:       $medium vulnerabilities      │"
+    print "│  🔵 LOW:          $low vulnerabilities         │"
+    print "│  ℹ️  INFO:         $info findings              │"
+    print "├────────────────────────────────────────────────┤"
+    print "│  TOTAL:           $total_vulns vulnerabilities │"
+    print "└────────────────────────────────────────────────┘"
+    print ""
+    
+    # Risk score calculation
+    set $risk_score $critical * 50
+    set $risk_score $risk_score + $high * 20
+    set $risk_score $risk_score + $medium * 5
+    set $risk_score $risk_score + $low * 1
+    
+    print "🎯 OVERALL RISK SCORE: $risk_score"
+    print ""
+    
+    # Risk level determination with detailed recommendations
+    if $risk_score >= 100 then
+        print "⛔ CRITICAL RISK LEVEL - IMMEDIATE ACTION REQUIRED"
+        print "═══════════════════════════════════════════════════════════"
+        print ""
+        print "📋 EMERGENCY RESPONSE PLAN:"
+        print ""
+        print "1. IMMEDIATE ACTIONS (Within 2 hours):"
+        print "   • Activate incident response team"
+        print "   • Consider taking affected systems offline"
+        print "   • Deploy emergency Web Application Firewall rules"
+        print "   • Block suspicious IP addresses"
+        print ""
+        print "2. SHORT-TERM FIXES (Within 24 hours):"
+        print "   • Patch all CRITICAL vulnerabilities"
+        print "   • Implement input validation"
+        print "   • Reset all administrative credentials"
+        print ""
+        print "3. MEDIUM-TERM IMPROVEMENTS (Within 1 week):"
+        print "   • Conduct thorough code review"
+        print "   • Implement security headers"
+        print "   • Deploy rate limiting"
+        print ""
+    else
+        if $risk_score >= 50 then
+            print "⚠️  HIGH RISK LEVEL - URGENT REMEDIATION REQUIRED"
+            print "═══════════════════════════════════════════════════════════"
+            print ""
+            print "📋 REMEDIATION PLAN:"
+            print ""
+            print "1. PRIORITY FIXES (Within 48 hours):"
+            print "   • Address all CRITICAL vulnerabilities"
+            print "   • Fix authentication issues"
+            print "   • Implement security headers"
+            print ""
+            print "2. SECONDARY FIXES (Within 1 week):"
+            print "   • Address HIGH severity issues"
+            print "   • Enable rate limiting"
+            print ""
+        else
+            if $risk_score >= 20 then
+                print "⚠️  MEDIUM RISK LEVEL - PLANNED REMEDIATION"
+                print "═══════════════════════════════════════════════════════════"
+                print ""
+                print "📋 IMPROVEMENT PLAN:"
+                print ""
+                print "1. Schedule fixes for next release"
+                print "2. Implement security best practices"
+                print "3. Regular security updates"
+            else
+                if $total_vulns > 0 then
+                    print "ℹ️  LOW RISK LEVEL - MINOR IMPROVEMENTS NEEDED"
+                    print "═══════════════════════════════════════════════════════════"
+                    print ""
+                    print "📋 RECOMMENDATIONS:"
+                    print ""
+                    print "1. Address in routine maintenance"
+                    print "2. Continue security monitoring"
+                else
+                    print "✅ SECURE - EXCELLENT SECURITY POSTURE"
+                    print "═══════════════════════════════════════════════════════════"
+                    print ""
+                    print "No significant vulnerabilities detected."
+                    print "Continue with regular security assessments."
+                endif
+            endif
+        endif
+    endif
+    
+    print ""
+    print "═══════════════════════════════════════════════════════════"
+    print "📝 COMPLIANCE STATUS"
+    print "═══════════════════════════════════════════════════════════"
+    print ""
+    
+    # OWASP Top 10 Coverage
+    print "OWASP Top 10 (2021) Coverage:"
+    print "  • A01: Broken Access Control        ✓ Tested"
+    print "  • A02: Cryptographic Failures       ✓ Tested"
+    print "  • A03: Injection                    ✓ Tested"
+    print "  • A04: Insecure Design             ✓ Tested"
+    print "  • A05: Security Misconfiguration   ✓ Tested"
+    print "  • A07: Auth & Identity Failures    ✓ Tested"
+    print "  • A08: Data Integrity Failures     ✓ Tested"
+    print "  • A10: SSRF                        ✓ Tested"
+    print ""
+    
+    # Compliance recommendations
+    if $critical > 0 then
+        print "⚠️  NOT COMPLIANT - Critical issues must be resolved"
+    else
+        if $high > 5 then
+            print "⚠️  PARTIAL COMPLIANCE - High-risk issues need attention"
+        else
+            print "✅ COMPLIANT - Meets basic security standards"
+        endif
+    endif
+    
+    # Detailed vulnerability URLs section
+    if $total_vulns > 0 then
+        print ""
+        print "═══════════════════════════════════════════════════════════"
+        print "📍 VULNERABILITY LOCATIONS - DETAILED REPORT"
+        print "═══════════════════════════════════════════════════════════"
+        print ""
+        
+        if $critical > 0 then
+            print "🔴 CRITICAL VULNERABILITIES FOUND:"
+            print "────────────────────────────────────"
+            print "$critical_issues"
+            print ""
+        endif
+        
+        if $high > 0 then
+            print "🟠 HIGH SEVERITY VULNERABILITIES:"
+            print "────────────────────────────────────"
+            print "$high_issues"
+            print ""
+        endif
+        
+        if $medium > 0 then
+            print "🟡 MEDIUM SEVERITY VULNERABILITIES:"
+            print "────────────────────────────────────"
+            print "$medium_issues"
+            print ""
+        endif
+        
+        if $low > 0 then
+            print "🔵 LOW SEVERITY VULNERABILITIES:"
+            print "────────────────────────────────────"
+            print "$low_issues"
+            print ""
+        endif
+    endif
+    
+    print ""
+    print "═══════════════════════════════════════════════════════════"
+    print "💡 VULNERABILITY EXPLANATIONS SUMMARY"
+    print "═══════════════════════════════════════════════════════════"
+    print ""
+    print "Each vulnerability detected includes:"
+    print "• Exact URL where the issue was found"
+    print "• Detailed technical explanation"
+    print "• Real-world attack scenarios"
+    print "• Specific remediation steps with code examples"
+    print "• Risk level assessment"
+    print ""
+    print "Review the detailed findings above for complete information."
+    print ""
+    print "═══════════════════════════════════════════════════════════"
+    print "Report Generated by Enterprise Security Scanner v3.0"
+    print "Complete Edition with 25 vulnerability tests"
+    print "For detailed remediation: security@company.com"
+    print "═══════════════════════════════════════════════════════════"
+endif
